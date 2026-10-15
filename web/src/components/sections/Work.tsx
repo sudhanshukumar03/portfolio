@@ -14,6 +14,7 @@ import { Reveal } from "@/components/ui/Reveal";
 // the tail in champagne. All-caps names get positive tracking so the serif
 // breathes; mixed-case names stay slightly tight. Premium wordmark, not a label.
 function splitName(name: string): [string, string] {
+  if (name.toLowerCase() === "context") return ["Con", "text"];
   const space = name.indexOf(" ");
   if (space !== -1) return [name.slice(0, space), name.slice(space)];
   const seam = name.slice(1).search(/[A-Z0-9]/);
@@ -21,8 +22,14 @@ function splitName(name: string): [string, string] {
   return [name, ""];
 }
 
-function ProjectName({ name }: { name: string }) {
-  const [lead, tail] = splitName(name);
+function ProjectName({
+  name,
+  wordmark,
+}: {
+  name: string;
+  wordmark?: readonly [string, string];
+}) {
+  const [lead, tail] = wordmark ?? splitName(name);
   const caps = name === name.toUpperCase();
   return (
     <span className={caps ? "tracking-[0.03em]" : "tracking-[-0.015em]"}>
@@ -154,7 +161,7 @@ function ProjectSpread({
           </div>
 
           <h3 className="mt-5 font-display text-[clamp(1.9rem,3.4vw,2.9rem)] font-semibold leading-[1.05]">
-            <ProjectName name={project.name} />
+            <ProjectName name={project.name} wordmark={project.wordmark} />
           </h3>
           <p className="mt-3 text-[clamp(1rem,1.4vw,1.2rem)] text-[var(--color-body)]">
             {project.tagline}
@@ -207,7 +214,7 @@ function ProjectIndex({ projects }: { projects: Project[] }) {
           </span>
           <div className="md:col-span-5">
             <h3 className="font-display text-xl font-semibold">
-              <ProjectName name={p.name} />
+              <ProjectName name={p.name} wordmark={p.wordmark} />
             </h3>
             <p className="mt-1 text-sm text-[var(--color-body)]">{p.tagline}</p>
           </div>

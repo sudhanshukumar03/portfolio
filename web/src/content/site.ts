@@ -262,6 +262,7 @@ export type Project = {
   // Drop a screenshot at this path to replace the in-world preview frame.
   image?: string;
   demo?: string; // live deployment, when one exists
+  wordmark?: readonly [string, string]; // e.g. ["Con", "text"] for two-tone color treatment
 };
 
 export const projects: Project[] = [
@@ -296,6 +297,7 @@ export const projects: Project[] = [
   {
     index: "02",
     name: "Context",
+    wordmark: ["Con", "text"],
     image: "/images/context.png",
     tagline: "Autonomous Incident Intelligence & Causal Dependency Graph",
     summary:
