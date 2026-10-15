@@ -47,23 +47,6 @@ export function SkillCard({
     const py = e.clientY - r.top;
     el.style.setProperty("--mx", `${px}px`);
     el.style.setProperty("--my", `${py}px`);
-    // Subtle 3D tilt toward the pointer — skipped for reduced-motion users.
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const rx = (0.5 - py / r.height) * 6;
-    const ry = (px / r.width - 0.5) * 7;
-    el.style.transform = `perspective(820px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-4px)`;
-    // Magnetic icon tile — leans toward the cursor (small offset, smoothed by the
-    // tile's own transition).
-    el.style.setProperty("--tx", `${(px / r.width - 0.5) * 10}px`);
-    el.style.setProperty("--ty", `${(py / r.height - 0.5) * 10}px`);
-  };
-
-  const onLeave = () => {
-    const el = ref.current;
-    if (!el) return;
-    el.style.transform = "";
-    el.style.setProperty("--tx", "0px");
-    el.style.setProperty("--ty", "0px");
   };
 
   return (
@@ -71,8 +54,7 @@ export function SkillCard({
       ref={ref}
       data-lit={lit ? "true" : undefined}
       onMouseMove={onMove}
-      onMouseLeave={onLeave}
-      className="group relative h-full overflow-hidden rounded-2xl border border-[color-mix(in_srgb,var(--color-border)_80%,transparent)] bg-[var(--color-surface)] p-5 shadow-[0_1px_0_inset_color-mix(in_srgb,var(--color-text)_5%,transparent),0_18px_44px_-34px_rgba(0,0,0,0.5)] transition-[transform,border-color,box-shadow,opacity,scale] duration-300 [transform-style:preserve-3d] hover:border-[color-mix(in_srgb,var(--color-accent)_45%,transparent)] hover:shadow-[0_1px_0_inset_color-mix(in_srgb,var(--color-text)_8%,transparent),0_30px_60px_-32px_rgba(0,0,0,0.6)] hover:[will-change:transform] motion-reduce:transition-none"
+      className="group relative h-full overflow-hidden rounded-2xl border border-[color-mix(in_srgb,var(--color-border)_85%,transparent)] bg-[var(--color-surface)] p-5 shadow-[0_1px_0_inset_rgba(255,255,255,0.06),0_18px_40px_-30px_rgba(0,0,0,0.6)] transition-all duration-200 hover:-translate-y-1 hover:border-[color-mix(in_srgb,var(--color-accent)_40%,transparent)] hover:shadow-[0_1px_0_inset_rgba(255,255,255,0.1),0_24px_50px_-25px_rgba(0,0,0,0.7)] motion-reduce:transition-none motion-reduce:hover:translate-y-0"
     >
       {/* Copper spotlight — follows the pointer, fades in on hover. */}
       <span
@@ -96,9 +78,9 @@ export function SkillCard({
         className="pointer-events-none absolute inset-0 -translate-x-full bg-[linear-gradient(115deg,transparent_42%,color-mix(in_srgb,var(--color-text)_7%,transparent)_50%,transparent_58%)] transition-transform duration-700 ease-out group-hover:translate-x-full motion-reduce:hidden"
       />
 
-      <div className="relative flex items-center gap-3 [transform:translateZ(28px)]">
+      <div className="relative flex items-center gap-3">
         <span
-          className="skill-tile grid h-10 w-10 flex-none place-items-center rounded-xl border border-[color-mix(in_srgb,var(--tile)_28%,transparent)] bg-[linear-gradient(145deg,color-mix(in_srgb,var(--tile)_15%,transparent),color-mix(in_srgb,var(--tile)_5%,transparent))] text-[var(--tile)] shadow-[inset_0_1px_0_color-mix(in_srgb,var(--color-text)_10%,transparent),0_6px_16px_-10px_color-mix(in_srgb,var(--tile)_60%,transparent)] [translate:var(--tx,0px)_var(--ty,0px)] transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-3 motion-reduce:transition-none motion-reduce:group-hover:transform-none"
+          className="skill-tile grid h-10 w-10 flex-none place-items-center rounded-xl border border-[color-mix(in_srgb,var(--tile)_28%,transparent)] bg-[linear-gradient(145deg,color-mix(in_srgb,var(--tile)_15%,transparent),color-mix(in_srgb,var(--tile)_5%,transparent))] text-[var(--tile)] shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_6px_16px_-10px_color-mix(in_srgb,var(--tile)_60%,transparent)] transition-all duration-200 group-hover:border-[var(--tile)]"
           style={{ ["--tile" as string]: tint ?? "var(--color-accent)" }}
         >
           <svg viewBox="0 0 24 24" width={19} height={19} aria-hidden="true">
@@ -109,7 +91,7 @@ export function SkillCard({
           {label}
         </h3>
       </div>
-      <ul className="relative mt-4 grid grid-cols-2 gap-x-3 gap-y-1 [transform:translateZ(16px)]">
+      <ul className="relative mt-4 grid grid-cols-2 gap-x-3 gap-y-1">
         {items.map((item, ci) => {
           const brand = brandIcons[item];
           return (

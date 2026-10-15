@@ -74,13 +74,14 @@ export function Hero() {
                 Identity, then what he does (design + build), landing on the one
                 thing that matters to a hiring reader: it survives real users. */}
             <p
-              className="rise mt-6 max-w-[52ch] text-[clamp(1.05rem,1.35vw,1.25rem)] font-normal leading-relaxed text-[var(--color-body)]"
+              className="rise mt-6 max-w-[54ch] text-[clamp(1.05rem,1.35vw,1.25rem)] font-normal leading-relaxed text-[var(--color-body)]"
               style={{ ["--rise-delay" as string]: "220ms" }}
             >
               I&rsquo;m{" "}
               <span className="font-medium text-[var(--color-text)]">{profile.name}</span>{" "}
-              &mdash; I design and build software that&rsquo;s{" "}
-              <span className="font-medium text-[var(--color-heading)]">fast, reliable, and ready for the real world.</span>
+              &mdash; final-year ECE at JSSATE Bengaluru. I architect and build{" "}
+              <span className="font-medium text-[var(--color-heading)]">distributed systems and applied AI tools</span>{" "}
+              grounded in deterministic invariants, clean schemas, and production resilience.
             </p>
 
             {/* CTAs — a matched pair of pill actions, same size and shape so they

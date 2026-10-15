@@ -146,16 +146,24 @@ function ProjectSpread({
   total: number;
 }) {
   return (
-    <article className="work-card grid content-center overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 sm:p-8 md:p-10 lg:p-12">
-      <div className="grid gap-8 lg:grid-cols-12 lg:gap-10 xl:gap-12">
+    <article className="work-card relative grid content-center overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 shadow-[0_1px_0_inset_rgba(255,255,255,0.08),0_24px_50px_-20px_rgba(0,0,0,0.6)] sm:p-8 md:p-10 lg:p-12">
+      {/* Ghost architectural watermark numeral */}
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute right-4 top-2 select-none font-display text-[clamp(4.5rem,9vw,8rem)] font-bold leading-none text-[var(--color-border)] opacity-25 sm:right-8 sm:top-4"
+      >
+        {project.index}
+      </span>
+
+      <div className="relative z-10 grid gap-8 lg:grid-cols-12 lg:items-center lg:gap-10 xl:gap-12">
         {/* Left — the read */}
-        <div className="lg:col-span-7">
+        <div className="lg:col-span-6">
           <div className="flex items-center gap-4 font-sans text-xs font-medium uppercase tracking-[0.12em] text-[var(--color-muted)]">
-            <span aria-hidden="true" className="text-[var(--color-text)]">
+            <span aria-hidden="true" className="font-mono font-semibold text-[var(--color-accent)]">
               {project.index}
             </span>
             <span aria-hidden="true" className="h-px w-8 bg-[var(--color-border)]" />
-            <span>
+            <span className="font-mono">
               {String(position).padStart(2, "0")} / {String(total).padStart(2, "0")}
             </span>
           </div>
@@ -163,36 +171,43 @@ function ProjectSpread({
           <h3 className="mt-5 font-display text-[clamp(1.9rem,3.4vw,2.9rem)] font-semibold leading-[1.05]">
             <ProjectName name={project.name} wordmark={project.wordmark} />
           </h3>
-          <p className="mt-3 text-[clamp(1rem,1.4vw,1.2rem)] text-[var(--color-body)]">
+          <p className="mt-3 text-[clamp(1rem,1.35vw,1.15rem)] font-normal text-[var(--color-secondary)]">
             {project.tagline}
           </p>
-          <p className="mt-5 max-w-[58ch] leading-relaxed text-[var(--color-body)]">
+          <p className="mt-5 max-w-[54ch] leading-relaxed text-[var(--color-body)]">
             {project.summary}
           </p>
 
-          <ul className="mt-6 grid gap-x-8 gap-y-2 sm:grid-cols-2">
+          <ul className="mt-6 grid gap-x-6 gap-y-2.5 sm:grid-cols-2">
             {project.features.slice(0, 4).map((f) => (
-              <li key={f} className="flex gap-2.5 text-sm text-[var(--color-muted)]">
-                <span aria-hidden="true" className="text-[var(--color-muted)]">
+              <li key={f} className="flex items-start gap-2.5 text-[13.5px] text-[var(--color-secondary)]">
+                <span aria-hidden="true" className="mt-1 leading-none text-[var(--color-accent)]">
                   —
                 </span>
-                <span>{f}</span>
+                <span className="leading-snug">{f}</span>
               </li>
             ))}
           </ul>
 
           {project.note && (
-            <p className="mt-5 max-w-[58ch] text-xs italic leading-relaxed text-[var(--color-muted)]">
+            <p className="mt-5 max-w-[54ch] text-xs italic leading-relaxed text-[var(--color-muted)]">
               {project.note}
             </p>
           )}
+
+          <div className="mt-8 hidden lg:block">
+            <TagRow items={project.tech} />
+            <ProjectLinks project={project} className="mt-6" />
+          </div>
         </div>
 
-        {/* Right — the preview + metadata */}
-        <div className="flex flex-col lg:col-span-5">
+        {/* Right — the preview + metadata on mobile */}
+        <div className="flex flex-col lg:col-span-6">
           <ProjectPreview project={project} />
-          <TagRow items={project.tech} className="mt-6" />
-          <ProjectLinks project={project} className="mt-6" />
+          <div className="lg:hidden">
+            <TagRow items={project.tech} className="mt-6" />
+            <ProjectLinks project={project} className="mt-6" />
+          </div>
         </div>
       </div>
     </article>

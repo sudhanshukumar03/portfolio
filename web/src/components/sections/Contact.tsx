@@ -15,7 +15,7 @@ const ROWS: { label: string; value: string; href: string; tint: string; icon: Re
     label: "Email",
     value: profile.links.email,
     href: `mailto:${profile.links.email}`,
-    tint: "#4f7cd4",
+    tint: "var(--color-accent)",
     icon: (
       <path d="M3 5.5h18v13H3zM3 6l9 6.5L21 6" stroke="currentColor" strokeWidth="1.6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
     ),
@@ -24,7 +24,7 @@ const ROWS: { label: string; value: string; href: string; tint: string; icon: Re
     label: "Location",
     value: "Bengaluru, Karnataka",
     href: "https://maps.google.com/?q=Bengaluru,Karnataka",
-    tint: "#4ca373",
+    tint: "var(--color-accent)",
     icon: (
       <path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11zM12 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z" stroke="currentColor" strokeWidth="1.6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
     ),
@@ -44,11 +44,10 @@ export function Contact() {
           </Reveal>
 
           <Reveal delay={80}>
-            <p className="mt-5 max-w-[48ch] text-[clamp(1rem,1.3vw,1.15rem)] leading-relaxed text-[var(--color-body)]">
-              I take on{" "}
-              <span className="font-medium text-[var(--color-heading)]">work worth doing</span>{" "}
-              &mdash; real users, hard problems, teams that ship. If that sounds
-              like what you&rsquo;ve got, let&rsquo;s talk.
+            <p className="mt-5 max-w-[50ch] text-[clamp(1rem,1.3vw,1.15rem)] leading-relaxed text-[var(--color-body)]">
+              Currently open to{" "}
+              <span className="font-medium text-[var(--color-heading)]">Software Engineering, Backend, and Full-Stack</span>{" "}
+              roles where systems architecture, data models, and high-performance execution matter.
             </p>
           </Reveal>
 

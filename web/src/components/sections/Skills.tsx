@@ -32,16 +32,14 @@ const groupIcon: Record<string, React.ReactNode> = {
   ),
 };
 
-// A quiet, premium color per category — mid-tones (not neon) so each icon tile
-// gets its own identity while staying legible on both the near-white and dark
-// card surfaces. The rest of the system stays champagne; only these glyphs vary.
+// Unified copper tone across all category tiles for strict palette discipline.
 const groupTint: Record<string, string> = {
-  "Frontend": "#4f7cd4",
-  "Libraries & UI": "#8a6fd1",
-  "Backend": "#4ca373",
-  "Databases": "#3fa6a1",
-  "Artificial Intelligence": "#c56a86",
-  "DevOps & Deployment": "#d08a42",
+  "Frontend": "var(--color-accent)",
+  "Libraries & UI": "var(--color-accent)",
+  "Backend": "var(--color-accent)",
+  "Databases": "var(--color-accent)",
+  "Artificial Intelligence": "var(--color-accent)",
+  "DevOps & Deployment": "var(--color-accent)",
 };
 
 export function Skills() {
