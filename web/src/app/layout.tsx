@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Plus_Jakarta_Sans, Geist_Mono } from "next/font/google";
 import "@/styles/globals.css";
 
-// Silicon Valley / AI Lab typography system:
-//   • Display & Sans: Geist. Razor-sharp geometric neo-grotesque engineered for high-performance software.
+// High-End Architectural Sans typography system:
+//   • Display & Sans: Plus Jakarta Sans. Sculpted geometric neo-grotesque with
+//     bespoke curves and prestigious modern software feel (Linear, Raycast, Supabase).
 //   • Mono: Geist Mono. Precision developer-grade monospace with tabular figures.
-const geistSans = Geist({
+const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
+  weight: ["300", "400", "500", "600", "700", "800"],
 });
 
 const geistMono = Geist_Mono({
@@ -40,7 +42,7 @@ export default function RootLayout({
     <html
       lang="en"
       data-theme="dark"
-      className={`${geistSans.variable} ${geistMono.variable}`}
+      className={`${plusJakartaSans.variable} ${geistMono.variable}`}
       style={{ ["--font-display" as string]: "var(--font-sans)" }}
       suppressHydrationWarning
     >

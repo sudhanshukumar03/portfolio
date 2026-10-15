@@ -56,11 +56,11 @@ html {
 body {
   background: transparent;
   color: var(--color-body);
-  /* Body: Geist Sans, modern engineered neo-grotesque with comfortable leading */
-  font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  /* Body: Plus Jakarta Sans — architectural neo-grotesque with warm, comfortable leading */
+  font-family: var(--font-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   font-size: 1rem;
-  line-height: 1.68;
-  letter-spacing: -0.011em;
+  line-height: 1.72;
+  letter-spacing: -0.015em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -68,11 +68,12 @@ body {
   text-wrap: pretty;
 }
 
-/* Headings: commanding geometric tracking (-0.032em) with balanced line wraps */
+/* Headings: commanding geometric tracking (-0.038em) with sculpted curves */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display), var(--font-sans), sans-serif;
   text-wrap: balance;
-  letter-spacing: -0.032em;
+  letter-spacing: -0.038em;
+  font-weight: 700;
 }
 
 /* Etched substrate: a faint trace/via pattern fixed behind all content, tinted
@@ -93,11 +94,11 @@ body::before {
   mask-size: 300px 300px;
 }
 
-/* Display face — Geist Sans. High-performance geometric neo-grotesque with
-   razor-sharp tracking (-0.032em) and authoritative modern clarity (Vercel & Linear standard). */
+/* Display face — Plus Jakarta Sans. Sculpted geometric display typography with
+   razor-sharp tracking (-0.038em) and prestigious modern software feel. */
 .font-display {
-  font-family: var(--font-display), var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  letter-spacing: -0.032em;
+  font-family: var(--font-display), var(--font-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  letter-spacing: -0.038em;
   text-wrap: balance;
   font-feature-settings: "cv02", "cv03", "cv04", "cv11", "kern";
 }

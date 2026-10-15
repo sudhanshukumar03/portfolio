@@ -16,7 +16,7 @@ export function About() {
       <div className="mt-8 grid gap-12 lg:grid-cols-12">
         {/* Bio — ~65% */}
         <Reveal as="div" delay={140} className="lg:col-span-8">
-          <div className="max-w-[68ch] space-y-4 text-[clamp(1rem,1.4vw,1.125rem)] leading-[1.65]">
+          <div className="max-w-[68ch] space-y-5 text-[clamp(1.025rem,1.35vw,1.15rem)] leading-[1.74]">
             <p className="text-[var(--color-body)]">{about.short}</p>
             {about.long.map((para) => (
               <p key={para.slice(0, 24)} className="text-[var(--color-body)]">
@@ -30,21 +30,21 @@ export function About() {
         <Reveal as="aside" delay={260} className="lg:col-span-4 lg:mt-16">
           <dl className="space-y-6 border-l border-[var(--color-border)] pl-6">
             <MetaBlock label="Education">
-              <p className="font-medium text-[var(--color-text)]">{education.degree}</p>
+              <p className="font-semibold text-[var(--color-text)]">{education.degree}</p>
               <p className="mt-1 text-sm text-[var(--color-muted)]">{education.school}</p>
               <p className="mt-0.5 text-sm text-[var(--color-muted)]">{education.detail}</p>
             </MetaBlock>
 
             <MetaBlock label="From">
-              <p className="text-[var(--color-text)]">{aboutMeta.from}</p>
+              <p className="font-medium text-[var(--color-text)]">{aboutMeta.from}</p>
             </MetaBlock>
 
             <MetaBlock label="Interests">
-              <p className="text-[var(--color-text)]">{aboutMeta.interests.join(", ")}</p>
+              <p className="font-medium text-[var(--color-text)]">{aboutMeta.interests.join(", ")}</p>
             </MetaBlock>
 
             <MetaBlock label="Currently exploring">
-              <p className="text-[var(--color-text)]">{aboutMeta.exploring.join(", ")}</p>
+              <p className="font-medium text-[var(--color-text)]">{aboutMeta.exploring.join(", ")}</p>
             </MetaBlock>
           </dl>
         </Reveal>
@@ -56,10 +56,10 @@ export function About() {
 function MetaBlock({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <dt className="font-sans text-xs font-medium uppercase tracking-[0.12em] text-[var(--color-muted)]">
+      <dt className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--color-muted)]">
         {label}
       </dt>
-      <dd className="mt-2 leading-relaxed">{children}</dd>
+      <dd className="mt-2 leading-relaxed text-[15px]">{children}</dd>
     </div>
   );
 }

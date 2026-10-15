@@ -12,10 +12,10 @@ export function SectionHeading({ title, accent }: { title: string; accent?: stri
   const tail = hasAccent ? accent! : "";
 
   return (
-    <h2 className="flex items-center gap-3 max-w-3xl text-balance font-display text-[clamp(2rem,5vw,3rem)] font-semibold leading-[1.05] tracking-tight text-[var(--color-heading)]">
+    <h2 className="flex items-center gap-3.5 max-w-3xl text-balance font-display text-[clamp(2.1rem,4.8vw,3.25rem)] font-bold leading-[1.05] tracking-[-0.038em] text-[var(--color-heading)]">
       <span
         aria-hidden="true"
-        className="h-2 w-2 flex-none rounded-full bg-[var(--color-accent)]"
+        className="h-2 w-2 flex-none rounded-full bg-[var(--color-accent)] shadow-[0_0_8px_var(--color-accent)]"
       />
       <span>
         {lead}

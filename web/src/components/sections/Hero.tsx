@@ -55,16 +55,16 @@ export function Hero() {
                 <span className="absolute inline-flex h-3.5 w-3.5 animate-ping rounded-full bg-emerald-400 opacity-60 duration-1000" />
                 <span className="radar-glow relative inline-flex h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399]" />
               </span>
-              <span className="font-sans text-[11px] font-semibold uppercase tracking-[0.14em] whitespace-nowrap text-[var(--color-secondary)]">
+              <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] whitespace-nowrap text-[var(--color-secondary)]">
                 {profile.status}
               </span>
             </div>
 
             {/* Anchor headline — a real positioning claim, not a one-word job
-                title. Two lines, display weight; the copper brushed shimmer under
+                title. Two lines, display weight; the brushed shimmer under
                 "end to end" brings continuous organic luxury to the masthead. */}
             <h1
-              className="rise mt-7 max-w-[22ch] font-display text-[clamp(2.2rem,4.8vw,3.5rem)] font-bold leading-[1.08] tracking-[-0.035em] text-[var(--color-text)]"
+              className="rise mt-7 max-w-[22ch] font-display text-[clamp(2.5rem,5.2vw,4.1rem)] font-extrabold leading-[1.04] tracking-[-0.04em] text-[var(--color-text)]"
               style={{ ["--rise-delay" as string]: "120ms" }}
             >
               Full-stack &amp; AI,
@@ -76,11 +76,11 @@ export function Hero() {
                 Identity, then what he does (design + build), landing on the one
                 thing that matters to a hiring reader: it survives real users. */}
             <p
-              className="rise mt-6 max-w-[54ch] text-[clamp(1.05rem,1.35vw,1.25rem)] font-normal leading-relaxed text-[var(--color-body)]"
+              className="rise mt-6 max-w-[54ch] text-[clamp(1.05rem,1.25vw,1.18rem)] font-normal leading-[1.74] text-[var(--color-body)]"
               style={{ ["--rise-delay" as string]: "220ms" }}
             >
               I&rsquo;m{" "}
-              <span className="font-medium text-[var(--color-text)]">{profile.name}</span>{" "}
+              <span className="font-semibold text-[var(--color-text)]">{profile.name}</span>{" "}
               &mdash; final-year ECE at JSSATE Bengaluru. I architect and build{" "}
               <span className="font-medium text-[var(--color-heading)]">distributed systems and applied AI tools</span>{" "}
               grounded in deterministic invariants, clean schemas, and production resilience.

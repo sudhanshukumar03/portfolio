@@ -54,10 +54,10 @@ export function Contact() {
                       </svg>
                     </span>
                     <div className="min-w-0">
-                      <span className="block font-sans text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--color-muted)]">
+                      <span className="block font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--color-muted)]">
                         Email
                       </span>
-                      <span className="block truncate text-[15px] text-[var(--color-heading)] transition-colors group-hover:text-[var(--color-accent)]">
+                      <span className="block truncate text-[15.5px] font-medium tracking-[-0.01em] text-[var(--color-heading)] transition-colors group-hover:text-[var(--color-accent)]">
                         {profile.links.email}
                       </span>
                     </div>
@@ -93,10 +93,10 @@ export function Contact() {
                       </svg>
                     </span>
                     <div className="min-w-0">
-                      <span className="block font-sans text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--color-muted)]">
+                      <span className="block font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--color-muted)]">
                         Location
                       </span>
-                      <span className="block truncate text-[15px] text-[var(--color-heading)] transition-colors group-hover:text-[var(--color-text)]">
+                      <span className="block truncate text-[15.5px] font-medium tracking-[-0.01em] text-[var(--color-heading)] transition-colors group-hover:text-[var(--color-text)]">
                         Bengaluru, Karnataka
                       </span>
                     </div>

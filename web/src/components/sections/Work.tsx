@@ -175,7 +175,7 @@ function ProjectSpread({
       {/* Ghost architectural watermark numeral */}
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute right-4 top-2 select-none font-display text-[clamp(4.5rem,9vw,8rem)] font-bold leading-none text-[var(--color-border)] opacity-25 sm:right-8 sm:top-4"
+        className="pointer-events-none absolute right-4 top-2 select-none font-display text-[clamp(4.5rem,9vw,8rem)] font-extrabold leading-none text-[var(--color-border)] opacity-20 sm:right-8 sm:top-4"
       >
         {project.index}
       </span>
@@ -183,8 +183,8 @@ function ProjectSpread({
       <div className="relative z-10 grid gap-8 lg:grid-cols-12 lg:items-center lg:gap-10 xl:gap-12">
         {/* Left — the read */}
         <div className="lg:col-span-6">
-          <div className="flex items-center gap-4 font-sans text-xs font-medium uppercase tracking-[0.12em] text-[var(--color-muted)]">
-            <span aria-hidden="true" className="font-mono font-semibold text-[var(--color-accent)]">
+          <div className="flex items-center gap-4 font-mono text-xs font-semibold uppercase tracking-[0.16em] text-[var(--color-muted)]">
+            <span aria-hidden="true" className="font-mono font-bold text-[var(--color-accent)]">
               {project.index}
             </span>
             <span aria-hidden="true" className="h-px w-8 bg-[var(--color-border)]" />
@@ -193,13 +193,13 @@ function ProjectSpread({
             </span>
           </div>
 
-          <h3 className="mt-5 font-display text-[clamp(1.9rem,3.4vw,2.9rem)] font-semibold leading-[1.05]">
+          <h3 className="mt-5 font-display text-[clamp(2.1rem,3.6vw,3.1rem)] font-bold leading-[1.04] tracking-[-0.038em]">
             <ProjectName name={project.name} wordmark={project.wordmark} />
           </h3>
-          <p className="mt-3 text-[clamp(1rem,1.35vw,1.15rem)] font-normal text-[var(--color-secondary)]">
+          <p className="mt-3 text-[clamp(1rem,1.35vw,1.15rem)] font-medium leading-snug text-[var(--color-secondary)]">
             {project.tagline}
           </p>
-          <p className="mt-5 max-w-[54ch] leading-relaxed text-[var(--color-body)]">
+          <p className="mt-5 max-w-[54ch] leading-[1.74] text-[var(--color-body)]">
             {project.summary}
           </p>
 

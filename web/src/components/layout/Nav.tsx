@@ -80,7 +80,7 @@ export function Nav() {
           {/* Brand — circular portrait + wordmark */}
           <a
             href="#hero"
-            className="focus-accent group flex shrink-0 items-center gap-2.5 rounded-md font-display text-sm font-semibold tracking-tight text-[var(--color-text)]"
+            className="focus-accent group flex shrink-0 items-center gap-2.5 rounded-md font-display text-[14.5px] font-bold tracking-[-0.025em] text-[var(--color-text)]"
           >
             <span className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full bg-[var(--color-surface-2)] ring-1 ring-[var(--color-border)]">
               <Image
@@ -106,7 +106,7 @@ export function Nav() {
                     <a
                       href={`#${id}`}
                       aria-current={isActive ? "true" : undefined}
-                      className="focus-accent group -my-3.5 -mx-1.5 inline-flex min-h-[44px] items-center rounded px-1.5 py-3.5 text-sm text-[var(--color-text)] underline-offset-4 transition-opacity hover:underline"
+                      className="focus-accent group -my-3.5 -mx-1.5 inline-flex min-h-[44px] items-center rounded px-1.5 py-3.5 text-[13.5px] font-medium tracking-[-0.01em] text-[var(--color-text)] underline-offset-4 transition-opacity hover:underline"
                     >
                       <span
                         aria-hidden="true"
