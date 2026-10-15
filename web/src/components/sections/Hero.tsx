@@ -27,9 +27,9 @@ export function Hero() {
                       0    0    0    1 0"
             />
             <feComponentTransfer>
-              <feFuncR type="table" tableValues="0.043 0.78 0.98" />
-              <feFuncG type="table" tableValues="0.066 0.64 0.85" />
-              <feFuncB type="table" tableValues="0.055 0.12 0.32" />
+              <feFuncR type="table" tableValues="0.043 0.545 0.968" />
+              <feFuncG type="table" tableValues="0.066 0.345 0.741" />
+              <feFuncB type="table" tableValues="0.055 0.216 0.506" />
             </feComponentTransfer>
           </filter>
         </defs>

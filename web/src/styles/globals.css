@@ -39,8 +39,8 @@
 
 /* Hero portrait backing tint. Subtle warm core framing the figure against the obsidian base. */
 :root {
-  --hero-backing-core: color-mix(in srgb, color-mix(in srgb, #0b0c0e 84%, var(--color-accent)) 75%, transparent);
-  --hero-backing-mid: color-mix(in srgb, color-mix(in srgb, #0b0c0e 88%, var(--color-accent)) 45%, transparent);
+  --hero-backing-core: color-mix(in srgb, color-mix(in srgb, #0b0c0e 84%, #c9a878) 75%, transparent);
+  --hero-backing-mid: color-mix(in srgb, color-mix(in srgb, #0b0c0e 88%, #c9a878) 45%, transparent);
   color-scheme: dark;
 }
 
