@@ -11,7 +11,7 @@ const ROLES: Role[] = [
   {
     label: "Frontend",
     subject: "Frontend Developer opportunity",
-    tint: "var(--color-accent)",
+    tint: "#4f7cd4",
     message:
       "Hi Sudhanshu,\n\nWe're hiring for a Frontend Developer role and your work stood out. A few details:\n\n• Company: \n• Focus: React / Next.js, TypeScript, UI\n• Location / type: \n\nWould love to talk — when are you free?",
     icon: (
@@ -21,7 +21,7 @@ const ROLES: Role[] = [
   {
     label: "Backend",
     subject: "Backend Developer opportunity",
-    tint: "var(--color-accent)",
+    tint: "#4ca373",
     message:
       "Hi Sudhanshu,\n\nWe're looking for a Backend Developer and your projects caught our eye. A few details:\n\n• Company: \n• Focus: Node.js / NestJS, APIs, PostgreSQL\n• Location / type: \n\nWould love to talk — when are you free?",
     icon: (
@@ -31,7 +31,7 @@ const ROLES: Role[] = [
   {
     label: "DevOps",
     subject: "DevOps Engineer opportunity",
-    tint: "var(--color-accent)",
+    tint: "#d08a42",
     message:
       "Hi Sudhanshu,\n\nWe have a DevOps Engineer opening and thought you'd be a great fit. A few details:\n\n• Company: \n• Focus: Docker, CI/CD, deployment\n• Location / type: \n\nWould love to talk — when are you free?",
     icon: (
@@ -41,7 +41,7 @@ const ROLES: Role[] = [
   {
     label: "AI Engineer",
     subject: "AI Engineer opportunity",
-    tint: "var(--color-accent)",
+    tint: "#c56a86",
     message:
       "Hi Sudhanshu,\n\nWe're building with AI and are hiring an AI Engineer — your RAG / LLM work is exactly what we need. A few details:\n\n• Company: \n• Focus: RAG, LangChain, LLM systems\n• Location / type: \n\nWould love to talk — when are you free?",
     icon: (

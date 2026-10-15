@@ -76,7 +76,10 @@ export function Contact() {
                     className="focus-accent flex min-w-0 flex-1 items-center gap-4 transition-colors"
                     title="Open Gmail Compose in new tab"
                   >
-                    <span className="grid h-11 w-11 flex-none place-items-center rounded-lg border border-[color-mix(in_srgb,var(--color-accent)_30%,transparent)] bg-[color-mix(in_srgb,var(--color-accent)_8%,transparent)] text-[var(--color-accent)] transition-colors group-hover:border-[color-mix(in_srgb,var(--color-accent)_60%,transparent)] group-hover:bg-[color-mix(in_srgb,var(--color-accent)_14%,transparent)]">
+                    <span
+                      style={{ ["--rt" as string]: "#4f7cd4" }}
+                      className="grid h-11 w-11 flex-none place-items-center rounded-lg border border-[color-mix(in_srgb,var(--rt)_30%,transparent)] bg-[color-mix(in_srgb,var(--rt)_8%,transparent)] text-[var(--rt)] transition-colors group-hover:border-[color-mix(in_srgb,var(--rt)_60%,transparent)] group-hover:bg-[color-mix(in_srgb,var(--rt)_14%,transparent)]"
+                    >
                       <svg viewBox="0 0 24 24" width={20} height={20} aria-hidden="true">
                         <path d="M3 5.5h18v13H3zM3 6l9 6.5L21 6" stroke="currentColor" strokeWidth="1.6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
@@ -84,7 +87,7 @@ export function Contact() {
                     <span className="min-w-0 flex-1">
                       <span className="flex items-center gap-2 font-sans text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--color-muted)]">
                         <span>Email</span>
-                        <span className="font-mono text-[11px] lowercase tracking-normal text-[var(--color-accent)] opacity-75">
+                        <span className="font-mono text-[11px] lowercase tracking-normal text-[#4f7cd4] opacity-85">
                           · opens in gmail
                         </span>
                       </span>
@@ -152,7 +155,10 @@ export function Contact() {
                   title="Open location on Google Maps"
                 >
                   <div className="flex min-w-0 items-center gap-4">
-                    <span className="grid h-11 w-11 flex-none place-items-center rounded-lg border border-[color-mix(in_srgb,var(--color-accent)_30%,transparent)] bg-[color-mix(in_srgb,var(--color-accent)_8%,transparent)] text-[var(--color-accent)] transition-colors group-hover:border-[color-mix(in_srgb,var(--color-accent)_60%,transparent)] group-hover:bg-[color-mix(in_srgb,var(--color-accent)_14%,transparent)]">
+                    <span
+                      style={{ ["--rt" as string]: "#4ca373" }}
+                      className="grid h-11 w-11 flex-none place-items-center rounded-lg border border-[color-mix(in_srgb,var(--rt)_30%,transparent)] bg-[color-mix(in_srgb,var(--rt)_8%,transparent)] text-[var(--rt)] transition-colors group-hover:border-[color-mix(in_srgb,var(--rt)_60%,transparent)] group-hover:bg-[color-mix(in_srgb,var(--rt)_14%,transparent)]"
+                    >
                       <svg viewBox="0 0 24 24" width={20} height={20} aria-hidden="true">
                         <path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11zM12 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z" stroke="currentColor" strokeWidth="1.6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
