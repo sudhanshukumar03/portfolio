@@ -132,10 +132,12 @@ export function ContactForm() {
       {/* Honeypot — visually hidden, off the tab order; bots fill it, humans don't. */}
       <input
         type="checkbox"
+        id="c-botcheck"
         name="botcheck"
         tabIndex={-1}
         autoComplete="off"
         aria-hidden="true"
+        aria-label="Bot verification check"
         suppressHydrationWarning
         className="absolute left-[-9999px] h-0 w-0 opacity-0"
       />
