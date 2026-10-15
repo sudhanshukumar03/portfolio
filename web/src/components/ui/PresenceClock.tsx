@@ -193,12 +193,6 @@ export function PresenceClock() {
               className="transition-colors group-hover:stroke-[var(--color-accent)]"
             />
 
-            {/* 12, 3, 6, 9 Cardinal Hour Ticks */}
-            <line x1="10" y1="2.4" x2="10" y2="4.2" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
-            <line x1="17.6" y1="10" x2="15.8" y2="10" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" opacity="0.6" />
-            <line x1="10" y1="17.6" x2="10" y2="15.8" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" opacity="0.6" />
-            <line x1="2.4" y1="10" x2="4.2" y2="10" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" opacity="0.6" />
-
             {/* Hour Hand */}
             <line
               x1="10"
@@ -319,8 +313,7 @@ export function PresenceClock() {
                   x2="190"
                   y2="46"
                   stroke="var(--color-border)"
-                  strokeWidth="1.2"
-                  strokeDasharray="2 3"
+                  strokeWidth="1"
                 />
 
                 {/* Sky Arch Path */}
@@ -358,23 +351,27 @@ export function PresenceClock() {
               <span className="font-medium text-[var(--color-accent)]">{timeDiffText}</span>
             </div>
 
-            <div className="mt-2.5 grid grid-cols-2 gap-3 text-xs">
+            {/* Unified Comparison Row (No grid) */}
+            <div className="mt-2.5 flex items-center justify-between rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-3.5 py-2.5 text-xs">
               {/* Visitor Location */}
-              <div className="rounded-lg bg-[var(--color-surface)] p-2.5 border border-[var(--color-border)]">
+              <div className="min-w-0 pr-2">
                 <span className="block text-[10.5px] text-[var(--color-muted)] truncate" title={visitorCity}>
                   📍 {visitorCity}
                 </span>
-                <span className="mt-1 block font-mono text-[13px] font-semibold text-[var(--color-heading)] tabular-nums">
+                <span className="mt-0.5 block font-mono text-[13px] font-semibold text-[var(--color-heading)] tabular-nums">
                   {visitorTimeStr || "--:--"}
                 </span>
               </div>
 
+              {/* Subtle hairline separator */}
+              <div className="h-7 w-px shrink-0 bg-[var(--color-border)]" aria-hidden="true" />
+
               {/* Sudhanshu Location */}
-              <div className="rounded-lg bg-[var(--color-surface)] p-2.5 border border-[color-mix(in_srgb,var(--color-accent)_35%,transparent)]">
+              <div className="pl-2 text-right">
                 <span className="block text-[10.5px] font-medium text-[var(--color-accent)]">
                   ⚡ Sudhanshu (BLR)
                 </span>
-                <span className="mt-1 block font-mono text-[13px] font-semibold text-[var(--color-text)] tabular-nums">
+                <span className="mt-0.5 block font-mono text-[13px] font-semibold text-[var(--color-text)] tabular-nums">
                   {hours}:{minutes}:{seconds} {ampm}
                 </span>
               </div>
