@@ -13,18 +13,20 @@ export function Contact() {
       <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[1fr_minmax(0,30rem)] lg:gap-16">
         <div>
           <Reveal>
-            <h2 className="flex items-center gap-3 font-display text-[clamp(1.75rem,3.2vw,2.5rem)] font-semibold leading-[1.05] tracking-tight text-[var(--color-heading)]">
-              <span className="h-2 w-2 flex-none rounded-full bg-[var(--color-accent)]" />
-              Establish <span className="text-[var(--color-accent)]">connection</span>
-            </h2>
-          </Reveal>
-
-          <Reveal delay={80}>
-            <p className="mt-5 max-w-[50ch] text-[clamp(1rem,1.3vw,1.15rem)] leading-relaxed text-[var(--color-body)]">
-              Currently open to{" "}
-              <span className="font-medium text-[var(--color-heading)]">Software Engineering, Backend, and Full-Stack</span>{" "}
-              roles where systems architecture, data models, and high-performance execution matter.
-            </p>
+            <div className="space-y-3">
+              <div className="flex items-center gap-2.5 font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--color-accent)]">
+                <span className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--color-accent)] shadow-[0_0_8px_var(--color-accent)]" />
+                <span>04 // INITIATE DIALOGUE</span>
+              </div>
+              <h2 className="font-display text-[clamp(1.85rem,3.5vw,2.75rem)] font-bold leading-[1.05] tracking-[-0.038em] text-[var(--color-heading)]">
+                Establish <span className="text-[var(--color-accent)]">connection</span>
+              </h2>
+              <p className="max-w-[52ch] text-[clamp(1.05rem,1.3vw,1.18rem)] leading-[1.72] text-[var(--color-body)]">
+                Currently open to{" "}
+                <strong className="font-semibold text-white">Software Engineering, Backend, and Full-Stack</strong>{" "}
+                roles where systems architecture, data models, and high-performance execution matter.
+              </p>
+            </div>
           </Reveal>
 
           {/* Role CTAs — pick a role, the form fills with a tailored scaffold. */}

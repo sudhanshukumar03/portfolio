@@ -2,6 +2,7 @@ import { AmbientAura } from "@/components/ui/AmbientAura";
 import { PageShell } from "@/components/layout/PageShell";
 import { Nav } from "@/components/layout/Nav";
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
+import { PageTransition } from "@/components/ui/PageTransition";
 import { TechMarquee } from "@/components/ui/TechMarquee";
 import { Hero } from "@/components/sections/Hero";
 import { Work } from "@/components/sections/Work";
@@ -19,6 +20,7 @@ export default function Home() {
     <>
       <AmbientAura />
       <ScrollProgress />
+      <PageTransition />
       <Nav />
       <main>
         <Hero />

@@ -16,12 +16,12 @@
   --color-base: #0b0c0e; /* deep obsidian base */
   --color-surface: #121418; /* elevated surface panel */
   --color-surface-2: #191c22; /* secondary elevation, wells, nested cards */
-  --color-text: #f5f6f8; /* DISPLAY / primary — H1, wordmark, ivory ink */
-  --color-heading: #e4e7ec; /* crisp section + card headings */
-  --color-body: #c5cbd4; /* high-legibility body copy (11.5:1 on base, 9.2:1 on surface) */
-  --color-secondary: #9ea6b3; /* supporting descriptions, taglines (7.2:1 on base) */
-  --color-muted: #8c94a2; /* metadata + labels (5.8:1 on base, 4.8:1 on surface-2) */
-  --color-mono: #9da7b5; /* technical mono artifacts */
+  --color-text: #ffffff; /* DISPLAY / primary — pure white ink (21:1 on base) */
+  --color-heading: #f1f3f7; /* crisp section + card headings (18:1 on base) */
+  --color-body: #d4d9e2; /* luminous, high-legibility body copy (13.5:1 on base, 11:1 on surface) */
+  --color-secondary: #a2abb9; /* supporting descriptions & metadata (8.2:1 on base) */
+  --color-muted: #8a93a1; /* quiet labels & indicators (6.1:1 on base) */
+  --color-mono: #a8b3c3; /* technical mono artifacts */
   --color-disabled: #474d57; /* inert / disabled */
   --color-border: #22262e; /* precision hairline border */
 
@@ -74,6 +74,11 @@ h1, h2, h3, h4, h5, h6 {
   text-wrap: balance;
   letter-spacing: -0.038em;
   font-weight: 700;
+}
+
+strong, b {
+  color: var(--color-text);
+  font-weight: 600;
 }
 
 /* Etched substrate: a faint trace/via pattern fixed behind all content, tinted
@@ -666,6 +671,22 @@ body::before {
 
 .radar-glow {
   animation: radar-glow 2.4s ease-in-out infinite;
+}
+
+/* Section Arrival Transition — gives an unmistakable feel of arriving at a new page/scene */
+.section-arrived {
+  animation: section-arrival-bloom 0.75s var(--ease-out-expo) forwards;
+}
+
+@keyframes section-arrival-bloom {
+  0% {
+    filter: brightness(1.22) contrast(1.04);
+    transform: translateY(14px) scale(0.995);
+  }
+  100% {
+    filter: brightness(1) contrast(1);
+    transform: translateY(0) scale(1);
+  }
 }
 
 /* Respect reduced motion — everything renders at rest, no draw. */

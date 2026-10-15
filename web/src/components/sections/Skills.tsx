@@ -48,13 +48,14 @@ export function Skills() {
     <section id="skills" className="flex min-h-svh scroll-mt-24 flex-col justify-center py-6 md:py-8">
       <Trace delay={400} inset={0} className="mb-6 hidden min-[900px]:block" />
       <Reveal>
-        <SectionHeading title="Tools I work with" accent="work with" />
+        <SectionHeading
+          eyebrow="02 // TECHNICAL ARSENAL"
+          title="Tools I work with"
+          accent="work with"
+          subtitle="Battle-tested production technologies &amp; frameworks &mdash; from typed UI components down to database storage engines."
+        />
       </Reveal>
-      <Reveal delay={80}>
-        <p className="mt-3 max-w-[52ch] text-[1rem] leading-relaxed text-[var(--color-body)]">
-          The full toolkit I build with — grouped by where it lives in the stack.
-        </p>
-      </Reveal>
+
 
       {/* Depth — the full toolkit as composed, living category cards. */}
       <div className="skills-grid mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">

@@ -97,23 +97,42 @@ export function Nav() {
           </a>
 
           {/* Right cluster: Navigation links + Hairline divider + Live Presence indicator */}
-          <div className="flex items-center gap-4 sm:gap-6">
-            <ul className="flex items-center gap-4 sm:gap-7">
+          <div className="flex items-center gap-3 sm:gap-5">
+            <ul className="flex items-center gap-1 sm:gap-1.5 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)]/80 p-1 backdrop-blur-md">
               {SECTIONS.map(({ id, label }) => {
                 const isActive = active === id;
                 return (
                   <li key={id}>
                     <a
                       href={`#${id}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        const el = document.getElementById(id);
+                        if (!el) return;
+                        window.dispatchEvent(
+                          new CustomEvent("section-transition-start", { detail: { targetId: id } })
+                        );
+                        setActive(id);
+                        const navHeight = 72;
+                        const targetTop = el.getBoundingClientRect().top + window.scrollY - navHeight;
+                        window.scrollTo({ top: targetTop, behavior: "smooth" });
+                        if (window.history.pushState) {
+                          window.history.pushState(null, "", `#${id}`);
+                        }
+                      }}
                       aria-current={isActive ? "true" : undefined}
-                      className="focus-accent group -my-3.5 -mx-1.5 inline-flex min-h-[44px] items-center rounded px-1.5 py-3.5 text-[13.5px] font-medium tracking-[-0.01em] text-[var(--color-text)] underline-offset-4 transition-opacity hover:underline"
+                      className={`focus-accent relative inline-flex min-h-[32px] items-center rounded-full px-3 py-1 text-[13px] font-medium tracking-[-0.01em] transition-all duration-300 ${
+                        isActive
+                          ? "bg-[color-mix(in_srgb,var(--color-accent)_16%,var(--color-surface-2))] border border-[color-mix(in_srgb,var(--color-accent)_45%,transparent)] text-white shadow-[0_0_12px_rgba(250,204,21,0.18)]"
+                          : "border border-transparent text-[var(--color-secondary)] hover:text-white hover:bg-[var(--color-surface-2)]/60"
+                      }`}
                     >
-                      <span
-                        aria-hidden="true"
-                        className={`rounded-full bg-[var(--color-accent)] transition-all duration-200 ${
-                          isActive ? "mr-1.5 h-1.5 w-1.5 opacity-100" : "mr-0 h-1.5 w-0 opacity-0"
-                        }`}
-                      />
+                      {isActive && (
+                        <span
+                          aria-hidden="true"
+                          className="mr-1.5 h-1.5 w-1.5 rounded-full bg-[var(--color-accent)] shadow-[0_0_6px_var(--color-accent)]"
+                        />
+                      )}
                       {label}
                     </a>
                   </li>

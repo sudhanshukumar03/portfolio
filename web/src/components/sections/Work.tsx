@@ -58,7 +58,12 @@ export function Work() {
 
       <div className="flex flex-wrap items-end justify-between gap-6">
         <Reveal>
-          <SectionHeading title="Things I've built" accent="built" />
+          <SectionHeading
+            eyebrow="01 // SELECTED WORK"
+            title="Things I've built"
+            accent="built"
+            subtitle="Production systems, developer tools, and full-stack software built for real users."
+          />
         </Reveal>
         <Reveal delay={120}>
           <ViewToggle view={view} onChange={setView} />
@@ -196,23 +201,37 @@ function ProjectSpread({
           <h3 className="mt-5 font-display text-[clamp(2.1rem,3.6vw,3.1rem)] font-bold leading-[1.04] tracking-[-0.038em]">
             <ProjectName name={project.name} wordmark={project.wordmark} />
           </h3>
-          <p className="mt-3 text-[clamp(1rem,1.35vw,1.15rem)] font-medium leading-snug text-[var(--color-secondary)]">
+          <h4 className="mt-3.5 text-[clamp(1.05rem,1.4vw,1.22rem)] font-semibold leading-snug tracking-[-0.015em] text-[var(--color-heading)]">
             {project.tagline}
-          </p>
-          <p className="mt-5 max-w-[54ch] leading-[1.74] text-[var(--color-body)]">
+          </h4>
+          <p className="mt-4 max-w-[54ch] text-[15px] leading-[1.78] text-[var(--color-body)]">
             {project.summary}
           </p>
 
-          <ul className="mt-6 grid gap-x-6 gap-y-2.5 sm:grid-cols-2">
-            {project.features.slice(0, 4).map((f) => (
-              <li key={f} className="flex items-start gap-2.5 text-[13.5px] text-[var(--color-secondary)]">
-                <span aria-hidden="true" className="mt-1 leading-none text-[var(--color-accent)]">
-                  —
-                </span>
-                <span className="leading-snug">{f}</span>
-              </li>
-            ))}
+          <div className="mt-6 border-t border-[color-mix(in_srgb,var(--color-border)_60%,transparent)] pt-4">
+            <span className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.18em] text-[var(--color-muted)]">
+              Core Architecture &amp; Capabilities
+            </span>
+            <ul className="mt-3 grid gap-x-6 gap-y-3 sm:grid-cols-2">
+            {project.features.slice(0, 4).map((f) => {
+              const dashIndex = f.indexOf(" — ");
+              const lead = dashIndex !== -1 ? f.slice(0, dashIndex) : f;
+              const detail = dashIndex !== -1 ? f.slice(dashIndex + 3) : "";
+              return (
+                <li key={f} className="flex items-start gap-2.5 text-[13.5px] leading-relaxed">
+                  <span
+                    aria-hidden="true"
+                    className="mt-1.5 h-1.5 w-1.5 flex-none rounded-full bg-[var(--color-accent)] shadow-[0_0_6px_var(--color-accent)]"
+                  />
+                  <span className="text-[var(--color-body)]">
+                    <strong className="font-semibold text-[var(--color-text)]">{lead}</strong>
+                    {detail && <span className="text-[var(--color-secondary)]"> &mdash; {detail}</span>}
+                  </span>
+                </li>
+              );
+            })}
           </ul>
+        </div>
 
           {project.note && (
             <p className="mt-5 max-w-[54ch] text-xs italic leading-relaxed text-[var(--color-muted)]">
