@@ -145,8 +145,33 @@ function ProjectSpread({
   position: number;
   total: number;
 }) {
+  const onMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const el = e.currentTarget;
+    const r = el.getBoundingClientRect();
+    el.style.setProperty("--card-mx", `${(e.clientX - r.left).toFixed(1)}px`);
+    el.style.setProperty("--card-my", `${(e.clientY - r.top).toFixed(1)}px`);
+  };
+
   return (
-    <article className="work-card relative grid content-center overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 shadow-[0_1px_0_inset_rgba(255,255,255,0.08),0_24px_50px_-20px_rgba(0,0,0,0.6)] sm:p-8 md:p-10 lg:p-12">
+    <article
+      onMouseMove={onMouseMove}
+      className="work-card group relative grid content-center overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 shadow-[0_1px_0_inset_rgba(255,255,255,0.08),0_24px_50px_-20px_rgba(0,0,0,0.6)] transition-all duration-300 sm:p-8 md:p-10 lg:p-12"
+    >
+      {/* Interactive cursor spotlight border sheen */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-20 rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        style={{
+          background:
+            "radial-gradient(460px circle at var(--card-mx, 50%) var(--card-my, 50%), color-mix(in srgb, var(--color-accent) 26%, transparent), transparent 70%)",
+          mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+          WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+          maskComposite: "exclude",
+          WebkitMaskComposite: "xor",
+          padding: "1px",
+        }}
+      />
+
       {/* Ghost architectural watermark numeral */}
       <span
         aria-hidden="true"

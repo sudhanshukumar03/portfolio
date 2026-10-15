@@ -1,3 +1,4 @@
+import { AmbientAura } from "@/components/ui/AmbientAura";
 import { PageShell } from "@/components/layout/PageShell";
 import { Nav } from "@/components/layout/Nav";
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
@@ -16,6 +17,7 @@ import { Footer } from "@/components/sections/Footer";
 export default function Home() {
   return (
     <>
+      <AmbientAura />
       <ScrollProgress />
       <Nav />
       <main>

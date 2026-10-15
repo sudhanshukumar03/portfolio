@@ -14,6 +14,38 @@ const SECTIONS = [
   { id: "contact", label: "Contact" },
 ] as const;
 
+function LivePresence() {
+  const [time, setTime] = useState<string>("");
+
+  useEffect(() => {
+    const update = () => {
+      const now = new Date();
+      const formatted = new Intl.DateTimeFormat("en-US", {
+        timeZone: "Asia/Kolkata",
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+      }).format(now);
+      setTime(formatted);
+    };
+    update();
+    const interval = setInterval(update, 10000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="hidden items-center gap-2.5 rounded-full border border-[color-mix(in_srgb,var(--color-border)_70%,transparent)] bg-[color-mix(in_srgb,var(--color-surface)_60%,transparent)] px-3.5 py-1 text-[11px] font-mono text-[var(--color-muted)] backdrop-blur-md md:flex">
+      <span className="relative flex h-1.5 w-1.5">
+        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--color-accent)] opacity-75" />
+        <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[var(--color-accent)]" />
+      </span>
+      <span className="tracking-wider">BLR, IN</span>
+      <span className="text-[var(--color-border)]">·</span>
+      <span className="font-medium text-[var(--color-heading)] tabular-nums">{time || "IST"}</span>
+    </div>
+  );
+}
+
 export function Nav() {
   const [solid, setSolid] = useState(false);
   const [active, setActive] = useState<string>("");
@@ -78,6 +110,9 @@ export function Nav() {
             </span>
             <span className="hidden min-[420px]:inline">{profile.name}</span>
           </a>
+
+          {/* Center presence indicator */}
+          <LivePresence />
 
           {/* Links — a simple row at every width. Label text stays --text-primary
               always; the active section is signalled by a non-text accent dot.
