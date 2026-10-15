@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Next.js build output
+.next/
+out/
+build/
+dist/
+
+# Environment variables
+.env*
+!.env.example
+
+# Cache and build files
+*.tsbuildinfo
+next-env.d.ts
+.turbo
+
+# IDE and tool configuration / logs
+.vscode/
+.idea/
+.claude/
+.impeccable/
+
+# OS and runtime files
+.DS_Store
+Thumbs.db
+*.log

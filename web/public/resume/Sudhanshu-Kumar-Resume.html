@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sudhanshu Kumar — Resume</title>
+<style>
+  :root {
+    --ink: #16181c;
+    --sub: #40444c;
+    --muted: #6b7078;
+    --rule: #d9dce1;
+    --accent: #b0592f;
+    --bg: #ffffff;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #eef0f2; }
+  body {
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    color: var(--ink);
+    line-height: 1.42;
+    font-size: 10.5pt;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page {
+    width: 8.5in;
+    min-height: 11in;
+    margin: 24px auto;
+    padding: 0.55in 0.62in;
+    background: var(--bg);
+    box-shadow: 0 8px 40px rgba(0,0,0,0.14);
+  }
+  header { border-bottom: 2px solid var(--ink); padding-bottom: 10px; margin-bottom: 12px; }
+  h1 {
+    font-size: 23pt; letter-spacing: 0.06em; margin: 0 0 4px;
+    font-weight: 800; text-transform: uppercase;
+  }
+  .contact { font-size: 9pt; color: var(--sub); }
+  .contact a { color: var(--accent); text-decoration: none; }
+  .contact .sep { color: var(--muted); padding: 0 6px; }
+  .summary { margin: 12px 0 4px; font-size: 10pt; color: var(--sub); }
+  section { margin-top: 14px; }
+  h2 {
+    font-size: 9pt; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--accent); font-weight: 700; margin: 0 0 7px;
+    border-bottom: 1px solid var(--rule); padding-bottom: 3px;
+  }
+  .row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+  .role { font-weight: 700; font-size: 10.5pt; }
+  .role .stack { font-weight: 500; color: var(--muted); font-size: 9pt; }
+  .meta { color: var(--muted); font-size: 9pt; white-space: nowrap; }
+  ul { margin: 5px 0 0; padding-left: 16px; }
+  li { margin-bottom: 3px; }
+  .proj { margin-bottom: 11px; }
+  .skills p { margin: 3px 0; }
+  .skills .k { font-weight: 700; }
+  .print-hint {
+    max-width: 8.5in; margin: 0 auto; padding: 10px 14px; font-size: 12px;
+    color: #333; background: #fff6ec; border: 1px solid #f0d9bf; border-radius: 8px;
+  }
+  @media print {
+    html, body { background: #fff; }
+    .print-hint { display: none; }
+    .page { width: auto; min-height: auto; margin: 0; padding: 0.5in 0.55in; box-shadow: none; }
+    @page { size: letter; margin: 0; }
+  }
+</style>
+</head>
+<body>
+<div class="print-hint">Press <b>Ctrl/Cmd + P</b> → <b>Save as PDF</b>. Set margins to “Default” and enable “Background graphics”. Save as <b>Sudhanshu-Kumar-Resume.pdf</b>.</div>
+<div class="page">
+  <header>
+    <h1>Sudhanshu Kumar</h1>
+    <div class="contact">
+      Bengaluru, Karnataka 560098
+      <span class="sep">|</span> +91 93043 72352
+      <span class="sep">|</span> <a href="mailto:sksingh032003@gmail.com">sksingh032003@gmail.com</a>
+      <br />
+      <a href="https://www.linkedin.com/in/sudhanshurajputt/">LinkedIn</a>
+      <span class="sep">·</span> <a href="https://github.com/sudhanshukumar03">GitHub</a>
+      <span class="sep">·</span> <a href="https://leetcode.com/">LeetCode</a>
+    </div>
+  </header>
+
+  <p class="summary">
+    Final-year ECE student who spends most of his time shipping full-stack products end to end —
+    React/Next.js on the front, Node and PostgreSQL underneath, and LLM features (RAG, agents, the
+    OpenAI SDK) wired in only where they actually earn their place. I like owning a feature from the
+    data model to the deployed UI and getting it in front of real users, not leaving it in a demo folder.
+    Looking for a Full-Stack Developer role where I can keep building across the whole stack.
+  </p>
+
+  <section>
+    <h2>Education</h2>
+    <div class="row">
+      <div class="role">JSS Academy of Technical Education, Bengaluru</div>
+      <div class="meta">2023 – 2027</div>
+    </div>
+    <div>B.E., Electronics &amp; Communication Engineering — CGPA: 7.6 / 10</div>
+    <div class="meta">Class XII — 72% &nbsp;|&nbsp; Class X — 82%</div>
+  </section>
+
+  <section class="skills">
+    <h2>Technical Skills</h2>
+    <p><span class="k">Languages:</span> C++, JavaScript, TypeScript, Python, SQL</p>
+    <p><span class="k">Full-Stack / Web:</span> React, Next.js, Node.js, Express.js, PostgreSQL, MongoDB, Prisma, REST APIs, JWT Auth, Redis</p>
+    <p><span class="k">AI / GenAI:</span> OpenAI SDK, LangChain, LangGraph, RAG pipelines, prompt engineering, vector search (pgvector)</p>
+    <p><span class="k">Tools &amp; Platforms:</span> Docker, Git/GitHub, FastAPI, Turborepo, BullMQ</p>
+    <p><span class="k">Embedded (Coursework + hands-on):</span> ESP32, biosensor integration (MAX30102 pulse-oximetry, AD8232 ECG, DS18B20, MPU6050), ADC sampling &amp; sensor calibration, UART/SPI/I2C, interrupts, RTOS basics, digital electronics</p>
+  </section>
+
+  <section>
+    <h2>Projects</h2>
+
+    <div class="proj">
+      <div class="row">
+        <div class="role">Context — Real-Time Incident Intelligence SaaS <span class="stack">· MERN, OpenAI SDK, JWT Auth</span></div>
+        <div class="meta">In progress</div>
+      </div>
+      <ul>
+        <li>Building a system that maps how services depend on each other and uses that graph to explain <i>why</i> an incident happened — and flag the ones likely to happen next — instead of leaving engineers to read raw stack traces.</li>
+        <li>Wrote my own JWT auth layer (no third-party provider) on a MERN backend, and wired in the OpenAI SDK to turn raw graph and telemetry data into a plain-English root-cause explanation a human can act on.</li>
+        <li>Shipping it in reviewed stages — auth, then the graph engine, then the incident feed — so bugs surface early instead of piling up at the end.</li>
+      </ul>
+    </div>
+
+    <div class="proj">
+      <div class="row">
+        <div class="role">KRAMA OS — Personal Productivity SaaS <span class="stack">· Turborepo, PostgreSQL/Prisma, Redis, BullMQ, pgvector</span></div>
+        <div class="meta"><a href="https://github.com/sudhanshukumar03/KRAMA" style="color:var(--accent);text-decoration:none;">GitHub ↗</a></div>
+      </div>
+      <ul>
+        <li>Built the backend on a Turborepo monorepo — PostgreSQL/Prisma for data, Redis + BullMQ to push anything that shouldn’t block a request (reminders, digest emails) onto background workers.</li>
+        <li>Put an AI Gateway in front of every LLM call that hashes and caches responses (SHA-256), so a repeated query never pays for a fresh API call twice — plus a pgvector RAG layer that grounds answers in the user’s own data instead of guessing.</li>
+        <li>Handled auth with JWT and rotating refresh tokens, then rebuilt the frontend from a plain dashboard into a HUD/control-room interface.</li>
+      </ul>
+    </div>
+
+    <div class="proj">
+      <div class="row">
+        <div class="role">HealthGuard — IoT Health-Monitoring Dashboard <span class="stack">· ESP32, FastAPI, MERN</span></div>
+        <div class="meta"><a href="https://github.com/sudhanshukumar03/healthguard" style="color:var(--accent);text-decoration:none;">GitHub ↗</a></div>
+      </div>
+      <ul>
+        <li>Wired an ESP32 to a cluster of biosensors (MAX30102, AD8232, DS18B20, MPU6050), sampling and calibrating vitals on-device and streaming them over serial/I2C to a FastAPI/MERN backend.</li>
+        <li>Built a React dashboard styled to feel like something a clinician would actually read — live and historical vitals, not a generic admin panel.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>Achievements</h2>
+    <ul>
+      <li>Solved <b>150+</b> problems on LeetCode across Arrays, Linked Lists, DP, Recursion, and Hash Tables — and still going as placement season ramps up.</li>
+      <li>Designed and stuck to my own 9–10 month roadmap covering full-stack development, GenAI, and DSA/interview prep, running it alongside coursework.</li>
+      <li>Ship every project as a deployable, Dockerized service rather than a local demo — auth, background jobs, and data layer included.</li>
+    </ul>
+  </section>
+</div>
+</body>
+</html>
