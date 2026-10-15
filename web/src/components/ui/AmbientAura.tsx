@@ -129,10 +129,10 @@ export function AmbientAura() {
         currentAuraY,
         auraRadius
       );
-      gradient.addColorStop(0, "rgba(201, 168, 120, 0.16)"); // Champagne copper core
-      gradient.addColorStop(0.35, "rgba(201, 168, 120, 0.07)");
-      gradient.addColorStop(0.7, "rgba(201, 168, 120, 0.02)");
-      gradient.addColorStop(1, "rgba(201, 168, 120, 0)");
+      gradient.addColorStop(0, "rgba(250, 204, 21, 0.12)"); // Radiant yellow core
+      gradient.addColorStop(0.35, "rgba(250, 204, 21, 0.05)");
+      gradient.addColorStop(0.7, "rgba(250, 204, 21, 0.015)");
+      gradient.addColorStop(1, "rgba(250, 204, 21, 0)");
 
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, width, height);
@@ -164,7 +164,7 @@ export function AmbientAura() {
           ctx.beginPath();
           ctx.moveTo(p.x, p.y);
           ctx.lineTo(mouseX, mouseY);
-          ctx.strokeStyle = `rgba(201, 168, 120, ${(proximity * 0.22).toFixed(3)})`;
+          ctx.strokeStyle = `rgba(250, 204, 21, ${(proximity * 0.22).toFixed(3)})`;
           ctx.lineWidth = 0.75;
           ctx.stroke();
         } else {
@@ -174,7 +174,7 @@ export function AmbientAura() {
         // Draw particle dot
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(201, 168, 120, ${p.alpha.toFixed(3)})`;
+        ctx.fillStyle = `rgba(250, 204, 21, ${p.alpha.toFixed(3)})`;
         ctx.fill();
       }
 

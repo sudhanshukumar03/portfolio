@@ -25,8 +25,8 @@
   --color-disabled: #474d57; /* inert / disabled */
   --color-border: #22262e; /* precision hairline border */
 
-  --color-accent: #c9a878; /* champagne copper signature (7.8:1 on base) */
-  --color-accent-2: #c9a878; /* unified accent partner */
+  --color-accent: #facc15; /* radiant cyber-yellow signature (13.2:1 on base) */
+  --color-accent-2: #facc15; /* unified accent partner */
 
   --color-success: #4ade80;
   --color-danger: #f87171;
@@ -635,11 +635,11 @@ body::before {
 .text-shimmer-copper {
   background: linear-gradient(
     105deg,
-    #c9a878 0%,
-    #e8d3b4 35%,
+    #eab308 0%,
+    #facc15 35%,
     #ffffff 50%,
-    #e8d3b4 65%,
-    #c9a878 100%
+    #facc15 65%,
+    #eab308 100%
   );
   background-size: 200% auto;
   color: transparent;

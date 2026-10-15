@@ -42,7 +42,7 @@ export default function Image() {
                 width: 12,
                 height: 12,
                 borderRadius: 9999,
-                border: "2px solid #c9a878",
+                border: "2px solid #facc15",
               }}
             />
           </div>
@@ -50,7 +50,7 @@ export default function Image() {
 
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 20, marginBottom: 30 }}>
-            <span style={{ width: 64, height: 2, backgroundColor: "#c9a878" }} />
+            <span style={{ width: 64, height: 2, backgroundColor: "#facc15" }} />
             <span style={{ fontSize: 26, color: "#c8cad0", letterSpacing: 1 }}>
               Full-stack &amp; AI, engineered end-to-end
             </span>
@@ -64,7 +64,7 @@ export default function Image() {
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: 14, fontSize: 22, color: "#8e929a" }}>
-          <span style={{ width: 8, height: 8, borderRadius: 9999, backgroundColor: "#c9a878" }} />
+          <span style={{ width: 8, height: 8, borderRadius: 9999, backgroundColor: "#facc15" }} />
           <span>React · Next.js · TypeScript · Node.js · PostgreSQL · RAG</span>
         </div>
       </div>
