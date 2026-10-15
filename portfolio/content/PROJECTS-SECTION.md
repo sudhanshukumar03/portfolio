@@ -3,27 +3,30 @@
 ## Heading
 Selected Work
 
-## Intro line (optional, one sentence)
-[e.g. "A few things I've built recently." — keep it brief, the work
-should speak for itself]
+## Intro line
+A selection of production systems, distributed infrastructure, and applied AI applications built end-to-end.
 
-## List (index-style, per docs/DESIGN-SYSTEM.md component spec)
+## List
 
-### 01 — Krama OS
-[One-sentence description] · [2–3 stack tags] · [Year]
+### 01 — KRAMA OS
+Unified productivity and knowledge operating system unifying notes, sprint tasks, and habits under one schema.
+- **Stack**: Next.js · TypeScript · PostgreSQL · Prisma · Redis · RAG
+- **Repo**: https://github.com/sudhanshukumar03/KRAMA
 
-### 02 — LedgerMind
-[One-sentence description] · [2–3 stack tags] · [Year]
+### 02 — Context
+Incident intelligence platform correlating microservice topologies, isolating root causes, and simulating remediation in real time.
+- **Stack**: TypeScript · Express 5 · React 19 · PostgreSQL 16 · Drizzle · OpenAI
+- **Repo**: https://github.com/sudhanshukumar03/Context
 
-### 03 — HealthGuard
-[One-sentence description] · [2–3 stack tags] · [Year]
+### 03 — LedgerMind
+Financial reconciliation controller matching payments, refunds, and bank settlements deterministically before LLM exception analysis.
+- **Stack**: NestJS · PostgreSQL · Prisma · Redis · BullMQ · Gemini
+- **Repo**: https://github.com/sudhanshukumar03/ledgerMind
 
-## Display rule
-Numbering (01/02/03) is appropriate here — this genuinely is an ordered
-list. Each item expands in place on click (see docs/UI-UX.md) to show:
-screenshot, longer description pulled from `projects/[NAME].md`, and
-links to live site / GitHub / full case study.
+### 04 — HealthGuard
+Hardware sensor-to-dashboard pipeline combining ESP32 telemetry with real-time web visualization.
+- **Stack**: ESP32 · Node.js · PostgreSQL · Python · React
+- **Repo**: https://github.com/sudhanshukumar03/healthguard
 
 ## Footer link
-"More on GitHub" → [github.com/yourname] — houses smaller projects not
-listed individually
+"More on GitHub" → https://github.com/sudhanshukumar03

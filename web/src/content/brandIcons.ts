@@ -24,6 +24,7 @@ import {
   siPostgresql,
   siMongodb,
   siPrisma,
+  siDrizzle,
   siRedis,
   siLangchain,
   siGooglegemini,
@@ -68,6 +69,7 @@ export const brandIcons: Record<string, BrandIcon> = {
   "MongoDB": { path: siMongodb.path, color: hex(siMongodb.hex) },
   "pgvector": { path: siPostgresql.path, color: hex(siPostgresql.hex) },
   "Prisma ORM": { path: siPrisma.path, color: hex(siPrisma.hex), mono: true },
+  "Drizzle ORM": { path: siDrizzle.path, color: hex(siDrizzle.hex) },
   "Redis": { path: siRedis.path, color: hex(siRedis.hex) },
   // AI & Generative AI
   "LangChain": { path: siLangchain.path, color: hex(siLangchain.hex) },
