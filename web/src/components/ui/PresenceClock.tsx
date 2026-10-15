@@ -173,6 +173,7 @@ export function PresenceClock() {
       {/* Clean, Borderless Ticking Clock */}
       <button
         type="button"
+        suppressHydrationWarning
         onClick={() => setOpen((prev) => !prev)}
         aria-expanded={open}
         aria-label="Bengaluru local time clock. Hover or click to view timezone and presence details."

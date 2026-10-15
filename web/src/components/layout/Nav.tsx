@@ -2,9 +2,25 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { profile } from "@/content/site";
-import { PresenceClock } from "@/components/ui/PresenceClock";
 import portrait from "../../../public/images/avatar.webp";
+
+// Client-only dynamic clock prevents hydration mismatches and extension attribute injections
+const PresenceClock = dynamic(
+  () => import("@/components/ui/PresenceClock").then((m) => m.PresenceClock),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex items-center gap-1.5 font-mono text-[11.5px] text-[var(--color-muted)]">
+        <span className="font-sans font-medium text-[var(--color-heading)] hidden md:inline">Bengaluru</span>
+        <span className="font-sans font-medium text-[var(--color-heading)] md:hidden">BLR</span>
+        <span className="text-[var(--color-border)] select-none">·</span>
+        <span className="font-medium text-[var(--color-text)]">IST</span>
+      </div>
+    ),
+  }
+);
 
 // Four primary items (Services folds into Work/About; Blog is a footer link).
 // Four short labels — a clean, balanced row at every width with generous tap targets.
