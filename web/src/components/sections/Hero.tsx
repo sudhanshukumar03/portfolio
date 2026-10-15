@@ -64,7 +64,7 @@ export function Hero() {
                 title. Two lines, display weight; the copper brushed shimmer under
                 "end to end" brings continuous organic luxury to the masthead. */}
             <h1
-              className="rise mt-7 max-w-[22ch] font-display text-[clamp(2rem,4.5vw,3.2rem)] font-semibold leading-[1.12] tracking-[-0.005em] text-[var(--color-text)]"
+              className="rise mt-7 max-w-[22ch] font-display text-[clamp(2.2rem,4.8vw,3.5rem)] font-bold leading-[1.08] tracking-[-0.035em] text-[var(--color-text)]"
               style={{ ["--rise-delay" as string]: "120ms" }}
             >
               Full-stack &amp; AI,

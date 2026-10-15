@@ -56,10 +56,11 @@ html {
 body {
   background: transparent;
   color: var(--color-body);
-  /* Body: Inter Tight, 400, generous 1.7 leading with modern typographic enhancements */
-  font-family: var(--font-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  /* Body: Geist Sans, modern engineered neo-grotesque with comfortable leading */
+  font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   font-size: 1rem;
-  line-height: 1.7;
+  line-height: 1.68;
+  letter-spacing: -0.011em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -67,10 +68,11 @@ body {
   text-wrap: pretty;
 }
 
-/* Headings: automatically balanced line wraps to eliminate trailing orphans */
+/* Headings: commanding geometric tracking (-0.032em) with balanced line wraps */
 h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display), var(--font-sans), sans-serif;
   text-wrap: balance;
-  letter-spacing: -0.012em;
+  letter-spacing: -0.032em;
 }
 
 /* Etched substrate: a faint trace/via pattern fixed behind all content, tinted
@@ -91,14 +93,13 @@ body::before {
   mask-size: 300px 300px;
 }
 
-/* Display face — Fraunces, a high-contrast optical serif. Optical character carries the
-   editorial-luxury voice; optical sizing ensures headline weight scales gracefully. */
+/* Display face — Geist Sans. High-performance geometric neo-grotesque with
+   razor-sharp tracking (-0.032em) and authoritative modern clarity (Vercel & Linear standard). */
 .font-display {
-  font-family: var(--font-display), Georgia, "Times New Roman", serif;
-  font-optical-sizing: auto;
-  letter-spacing: -0.008em;
+  font-family: var(--font-display), var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  letter-spacing: -0.032em;
   text-wrap: balance;
-  font-feature-settings: "kern", "liga", "calt";
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11", "kern";
 }
 
 /* Technical artifacts ONLY — stack tags, dates, stats, counters. Tabular figures align numbers. */
@@ -106,7 +107,7 @@ body::before {
   font-family: var(--font-mono), ui-monospace, "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
   font-feature-settings: "tnum" 1, "zero" 1;
   font-variant-numeric: tabular-nums;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
 }
 
 ::selection {

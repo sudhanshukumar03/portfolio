@@ -1,32 +1,18 @@
 import type { Metadata } from "next";
-import { Inter_Tight, Fraunces, IBM_Plex_Mono } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import "@/styles/globals.css";
 
-// Self-hosted at build time by next/font (no third-party CDN). Editorial-luxury
-// three-role system:
-//   • Display — Fraunces. High-contrast serif with real optical character; the
-//     authority and warmth of a premium studio/editorial masthead.
-//   • Body — Inter Tight. Clean, slightly condensed sans; quiet and expensive.
-//   • Mono — IBM Plex Mono. Reserved strictly for code/data artifacts, used
-//     sparingly (not as a decorative "technical" costume).
-const sans = Inter_Tight({
+// Silicon Valley / AI Lab typography system:
+//   • Display & Sans: Geist. Razor-sharp geometric neo-grotesque engineered for high-performance software.
+//   • Mono: Geist Mono. Precision developer-grade monospace with tabular figures.
+const geistSans = Geist({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
   variable: "--font-sans",
   display: "swap",
 });
 
-const display = Fraunces({
+const geistMono = Geist_Mono({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  style: ["normal", "italic"],
-  variable: "--font-display",
-  display: "swap",
-});
-
-const mono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500"],
   variable: "--font-mono",
   display: "swap",
 });
@@ -54,7 +40,8 @@ export default function RootLayout({
     <html
       lang="en"
       data-theme="dark"
-      className={`${sans.variable} ${display.variable} ${mono.variable}`}
+      className={`${geistSans.variable} ${geistMono.variable}`}
+      style={{ ["--font-display" as string]: "var(--font-sans)" }}
       suppressHydrationWarning
     >
       <head>
