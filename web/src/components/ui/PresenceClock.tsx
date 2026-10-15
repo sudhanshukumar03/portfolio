@@ -3,39 +3,34 @@
 import { useEffect, useRef, useState } from "react";
 
 type CelestialPhase = "dawn" | "day" | "golden" | "dusk" | "night";
-type DisplayMode = "blr" | "visitor" | "status";
 
 export function PresenceClock() {
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
-  const [mode, setMode] = useState<DisplayMode>("blr");
 
-  // Bengaluru time parts
-  const [kHours, setKHours] = useState("05");
-  const [kMinutes, setKMinutes] = useState("54");
-  const [kSeconds, setKSeconds] = useState("00");
-  const [kPeriod, setKPeriod] = useState("PM");
-  const [hourAngle, setHourAngle] = useState(177);
-  const [minuteAngle, setMinuteAngle] = useState(324);
+  // Bengaluru discrete clock state
+  const [hours, setHours] = useState("06");
+  const [minutes, setMinutes] = useState("10");
+  const [seconds, setSeconds] = useState("00");
+  const [ampm, setAmpm] = useState("PM");
+  const [hourAngle, setHourAngle] = useState(185);
+  const [minuteAngle, setMinuteAngle] = useState(60);
   const [secondAngle, setSecondAngle] = useState(0);
-  const [secondProgress, setSecondProgress] = useState(0); // 0 to 1 across 60s
   const [isWorkingHours, setIsWorkingHours] = useState(true);
-  const [phase, setPhase] = useState<CelestialPhase>("golden");
-  const [phaseLabel, setPhaseLabel] = useState("Golden Hour");
-  const [sunProgress, setSunProgress] = useState(0.74);
+  const [phaseLabel, setPhaseLabel] = useState("Dusk / Twilight");
+  const [sunProgress, setSunProgress] = useState(0.76);
 
-  // Visitor info
-  const [visitorCity, setVisitorCity] = useState("Your Location");
+  // Visitor timezone comparison
+  const [visitorCity, setVisitorCity] = useState("Your City");
   const [visitorTimeStr, setVisitorTimeStr] = useState("");
   const [timeDiffText, setTimeDiffText] = useState("UTC+5:30");
-  const [diffHoursNum, setDiffHoursNum] = useState(0);
 
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     setMounted(true);
 
-    // 1. Detect visitor timezone & difference from Kolkata (UTC+5:30)
+    // 1. Detect visitor location & compute timezone difference
     try {
       const visitorTz = Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
       let vCity = "Your City";
@@ -51,63 +46,43 @@ export function PresenceClock() {
       const visitorOffsetMin = -now.getTimezoneOffset();
       const kolkataOffsetMin = 330; // UTC+5:30
       const diffHours = (kolkataOffsetMin - visitorOffsetMin) / 60;
-      setDiffHoursNum(diffHours);
 
       if (Math.abs(diffHours) < 0.25) {
         setTimeDiffText("Same timezone as you");
       } else if (diffHours > 0) {
-        setTimeDiffText(`+${diffHours % 1 === 0 ? diffHours : diffHours.toFixed(1)}h ahead of you`);
+        setTimeDiffText(`${diffHours % 1 === 0 ? diffHours : diffHours.toFixed(1)} hours ahead of you`);
       } else {
         const absDiff = Math.abs(diffHours);
-        setTimeDiffText(`-${absDiff % 1 === 0 ? absDiff : absDiff.toFixed(1)}h behind you`);
+        setTimeDiffText(`${absDiff % 1 === 0 ? absDiff : absDiff.toFixed(1)} hours behind you`);
       }
     } catch {
       // Graceful fallback
     }
 
-    // 2. High-precision continuous 60fps loop for sweeping hands & ring
-    let animId = 0;
-    const tick = () => {
+    // 2. Discrete 1-second "tick tick" clock loop
+    const updateTick = () => {
       const now = new Date();
 
-      // Seconds & milliseconds for continuous fluid rotation
-      const sec = now.getSeconds();
-      const ms = now.getMilliseconds();
-      const totalSec = sec + ms / 1000;
-      const sAngle = totalSec * 6; // 360 / 60 = 6 deg/sec
-
-      setSecondAngle(sAngle);
-      setSecondProgress(totalSec / 60);
-
-      animId = requestAnimationFrame(tick);
-    };
-    animId = requestAnimationFrame(tick);
-
-    // 3. Discrete 1-second update for digits, timezone & phases
-    const updateTime = () => {
-      const now = new Date();
-
-      // Kolkata parts
-      const kolkataFmt = new Intl.DateTimeFormat("en-US", {
+      // Format Bengaluru 12-hour time
+      const kolkataParts = new Intl.DateTimeFormat("en-US", {
         timeZone: "Asia/Kolkata",
         hour: "numeric",
         minute: "numeric",
         second: "numeric",
         hour12: true,
-      });
-      const parts = kolkataFmt.formatToParts(now);
+      }).formatToParts(now);
 
-      const h = parts.find((p) => p.type === "hour")?.value || "12";
-      const m = parts.find((p) => p.type === "minute")?.value || "00";
-      const s = parts.find((p) => p.type === "second")?.value || "00";
-      const p = parts.find((p) => p.type === "dayPeriod")?.value || "PM";
+      const h = kolkataParts.find((p) => p.type === "hour")?.value || "12";
+      const m = kolkataParts.find((p) => p.type === "minute")?.value || "00";
+      const s = kolkataParts.find((p) => p.type === "second")?.value || "00";
+      const p = kolkataParts.find((p) => p.type === "dayPeriod")?.value || "PM";
 
-      setKHours(h);
-      setKMinutes(m.padStart(2, "0"));
-      setKSeconds(s.padStart(2, "0"));
-      setKPeriod(p.toUpperCase());
+      setHours(h);
+      setMinutes(m.padStart(2, "0"));
+      setSeconds(s.padStart(2, "0"));
+      setAmpm(p.toUpperCase());
 
-      // 24h hour for angle and phase calculation
+      // 24-hour hour for hand angles & day/night cycle
       const k24Parts = new Intl.DateTimeFormat("en-US", {
         timeZone: "Asia/Kolkata",
         hour: "numeric",
@@ -120,52 +95,48 @@ export function PresenceClock() {
       const min24 = parseInt(k24Parts.find((x) => x.type === "minute")?.value || "0", 10);
       const sec24 = parseInt(k24Parts.find((x) => x.type === "second")?.value || "0", 10);
 
+      // Distinct mechanical "tick" angles
+      const sAngle = sec24 * 6; // 360 / 60 = 6 degrees per tick
       const mAngle = (min24 + sec24 / 60) * 6;
       const hAngle = ((hour24 % 12) + min24 / 60) * 30;
+
+      setSecondAngle(sAngle);
       setMinuteAngle(mAngle);
       setHourAngle(hAngle);
+
+      // Working hours roughly 9 AM to 10 PM IST
+      setIsWorkingHours(hour24 >= 9 && hour24 < 22);
 
       // Sun progress across 24h
       const totalMin = hour24 * 60 + min24;
       setSunProgress(totalMin / 1440);
 
-      // Phase
+      // Solar phase label
       if (hour24 >= 5 && hour24 < 7) {
-        setPhase("dawn");
         setPhaseLabel("Dawn / Sunrise");
       } else if (hour24 >= 7 && hour24 < 17) {
-        setPhase("day");
         setPhaseLabel("Daylight");
       } else if (hour24 >= 17 && (hour24 < 18 || (hour24 === 18 && min24 <= 30))) {
-        setPhase("golden");
         setPhaseLabel("Golden Hour");
       } else if ((hour24 === 18 && min24 > 30) || hour24 === 19) {
-        setPhase("dusk");
         setPhaseLabel("Dusk / Twilight");
       } else {
-        setPhase("night");
         setPhaseLabel("Night Sky");
       }
 
-      setIsWorkingHours(hour24 >= 9 && hour24 < 22);
-
-      // Visitor time string
-      const vFmt = new Intl.DateTimeFormat("en-US", {
+      // Visitor local time
+      const vTime = new Intl.DateTimeFormat("en-US", {
         hour: "numeric",
         minute: "2-digit",
         second: "2-digit",
         hour12: true,
       }).format(now);
-      setVisitorTimeStr(vFmt);
+      setVisitorTimeStr(vTime);
     };
 
-    updateTime();
-    const intervalId = setInterval(updateTime, 1000);
-
-    return () => {
-      cancelAnimationFrame(animId);
-      clearInterval(intervalId);
-    };
+    updateTick();
+    const interval = setInterval(updateTick, 1000);
+    return () => clearInterval(interval);
   }, []);
 
   // Close popover on outside click or Escape key
@@ -187,29 +158,10 @@ export function PresenceClock() {
     };
   }, [open]);
 
-  // Sun path on arc: X from 14 to 186, Y along curved arch
+  // Sun path along curved solar arc: normalized between sunrise (~6 AM) and sunset (~6 PM)
   const arcProgress = Math.max(0, Math.min(1, (sunProgress - 0.25) / 0.5));
   const sunX = 14 + arcProgress * 172;
-  const sunY = 52 - Math.sin(arcProgress * Math.PI) * 36;
-
-  // Toggle modes on click for instant utility
-  const cycleMode = (e: React.MouseEvent) => {
-    // If user clicked the expand arrow or popover trigger, toggle popover
-    const target = e.target as HTMLElement;
-    if (target.closest("[data-popover-toggle]")) {
-      setOpen((prev) => !prev);
-      return;
-    }
-
-    // Otherwise cycle display mode: blr -> visitor -> status -> blr
-    setMode((prev) => {
-      if (prev === "blr") return "visitor";
-      if (prev === "visitor") return "status";
-      return "blr";
-    });
-  };
-
-  const ringCircumference = 2 * Math.PI * 9.5; // ~59.69
+  const sunY = 46 - Math.sin(arcProgress * Math.PI) * 32;
 
   return (
     <div
@@ -218,145 +170,99 @@ export function PresenceClock() {
       onMouseEnter={() => setOpen(true)}
       onMouseLeave={() => setOpen(false)}
     >
-      {/* Interactive Timepiece Pill */}
+      {/* Clean, Normal Ticking Clock Pill */}
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
         aria-expanded={open}
-        aria-label="Sudhanshu's timezone and live presence in Bengaluru"
-        title="Click to open live timezone cockpit & solar telemetry"
-        className="group flex cursor-pointer items-center gap-2 rounded-full border border-[color-mix(in_srgb,var(--color-border)_85%,transparent)] bg-[color-mix(in_srgb,var(--color-surface)_70%,transparent)] py-1 pl-2 pr-2.5 text-xs shadow-[0_2px_14px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.05)] backdrop-blur-md transition-all duration-300 hover:border-[color-mix(in_srgb,var(--color-accent)_60%,transparent)] hover:bg-[color-mix(in_srgb,var(--color-surface-2)_85%,transparent)] hover:shadow-[0_0_22px_color-mix(in_srgb,var(--color-accent)_20%,transparent)] select-none"
+        aria-label="Bengaluru local time clock. Hover or click to view timezone and presence details."
+        title="Bengaluru, India (IST) · Click for timezone & availability details"
+        className="group flex cursor-pointer items-center gap-2.5 rounded-full border border-[var(--color-border)] bg-[color-mix(in_srgb,var(--color-surface)_85%,transparent)] px-3 py-1.5 text-xs shadow-[0_2px_12px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur-md transition-all duration-200 hover:border-[color-mix(in_srgb,var(--color-accent)_50%,transparent)] hover:bg-[color-mix(in_srgb,var(--color-surface-2)_90%,transparent)] select-none"
       >
-        {/* Active 22px Mechanical Chronometer with Continuous Sweeping Needle & Charging Ring */}
-        <span className="relative flex h-5 w-5 shrink-0 items-center justify-center text-[var(--color-accent)]">
-          <svg viewBox="0 0 24 24" className="h-5 w-5 overflow-visible" aria-hidden="true">
-            {/* Dial Background */}
-            <circle cx="12" cy="12" r="9.5" fill="rgba(18, 20, 24, 0.85)" />
-
-            {/* 60-Second Perimeter Charge Track */}
+        {/* Classic Analog Clock with Mechanical "Tick Tick" Second Hand */}
+        <span className="relative flex h-4 w-4 shrink-0 items-center justify-center text-[var(--color-accent)]">
+          <svg viewBox="0 0 20 20" className="h-4 w-4 overflow-visible" aria-hidden="true">
+            {/* Clock Face Bezel */}
             <circle
-              cx="12"
-              cy="12"
-              r="9.5"
-              fill="none"
-              stroke="color-mix(in srgb, var(--color-border) 90%, transparent)"
-              strokeWidth="1.2"
+              cx="10"
+              cy="10"
+              r="8.8"
+              fill="rgba(18, 20, 24, 0.85)"
+              stroke="color-mix(in srgb, var(--color-accent) 60%, transparent)"
+              strokeWidth="1.1"
+              className="transition-colors group-hover:stroke-[var(--color-accent)]"
             />
 
-            {/* Live Active 60-Second Charging Arc (Continuously sweeps 0-100% every minute) */}
-            <circle
-              cx="12"
-              cy="12"
-              r="9.5"
-              fill="none"
-              stroke="var(--color-accent)"
-              strokeWidth="1.4"
-              strokeDasharray={ringCircumference}
-              strokeDashoffset={ringCircumference * (1 - secondProgress)}
-              strokeLinecap="round"
-              transform="rotate(-90 12 12)"
-            />
-
-            {/* Cardinal Hour Ticks (12, 3, 6, 9) */}
-            <line x1="12" y1="3.5" x2="12" y2="5.2" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
-            <line x1="20.5" y1="12" x2="18.8" y2="12" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" opacity="0.6" />
-            <line x1="12" y1="20.5" x2="12" y2="18.8" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" opacity="0.6" />
-            <line x1="3.5" y1="12" x2="5.2" y2="12" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" opacity="0.6" />
+            {/* 12, 3, 6, 9 Cardinal Hour Ticks */}
+            <line x1="10" y1="2.4" x2="10" y2="4.2" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+            <line x1="17.6" y1="10" x2="15.8" y2="10" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" opacity="0.6" />
+            <line x1="10" y1="17.6" x2="10" y2="15.8" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" opacity="0.6" />
+            <line x1="2.4" y1="10" x2="4.2" y2="10" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" opacity="0.6" />
 
             {/* Hour Hand */}
             <line
-              x1="12"
-              y1="12"
-              x2="12"
-              y2="7.2"
+              x1="10"
+              y1="10"
+              x2="10"
+              y2="6.2"
               stroke="currentColor"
-              strokeWidth="1.5"
+              strokeWidth="1.4"
               strokeLinecap="round"
-              transform={`rotate(${hourAngle} 12 12)`}
+              transform={`rotate(${hourAngle} 10 10)`}
             />
 
             {/* Minute Hand */}
             <line
-              x1="12"
-              y1="12"
-              x2="12"
-              y2="4.8"
+              x1="10"
+              y1="10"
+              x2="10"
+              y2="4.2"
               stroke="#e4e7ec"
-              strokeWidth="1.2"
+              strokeWidth="1.1"
               strokeLinecap="round"
-              transform={`rotate(${minuteAngle} 12 12)`}
+              transform={`rotate(${minuteAngle} 10 10)`}
             />
 
-            {/* High-visibility Continuous Sweeping Seconds Needle with Glowing Tip */}
-            <g transform={`rotate(${secondAngle} 12 12)`}>
-              <line x1="12" y1="14" x2="12" y2="3.8" stroke="#f97316" strokeWidth="1.1" strokeLinecap="round" />
-              <circle cx="12" cy="3.8" r="1.1" fill="#f97316" />
+            {/* Discrete "Tick-Tick" Second Needle with Spring Escapement Snap */}
+            <g
+              transform={`rotate(${secondAngle} 10 10)`}
+              style={{
+                transition: "transform 0.14s cubic-bezier(0.34, 1.56, 0.64, 1)",
+              }}
+            >
+              <line x1="10" y1="11.8" x2="10" y2="3.2" stroke="#f97316" strokeWidth="0.9" strokeLinecap="round" />
+              <circle cx="10" cy="3.2" r="0.8" fill="#f97316" />
             </g>
 
-            {/* Center Pinion Jewel */}
-            <circle cx="12" cy="12" r="1.3" fill="var(--color-accent)" />
-            <circle cx="12" cy="12" r="0.6" fill="#f97316" />
+            {/* Center Pivot Jewel */}
+            <circle cx="10" cy="10" r="1.1" fill="var(--color-accent)" />
           </svg>
         </span>
 
-        {/* Location & Real-Time Seconds Display */}
-        <div className="flex items-center gap-1.5">
-          <span className="font-semibold tracking-tight text-[var(--color-heading)] hidden md:inline">
+        {/* Normal Time Readout with Second-by-Second Tick Tick */}
+        <div className="flex items-center gap-1.5 font-mono text-[11.5px] tabular-nums">
+          <span className="font-sans font-medium text-[var(--color-heading)] hidden md:inline">
             Bengaluru
           </span>
-          <span className="font-semibold tracking-tight text-[var(--color-heading)] md:hidden">
+          <span className="font-sans font-medium text-[var(--color-heading)] md:hidden">
             BLR
           </span>
           <span className="text-[var(--color-border)] select-none">·</span>
-          <span className="font-mono text-[11.5px] tabular-nums font-medium text-[var(--color-text)]">
+          <span className="font-medium text-[var(--color-text)]">
             {mounted ? (
               <>
-                <span>{kHours}:{kMinutes}</span>
-                <span className="text-[var(--color-accent)] font-semibold">:{kSeconds}</span>
-                <span className="ml-1 text-[10px] text-[var(--color-muted)]">{kPeriod}</span>
+                <span>{hours}:{minutes}:</span>
+                <span className="font-semibold text-[var(--color-accent)]">{seconds}</span>
+                <span className="ml-1 text-[10px] text-[var(--color-muted)]">{ampm}</span>
               </>
             ) : (
-              "5:55 PM"
+              "6:10 PM"
             )}
           </span>
-          <span className="font-mono text-[10px] tracking-wider text-[var(--color-muted)]">
-            IST
-          </span>
         </div>
-
-        {/* Miniature 3-Bar Activity Equalizer (Real-time live telemetry motion) */}
-        <span className="flex items-end gap-[2px] h-3 px-0.5" title="Live Telemetry Active">
-          <span
-            className="w-[2px] bg-emerald-400 rounded-full transition-all duration-300"
-            style={{ height: `${4 + Math.sin(secondAngle * 0.1) * 3}px` }}
-          />
-          <span
-            className="w-[2px] bg-emerald-400 rounded-full transition-all duration-300"
-            style={{ height: `${6 + Math.cos(secondAngle * 0.12) * 4}px` }}
-          />
-          <span
-            className="w-[2px] bg-emerald-400 rounded-full transition-all duration-300"
-            style={{ height: `${5 + Math.sin(secondAngle * 0.15 + 1) * 3}px` }}
-          />
-        </span>
-
-        {/* Popover Arrow Indicator */}
-        <svg
-          viewBox="0 0 16 16"
-          className={`h-3 w-3 text-[var(--color-muted)] transition-transform duration-200 group-hover:text-[var(--color-accent)] ${
-            open ? "rotate-180 text-[var(--color-accent)]" : ""
-          }`}
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.8"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M4 6l4 4 4-4" />
-        </svg>
       </button>
 
-      {/* Floating Interactive Cockpit Card */}
+      {/* Exquisitely Arranged Telemetry & Timezone Cockpit Card on Hover */}
       <div
         className={`absolute right-0 top-full z-50 pt-2 transition-all duration-200 ease-out ${
           open
@@ -364,52 +270,71 @@ export function PresenceClock() {
             : "pointer-events-none -translate-y-1 scale-95 opacity-0 group-hover/clock:pointer-events-auto group-hover/clock:translate-y-0 group-hover/clock:scale-100 group-hover/clock:opacity-100"
         }`}
       >
-        <div className="w-80 rounded-2xl border border-[color-mix(in_srgb,var(--color-accent)_40%,transparent)] bg-[#0d0e12]/95 p-4 shadow-[0_24px_50px_-10px_rgba(0,0,0,0.95),inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-2xl">
-          {/* Header Telemetry Status */}
+        <div className="w-[340px] rounded-2xl border border-[color-mix(in_srgb,var(--color-accent)_40%,transparent)] bg-[#0d0e12]/95 p-5 shadow-[0_24px_50px_-10px_rgba(0,0,0,0.95),inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-2xl">
+          {/* Header Row: City + Live Status Pill */}
           <div className="flex items-center justify-between border-b border-[var(--color-border)] pb-3">
-            <span className="flex items-center gap-1.5 font-mono text-[11px] font-semibold text-emerald-400">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_#34d399]" />
-              {isWorkingHours ? "ONLINE & AVAILABLE" : "AVAILABLE ASYNC"}
-            </span>
-            <span className="rounded-md bg-[color-mix(in_srgb,var(--color-accent)_15%,transparent)] px-1.5 py-0.5 font-mono text-[10px] font-medium text-[var(--color-accent)]">
+            <div className="flex items-center gap-2">
+              <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399]" />
+              <span className="font-sans text-xs font-semibold text-[var(--color-heading)]">
+                Bengaluru, Karnataka, India
+              </span>
+            </div>
+            <span className="rounded-md border border-[color-mix(in_srgb,var(--color-accent)_35%,transparent)] bg-[color-mix(in_srgb,var(--color-accent)_10%,transparent)] px-2 py-0.5 font-mono text-[10px] font-medium text-[var(--color-accent)]">
               UTC+5:30 (IST)
             </span>
           </div>
 
-          {/* 24-Hour Solar Arc Visualizer */}
-          <div className="relative mt-3 rounded-xl border border-[color-mix(in_srgb,var(--color-border)_70%,transparent)] bg-[#121418]/60 p-3">
-            <div className="flex items-center justify-between text-[10px] text-[var(--color-muted)]">
+          {/* Prominent Digital Clock Hero */}
+          <div className="mt-4 flex items-baseline justify-between">
+            <div className="font-mono text-2xl font-semibold tracking-tight text-[var(--color-text)] tabular-nums">
+              {hours}:{minutes}:<span className="text-[var(--color-accent)]">{seconds}</span>{" "}
+              <span className="text-sm font-normal text-[var(--color-muted)]">{ampm}</span>
+            </div>
+            <span
+              className={`rounded-full border px-2.5 py-0.5 text-[10.5px] font-medium font-sans ${
+                isWorkingHours
+                  ? "border-emerald-400/30 bg-emerald-400/10 text-emerald-400"
+                  : "border-amber-400/30 bg-amber-400/10 text-amber-400"
+              }`}
+            >
+              {isWorkingHours ? "Active Working Hours" : "Available Asynchronously"}
+            </span>
+          </div>
+
+          {/* 24-Hour Solar Trajectory Arc */}
+          <div className="mt-4 rounded-xl border border-[var(--color-border)] bg-[#121418]/70 p-3.5">
+            <div className="flex items-center justify-between text-[10.5px] text-[var(--color-muted)] font-mono">
               <span>Sunrise 6:05 AM</span>
               <span className="font-medium text-[var(--color-heading)]">{phaseLabel}</span>
               <span>Sunset 6:12 PM</span>
             </div>
 
             {/* Sun Trajectory Arc SVG */}
-            <div className="relative mt-1 h-14 w-full">
-              <svg viewBox="0 0 200 60" className="h-full w-full overflow-visible">
-                {/* Horizon Base Line */}
+            <div className="relative mt-2 h-12 w-full">
+              <svg viewBox="0 0 200 54" className="h-full w-full overflow-visible">
+                {/* Horizon Line */}
                 <line
                   x1="10"
-                  y1="52"
+                  y1="46"
                   x2="190"
-                  y2="52"
+                  y2="46"
                   stroke="var(--color-border)"
                   strokeWidth="1.2"
                   strokeDasharray="2 3"
                 />
 
-                {/* Daylight Arch */}
+                {/* Sky Arch Path */}
                 <path
-                  d="M 14 52 Q 100 8 186 52"
+                  d="M 14 46 Q 100 12 186 46"
                   fill="none"
-                  stroke="color-mix(in srgb, var(--color-accent) 35%, transparent)"
+                  stroke="color-mix(in srgb, var(--color-accent) 25%, transparent)"
                   strokeWidth="1.6"
                 />
 
-                {/* Completed Arc Trail */}
+                {/* Trajectory Completed Arc */}
                 {sunProgress >= 0.25 && sunProgress <= 0.75 && (
                   <path
-                    d={`M 14 52 Q 100 8 ${sunX} ${sunY}`}
+                    d={`M 14 46 Q 100 12 ${sunX} ${sunY}`}
                     fill="none"
                     stroke="var(--color-accent)"
                     strokeWidth="2"
@@ -417,65 +342,58 @@ export function PresenceClock() {
                   />
                 )}
 
-                {/* Sun / Moon Orb Indicator */}
+                {/* Sun Marker with Radial Glow */}
                 <g transform={`translate(${sunX}, ${sunY})`}>
-                  <circle
-                    r="5"
-                    fill="var(--color-accent)"
-                    className="shadow-[0_0_12px_var(--color-accent)]"
-                  />
-                  <circle r="7.5" fill="none" stroke="var(--color-accent)" strokeWidth="0.8" opacity="0.6" />
+                  <circle r="4.5" fill="var(--color-accent)" />
+                  <circle r="7.5" fill="none" stroke="var(--color-accent)" strokeWidth="0.8" opacity="0.5" />
                 </g>
               </svg>
             </div>
-
-            <div className="mt-1 flex items-baseline justify-between text-[11px]">
-              <span className="text-[var(--color-body)]">Bengaluru Time:</span>
-              <span className="font-mono font-semibold tabular-nums text-[var(--color-text)]">
-                {kHours}:{kMinutes}:{kSeconds} {kPeriod}
-              </span>
-            </div>
           </div>
 
-          {/* Dual Time Intelligence (Visitor vs Sudhanshu) */}
-          <div className="mt-3 rounded-xl border border-[color-mix(in_srgb,var(--color-border)_70%,transparent)] bg-[#121418]/60 p-3">
-            <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-wider text-[var(--color-muted)]">
-              <span>Timezone Sync</span>
+          {/* Dual Timezone Synchronization (Visitor vs. Sudhanshu) */}
+          <div className="mt-3.5 rounded-xl border border-[var(--color-border)] bg-[#121418]/70 p-3.5">
+            <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-wider text-[var(--color-muted)]">
+              <span>Timezone Comparison</span>
               <span className="font-medium text-[var(--color-accent)]">{timeDiffText}</span>
             </div>
 
             <div className="mt-2.5 grid grid-cols-2 gap-3 text-xs">
-              <div className="rounded-lg bg-[var(--color-surface)] p-2">
-                <span className="block text-[10px] text-[var(--color-muted)] truncate" title={visitorCity}>
+              {/* Visitor Location */}
+              <div className="rounded-lg bg-[var(--color-surface)] p-2.5 border border-[var(--color-border)]">
+                <span className="block text-[10.5px] text-[var(--color-muted)] truncate" title={visitorCity}>
                   📍 {visitorCity}
                 </span>
-                <span className="mt-1 block font-mono font-semibold text-[var(--color-heading)]">
+                <span className="mt-1 block font-mono text-[13px] font-semibold text-[var(--color-heading)] tabular-nums">
                   {visitorTimeStr || "--:--"}
                 </span>
               </div>
 
-              <div className="rounded-lg bg-[var(--color-surface)] p-2 border border-[color-mix(in_srgb,var(--color-accent)_25%,transparent)]">
-                <span className="block text-[10px] text-[var(--color-accent)]">
+              {/* Sudhanshu Location */}
+              <div className="rounded-lg bg-[var(--color-surface)] p-2.5 border border-[color-mix(in_srgb,var(--color-accent)_35%,transparent)]">
+                <span className="block text-[10.5px] font-medium text-[var(--color-accent)]">
                   ⚡ Sudhanshu (BLR)
                 </span>
-                <span className="mt-1 block font-mono font-semibold text-[var(--color-text)]">
-                  {kHours}:{kMinutes}:{kSeconds} {kPeriod}
+                <span className="mt-1 block font-mono text-[13px] font-semibold text-[var(--color-text)] tabular-nums">
+                  {hours}:{minutes}:{seconds} {ampm}
                 </span>
               </div>
             </div>
 
-            <p className="mt-2 text-[10.5px] leading-relaxed text-[var(--color-secondary)]">
+            <p className="mt-2.5 text-[11px] leading-relaxed text-[var(--color-secondary)]">
               Comfortable coordinating with teams across US, EU &amp; APAC. Async-first workflow with ~4–6h real-time overlap.
             </p>
           </div>
 
-          {/* Call to Action Footer */}
-          <div className="mt-3 flex items-center justify-between pt-1 text-xs">
-            <span className="text-[11px] text-[var(--color-muted)]">Open for roles</span>
+          {/* Card Footer Action */}
+          <div className="mt-4 flex items-center justify-between border-t border-[var(--color-border)] pt-3 text-xs">
+            <span className="text-[11px] text-[var(--color-muted)]">
+              Status: <span className="text-[var(--color-heading)] font-medium">Open for roles</span>
+            </span>
             <a
               href="#contact"
               onClick={() => setOpen(false)}
-              className="focus-accent group flex items-center gap-1.5 rounded-lg border border-[color-mix(in_srgb,var(--color-accent)_40%,transparent)] bg-[color-mix(in_srgb,var(--color-accent)_10%,transparent)] px-2.5 py-1 font-sans text-[11px] font-medium text-[var(--color-accent)] transition-all hover:border-[var(--color-accent)] hover:bg-[color-mix(in_srgb,var(--color-accent)_20%,transparent)] hover:text-white"
+              className="focus-accent group flex items-center gap-1.5 rounded-lg border border-[color-mix(in_srgb,var(--color-accent)_40%,transparent)] bg-[color-mix(in_srgb,var(--color-accent)_10%,transparent)] px-3 py-1 font-sans text-[11.5px] font-medium text-[var(--color-accent)] transition-all hover:border-[var(--color-accent)] hover:bg-[color-mix(in_srgb,var(--color-accent)_20%,transparent)] hover:text-white"
             >
               Get in touch
               <span aria-hidden="true" className="transition-transform group-hover:translate-x-0.5">
