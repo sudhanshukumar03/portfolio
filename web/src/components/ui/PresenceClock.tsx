@@ -3,187 +3,172 @@
 import { useEffect, useRef, useState } from "react";
 
 type CelestialPhase = "dawn" | "day" | "golden" | "dusk" | "night";
-
-interface TimeState {
-  timeStr: string;
-  timeWithSec: string;
-  hourAngle: number;
-  minuteAngle: number;
-  secondAngle: number;
-  isWorkingHours: boolean;
-  phase: CelestialPhase;
-  phaseLabel: string;
-  sunProgress: number; // 0 to 1 across 24h
-  visitorTimeStr: string;
-  visitorCity: string;
-  timeDiffText: string;
-}
+type DisplayMode = "blr" | "visitor" | "status";
 
 export function PresenceClock() {
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
-  const [timeState, setTimeState] = useState<TimeState>({
-    timeStr: "5:30 PM",
-    timeWithSec: "5:30:00 PM",
-    hourAngle: 165,
-    minuteAngle: 180,
-    secondAngle: 0,
-    isWorkingHours: true,
-    phase: "golden",
-    phaseLabel: "Golden Hour",
-    sunProgress: 0.72,
-    visitorTimeStr: "",
-    visitorCity: "Your Location",
-    timeDiffText: "UTC+5:30",
-  });
+  const [mode, setMode] = useState<DisplayMode>("blr");
+
+  // Bengaluru time parts
+  const [kHours, setKHours] = useState("05");
+  const [kMinutes, setKMinutes] = useState("54");
+  const [kSeconds, setKSeconds] = useState("00");
+  const [kPeriod, setKPeriod] = useState("PM");
+  const [hourAngle, setHourAngle] = useState(177);
+  const [minuteAngle, setMinuteAngle] = useState(324);
+  const [secondAngle, setSecondAngle] = useState(0);
+  const [secondProgress, setSecondProgress] = useState(0); // 0 to 1 across 60s
+  const [isWorkingHours, setIsWorkingHours] = useState(true);
+  const [phase, setPhase] = useState<CelestialPhase>("golden");
+  const [phaseLabel, setPhaseLabel] = useState("Golden Hour");
+  const [sunProgress, setSunProgress] = useState(0.74);
+
+  // Visitor info
+  const [visitorCity, setVisitorCity] = useState("Your Location");
+  const [visitorTimeStr, setVisitorTimeStr] = useState("");
+  const [timeDiffText, setTimeDiffText] = useState("UTC+5:30");
+  const [diffHoursNum, setDiffHoursNum] = useState(0);
 
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const secondAngleRef = useRef(0);
 
   useEffect(() => {
     setMounted(true);
 
-    // Detect visitor timezone
-    let visitorCityName = "Your City";
-    let diffText = "Local Time";
+    // 1. Detect visitor timezone & difference from Kolkata (UTC+5:30)
     try {
       const visitorTz = Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
+      let vCity = "Your City";
       if (visitorTz.includes("/")) {
         const parts = visitorTz.split("/");
-        visitorCityName = parts[parts.length - 1].replace(/_/g, " ");
+        vCity = parts[parts.length - 1].replace(/_/g, " ");
       } else {
-        visitorCityName = visitorTz;
+        vCity = visitorTz;
       }
+      setVisitorCity(vCity);
 
-      // Calculate difference from Kolkata (UTC+5:30 = +330 min)
       const now = new Date();
       const visitorOffsetMin = -now.getTimezoneOffset();
-      const kolkataOffsetMin = 330;
+      const kolkataOffsetMin = 330; // UTC+5:30
       const diffHours = (kolkataOffsetMin - visitorOffsetMin) / 60;
+      setDiffHoursNum(diffHours);
 
       if (Math.abs(diffHours) < 0.25) {
-        diffText = "Same timezone as you";
+        setTimeDiffText("Same timezone as you");
       } else if (diffHours > 0) {
-        diffText = `+${diffHours % 1 === 0 ? diffHours : diffHours.toFixed(1)}h ahead of you`;
+        setTimeDiffText(`+${diffHours % 1 === 0 ? diffHours : diffHours.toFixed(1)}h ahead of you`);
       } else {
         const absDiff = Math.abs(diffHours);
-        diffText = `-${absDiff % 1 === 0 ? absDiff : absDiff.toFixed(1)}h behind you`;
+        setTimeDiffText(`-${absDiff % 1 === 0 ? absDiff : absDiff.toFixed(1)}h behind you`);
       }
     } catch {
       // Graceful fallback
     }
 
-    const updateCalculations = () => {
+    // 2. High-precision continuous 60fps loop for sweeping hands & ring
+    let animId = 0;
+    const tick = () => {
       const now = new Date();
 
-      // Time in Asia/Kolkata
+      // Seconds & milliseconds for continuous fluid rotation
+      const sec = now.getSeconds();
+      const ms = now.getMilliseconds();
+      const totalSec = sec + ms / 1000;
+      const sAngle = totalSec * 6; // 360 / 60 = 6 deg/sec
+
+      setSecondAngle(sAngle);
+      setSecondProgress(totalSec / 60);
+
+      animId = requestAnimationFrame(tick);
+    };
+    animId = requestAnimationFrame(tick);
+
+    // 3. Discrete 1-second update for digits, timezone & phases
+    const updateTime = () => {
+      const now = new Date();
+
+      // Kolkata parts
       const kolkataFmt = new Intl.DateTimeFormat("en-US", {
         timeZone: "Asia/Kolkata",
         hour: "numeric",
         minute: "numeric",
         second: "numeric",
-        hour12: false,
+        hour12: true,
       });
-
       const parts = kolkataFmt.formatToParts(now);
-      const hour = parseInt(parts.find((p) => p.type === "hour")?.value || "0", 10);
-      const min = parseInt(parts.find((p) => p.type === "minute")?.value || "0", 10);
-      const sec = parseInt(parts.find((p) => p.type === "second")?.value || "0", 10);
 
-      // Primary display format (e.g. "5:30 PM")
-      const primaryStr = new Intl.DateTimeFormat("en-US", {
+      const h = parts.find((p) => p.type === "hour")?.value || "12";
+      const m = parts.find((p) => p.type === "minute")?.value || "00";
+      const s = parts.find((p) => p.type === "second")?.value || "00";
+      const p = parts.find((p) => p.type === "dayPeriod")?.value || "PM";
+
+      setKHours(h);
+      setKMinutes(m.padStart(2, "0"));
+      setKSeconds(s.padStart(2, "0"));
+      setKPeriod(p.toUpperCase());
+
+      // 24h hour for angle and phase calculation
+      const k24Parts = new Intl.DateTimeFormat("en-US", {
         timeZone: "Asia/Kolkata",
         hour: "numeric",
-        minute: "2-digit",
-        hour12: true,
-      }).format(now);
+        minute: "numeric",
+        second: "numeric",
+        hour12: false,
+      }).formatToParts(now);
 
-      // Precision display format (e.g. "5:30:15 PM")
-      const secStr = new Intl.DateTimeFormat("en-US", {
-        timeZone: "Asia/Kolkata",
+      const hour24 = parseInt(k24Parts.find((x) => x.type === "hour")?.value || "0", 10);
+      const min24 = parseInt(k24Parts.find((x) => x.type === "minute")?.value || "0", 10);
+      const sec24 = parseInt(k24Parts.find((x) => x.type === "second")?.value || "0", 10);
+
+      const mAngle = (min24 + sec24 / 60) * 6;
+      const hAngle = ((hour24 % 12) + min24 / 60) * 30;
+      setMinuteAngle(mAngle);
+      setHourAngle(hAngle);
+
+      // Sun progress across 24h
+      const totalMin = hour24 * 60 + min24;
+      setSunProgress(totalMin / 1440);
+
+      // Phase
+      if (hour24 >= 5 && hour24 < 7) {
+        setPhase("dawn");
+        setPhaseLabel("Dawn / Sunrise");
+      } else if (hour24 >= 7 && hour24 < 17) {
+        setPhase("day");
+        setPhaseLabel("Daylight");
+      } else if (hour24 >= 17 && (hour24 < 18 || (hour24 === 18 && min24 <= 30))) {
+        setPhase("golden");
+        setPhaseLabel("Golden Hour");
+      } else if ((hour24 === 18 && min24 > 30) || hour24 === 19) {
+        setPhase("dusk");
+        setPhaseLabel("Dusk / Twilight");
+      } else {
+        setPhase("night");
+        setPhaseLabel("Night Sky");
+      }
+
+      setIsWorkingHours(hour24 >= 9 && hour24 < 22);
+
+      // Visitor time string
+      const vFmt = new Intl.DateTimeFormat("en-US", {
         hour: "numeric",
         minute: "2-digit",
         second: "2-digit",
         hour12: true,
       }).format(now);
-
-      // Visitor local time string
-      const vTimeStr = new Intl.DateTimeFormat("en-US", {
-        hour: "numeric",
-        minute: "2-digit",
-        hour12: true,
-      }).format(now);
-
-      // Celestial phase & sun progress
-      const totalMinutes = hour * 60 + min;
-      const sunProgress = totalMinutes / 1440; // 0 to 1 across 24 hours
-
-      let phase: CelestialPhase = "night";
-      let phaseLabel = "Night Sky";
-
-      if (hour >= 5 && hour < 7) {
-        phase = "dawn";
-        phaseLabel = "Dawn / Sunrise";
-      } else if (hour >= 7 && hour < 17) {
-        phase = "day";
-        phaseLabel = "Daylight";
-      } else if (hour >= 17 && (hour < 18 || (hour === 18 && min <= 30))) {
-        phase = "golden";
-        phaseLabel = "Golden Hour";
-      } else if ((hour === 18 && min > 30) || hour === 19) {
-        phase = "dusk";
-        phaseLabel = "Dusk / Twilight";
-      } else {
-        phase = "night";
-        phaseLabel = "Night Sky";
-      }
-
-      // Working hours roughly 9 AM to 10 PM IST
-      const isWorkingHours = hour >= 9 && hour < 22;
-
-      // Clock angles
-      const minuteAngle = (min + sec / 60) * 6;
-      const hourAngle = ((hour % 12) + min / 60) * 30;
-
-      setTimeState((prev) => ({
-        ...prev,
-        timeStr: primaryStr,
-        timeWithSec: secStr,
-        hourAngle,
-        minuteAngle,
-        isWorkingHours,
-        phase,
-        phaseLabel,
-        sunProgress,
-        visitorTimeStr: vTimeStr,
-        visitorCity: visitorCityName,
-        timeDiffText: diffText,
-      }));
+      setVisitorTimeStr(vFmt);
     };
 
-    updateCalculations();
-    const interval = setInterval(updateCalculations, 1000);
-
-    // Continuous 60fps sweeping second hand
-    let animId = 0;
-    const sweep = () => {
-      const now = new Date();
-      const sec = now.getSeconds();
-      const ms = now.getMilliseconds();
-      const sAngle = (sec + ms / 1000) * 6;
-      secondAngleRef.current = sAngle;
-      setTimeState((prev) => (prev.secondAngle === sAngle ? prev : { ...prev, secondAngle: sAngle }));
-      animId = requestAnimationFrame(sweep);
-    };
-    animId = requestAnimationFrame(sweep);
+    updateTime();
+    const intervalId = setInterval(updateTime, 1000);
 
     return () => {
-      clearInterval(interval);
       cancelAnimationFrame(animId);
+      clearInterval(intervalId);
     };
   }, []);
 
-  // Close on outside click or Escape key
+  // Close popover on outside click or Escape key
   useEffect(() => {
     if (!open) return;
     const handleClickOutside = (e: MouseEvent) => {
@@ -202,10 +187,29 @@ export function PresenceClock() {
     };
   }, [open]);
 
-  // Sun path on arc: X from 10 to 190, Y along curved arch
-  const arcProgress = Math.max(0, Math.min(1, (timeState.sunProgress - 0.25) / 0.5)); // 6am to 6pm normalized
+  // Sun path on arc: X from 14 to 186, Y along curved arch
+  const arcProgress = Math.max(0, Math.min(1, (sunProgress - 0.25) / 0.5));
   const sunX = 14 + arcProgress * 172;
   const sunY = 52 - Math.sin(arcProgress * Math.PI) * 36;
+
+  // Toggle modes on click for instant utility
+  const cycleMode = (e: React.MouseEvent) => {
+    // If user clicked the expand arrow or popover trigger, toggle popover
+    const target = e.target as HTMLElement;
+    if (target.closest("[data-popover-toggle]")) {
+      setOpen((prev) => !prev);
+      return;
+    }
+
+    // Otherwise cycle display mode: blr -> visitor -> status -> blr
+    setMode((prev) => {
+      if (prev === "blr") return "visitor";
+      if (prev === "visitor") return "status";
+      return "blr";
+    });
+  };
+
+  const ringCircumference = 2 * Math.PI * 9.5; // ~59.69
 
   return (
     <div
@@ -219,138 +223,140 @@ export function PresenceClock() {
         type="button"
         onClick={() => setOpen((prev) => !prev)}
         aria-expanded={open}
-        aria-label="Sudhanshu's timezone and availability in Bengaluru"
-        className="group relative flex cursor-pointer items-center gap-2 rounded-full border border-[color-mix(in_srgb,var(--color-border)_85%,transparent)] bg-[color-mix(in_srgb,var(--color-surface)_70%,transparent)] py-1 pl-2 pr-3 text-xs shadow-[0_2px_12px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur-md transition-all duration-300 hover:border-[color-mix(in_srgb,var(--color-accent)_60%,transparent)] hover:bg-[color-mix(in_srgb,var(--color-surface-2)_85%,transparent)] hover:shadow-[0_0_20px_color-mix(in_srgb,var(--color-accent)_18%,transparent)]"
+        aria-label="Sudhanshu's timezone and live presence in Bengaluru"
+        title="Click to open live timezone cockpit & solar telemetry"
+        className="group flex cursor-pointer items-center gap-2 rounded-full border border-[color-mix(in_srgb,var(--color-border)_85%,transparent)] bg-[color-mix(in_srgb,var(--color-surface)_70%,transparent)] py-1 pl-2 pr-2.5 text-xs shadow-[0_2px_14px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.05)] backdrop-blur-md transition-all duration-300 hover:border-[color-mix(in_srgb,var(--color-accent)_60%,transparent)] hover:bg-[color-mix(in_srgb,var(--color-surface-2)_85%,transparent)] hover:shadow-[0_0_22px_color-mix(in_srgb,var(--color-accent)_20%,transparent)] select-none"
       >
-        {/* Automatic Mechanical Chronograph Dial with Sweeping Second Needle */}
-        <span className="relative flex h-4 w-4 shrink-0 items-center justify-center text-[var(--color-accent)]">
-          <svg viewBox="0 0 20 20" className="h-4 w-4" aria-hidden="true">
-            {/* Outer Bezel */}
+        {/* Active 22px Mechanical Chronometer with Continuous Sweeping Needle & Charging Ring */}
+        <span className="relative flex h-5 w-5 shrink-0 items-center justify-center text-[var(--color-accent)]">
+          <svg viewBox="0 0 24 24" className="h-5 w-5 overflow-visible" aria-hidden="true">
+            {/* Dial Background */}
+            <circle cx="12" cy="12" r="9.5" fill="rgba(18, 20, 24, 0.85)" />
+
+            {/* 60-Second Perimeter Charge Track */}
             <circle
-              cx="10"
-              cy="10"
-              r="8.8"
-              fill="rgba(18, 20, 24, 0.7)"
-              stroke="currentColor"
-              strokeWidth="1.1"
-              className="opacity-75 transition-opacity group-hover:opacity-100"
+              cx="12"
+              cy="12"
+              r="9.5"
+              fill="none"
+              stroke="color-mix(in srgb, var(--color-border) 90%, transparent)"
+              strokeWidth="1.2"
             />
-            {/* 12, 3, 6, 9 Cardinal Pips */}
-            <circle cx="10" cy="3" r="0.75" fill="currentColor" />
-            <circle cx="17" cy="10" r="0.55" fill="currentColor" className="opacity-60" />
-            <circle cx="10" cy="17" r="0.55" fill="currentColor" className="opacity-60" />
-            <circle cx="3" cy="10" r="0.55" fill="currentColor" className="opacity-60" />
 
-            {/* Hour hand */}
-            <line
-              x1="10"
-              y1="10"
-              x2="10"
-              y2="6.2"
-              stroke="currentColor"
+            {/* Live Active 60-Second Charging Arc (Continuously sweeps 0-100% every minute) */}
+            <circle
+              cx="12"
+              cy="12"
+              r="9.5"
+              fill="none"
+              stroke="var(--color-accent)"
               strokeWidth="1.4"
+              strokeDasharray={ringCircumference}
+              strokeDashoffset={ringCircumference * (1 - secondProgress)}
               strokeLinecap="round"
-              transform={`rotate(${timeState.hourAngle} 10 10)`}
+              transform="rotate(-90 12 12)"
             />
 
-            {/* Minute hand */}
+            {/* Cardinal Hour Ticks (12, 3, 6, 9) */}
+            <line x1="12" y1="3.5" x2="12" y2="5.2" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+            <line x1="20.5" y1="12" x2="18.8" y2="12" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" opacity="0.6" />
+            <line x1="12" y1="20.5" x2="12" y2="18.8" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" opacity="0.6" />
+            <line x1="3.5" y1="12" x2="5.2" y2="12" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" opacity="0.6" />
+
+            {/* Hour Hand */}
             <line
-              x1="10"
-              y1="10"
-              x2="10"
-              y2="4"
+              x1="12"
+              y1="12"
+              x2="12"
+              y2="7.2"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              transform={`rotate(${hourAngle} 12 12)`}
+            />
+
+            {/* Minute Hand */}
+            <line
+              x1="12"
+              y1="12"
+              x2="12"
+              y2="4.8"
               stroke="#e4e7ec"
-              strokeWidth="1.1"
+              strokeWidth="1.2"
               strokeLinecap="round"
-              transform={`rotate(${timeState.minuteAngle} 10 10)`}
+              transform={`rotate(${minuteAngle} 12 12)`}
             />
 
-            {/* Sweeping Seconds Hand (Automatic High-beat movement) */}
-            <line
-              x1="10"
-              y1="11.8"
-              x2="10"
-              y2="3"
-              stroke="#f97316"
-              strokeWidth="0.8"
-              strokeLinecap="round"
-              transform={`rotate(${timeState.secondAngle} 10 10)`}
-            />
+            {/* High-visibility Continuous Sweeping Seconds Needle with Glowing Tip */}
+            <g transform={`rotate(${secondAngle} 12 12)`}>
+              <line x1="12" y1="14" x2="12" y2="3.8" stroke="#f97316" strokeWidth="1.1" strokeLinecap="round" />
+              <circle cx="12" cy="3.8" r="1.1" fill="#f97316" />
+            </g>
 
             {/* Center Pinion Jewel */}
-            <circle cx="10" cy="10" r="1.1" fill="currentColor" />
-            <circle cx="10" cy="10" r="0.45" fill="#f97316" />
+            <circle cx="12" cy="12" r="1.3" fill="var(--color-accent)" />
+            <circle cx="12" cy="12" r="0.6" fill="#f97316" />
           </svg>
         </span>
 
-        {/* Dynamic Celestial Phase Orb */}
-        <span
-          className="flex h-3.5 w-3.5 items-center justify-center transition-transform duration-300 group-hover:scale-110"
-          title={timeState.phaseLabel}
+        {/* Location & Real-Time Seconds Display */}
+        <div className="flex items-center gap-1.5">
+          <span className="font-semibold tracking-tight text-[var(--color-heading)] hidden md:inline">
+            Bengaluru
+          </span>
+          <span className="font-semibold tracking-tight text-[var(--color-heading)] md:hidden">
+            BLR
+          </span>
+          <span className="text-[var(--color-border)] select-none">·</span>
+          <span className="font-mono text-[11.5px] tabular-nums font-medium text-[var(--color-text)]">
+            {mounted ? (
+              <>
+                <span>{kHours}:{kMinutes}</span>
+                <span className="text-[var(--color-accent)] font-semibold">:{kSeconds}</span>
+                <span className="ml-1 text-[10px] text-[var(--color-muted)]">{kPeriod}</span>
+              </>
+            ) : (
+              "5:55 PM"
+            )}
+          </span>
+          <span className="font-mono text-[10px] tracking-wider text-[var(--color-muted)]">
+            IST
+          </span>
+        </div>
+
+        {/* Miniature 3-Bar Activity Equalizer (Real-time live telemetry motion) */}
+        <span className="flex items-end gap-[2px] h-3 px-0.5" title="Live Telemetry Active">
+          <span
+            className="w-[2px] bg-emerald-400 rounded-full transition-all duration-300"
+            style={{ height: `${4 + Math.sin(secondAngle * 0.1) * 3}px` }}
+          />
+          <span
+            className="w-[2px] bg-emerald-400 rounded-full transition-all duration-300"
+            style={{ height: `${6 + Math.cos(secondAngle * 0.12) * 4}px` }}
+          />
+          <span
+            className="w-[2px] bg-emerald-400 rounded-full transition-all duration-300"
+            style={{ height: `${5 + Math.sin(secondAngle * 0.15 + 1) * 3}px` }}
+          />
+        </span>
+
+        {/* Popover Arrow Indicator */}
+        <svg
+          viewBox="0 0 16 16"
+          className={`h-3 w-3 text-[var(--color-muted)] transition-transform duration-200 group-hover:text-[var(--color-accent)] ${
+            open ? "rotate-180 text-[var(--color-accent)]" : ""
+          }`}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         >
-          {timeState.phase === "day" && (
-            <svg viewBox="0 0 16 16" className="h-3.5 w-3.5 text-amber-400" fill="currentColor">
-              <circle cx="8" cy="8" r="3.2" />
-              <path
-                d="M8 1.5v1.2M8 13.3v1.2M1.5 8h1.2M13.3 8h1.2M3.4 3.4l.9.9M11.7 11.7l.9.9M3.4 12.6l.9-.9M11.7 4.3l.9-.9"
-                stroke="currentColor"
-                strokeWidth="1.2"
-                strokeLinecap="round"
-              />
-            </svg>
-          )}
-          {timeState.phase === "golden" && (
-            <svg viewBox="0 0 16 16" className="h-3.5 w-3.5 text-amber-500" fill="currentColor">
-              <circle cx="8" cy="8" r="3" />
-              <path d="M2 13h12" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
-            </svg>
-          )}
-          {timeState.phase === "dusk" && (
-            <svg viewBox="0 0 16 16" className="h-3.5 w-3.5 text-orange-400" fill="currentColor">
-              <path d="M12 9.5a4 4 0 1 1-4-4 3 3 0 0 0 4 4z" />
-            </svg>
-          )}
-          {timeState.phase === "night" && (
-            <svg viewBox="0 0 16 16" className="h-3.5 w-3.5 text-indigo-300" fill="currentColor">
-              <path d="M12 9.2a4.2 4.2 0 1 1-4.4-4.4c.1 0 .2 0 .3.02A3.6 3.6 0 0 0 12 9.2z" />
-            </svg>
-          )}
-          {timeState.phase === "dawn" && (
-            <svg viewBox="0 0 16 16" className="h-3.5 w-3.5 text-rose-300" fill="currentColor">
-              <circle cx="8" cy="8" r="3" />
-              <path d="M2 12h12M4 14h8" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
-            </svg>
-          )}
-        </span>
-
-        {/* Location Label */}
-        <span className="hidden font-medium tracking-tight text-[var(--color-heading)] md:inline">
-          Bengaluru
-        </span>
-        <span className="hidden select-none text-[var(--color-border)] md:inline">·</span>
-
-        {/* Tabular Numerals */}
-        <span className="font-mono text-[11px] font-medium tabular-nums text-[var(--color-text)]">
-          {mounted ? timeState.timeStr : "5:30 PM"}
-        </span>
-        <span className="font-mono text-[10px] tracking-wider text-[var(--color-muted)]">
-          IST
-        </span>
-
-        {/* Live Availability Beacon */}
-        <span className="relative ml-0.5 flex h-2 w-2 items-center justify-center">
-          {timeState.isWorkingHours ? (
-            <>
-              <span className="absolute inline-flex h-2.5 w-2.5 animate-ping rounded-full bg-emerald-400 opacity-40 duration-1000" />
-              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399]" />
-            </>
-          ) : (
-            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[var(--color-accent)] opacity-80" />
-          )}
-        </span>
+          <path d="M4 6l4 4 4-4" />
+        </svg>
       </button>
 
-      {/* Floating Interactive Timepiece & Presence Card */}
+      {/* Floating Interactive Cockpit Card */}
       <div
         className={`absolute right-0 top-full z-50 pt-2 transition-all duration-200 ease-out ${
           open
@@ -363,7 +369,7 @@ export function PresenceClock() {
           <div className="flex items-center justify-between border-b border-[var(--color-border)] pb-3">
             <span className="flex items-center gap-1.5 font-mono text-[11px] font-semibold text-emerald-400">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_#34d399]" />
-              {timeState.isWorkingHours ? "ONLINE & AVAILABLE" : "AVAILABLE ASYNC"}
+              {isWorkingHours ? "ONLINE & AVAILABLE" : "AVAILABLE ASYNC"}
             </span>
             <span className="rounded-md bg-[color-mix(in_srgb,var(--color-accent)_15%,transparent)] px-1.5 py-0.5 font-mono text-[10px] font-medium text-[var(--color-accent)]">
               UTC+5:30 (IST)
@@ -374,7 +380,7 @@ export function PresenceClock() {
           <div className="relative mt-3 rounded-xl border border-[color-mix(in_srgb,var(--color-border)_70%,transparent)] bg-[#121418]/60 p-3">
             <div className="flex items-center justify-between text-[10px] text-[var(--color-muted)]">
               <span>Sunrise 6:05 AM</span>
-              <span className="font-medium text-[var(--color-heading)]">{timeState.phaseLabel}</span>
+              <span className="font-medium text-[var(--color-heading)]">{phaseLabel}</span>
               <span>Sunset 6:12 PM</span>
             </div>
 
@@ -401,7 +407,7 @@ export function PresenceClock() {
                 />
 
                 {/* Completed Arc Trail */}
-                {timeState.sunProgress >= 0.25 && timeState.sunProgress <= 0.75 && (
+                {sunProgress >= 0.25 && sunProgress <= 0.75 && (
                   <path
                     d={`M 14 52 Q 100 8 ${sunX} ${sunY}`}
                     fill="none"
@@ -426,7 +432,7 @@ export function PresenceClock() {
             <div className="mt-1 flex items-baseline justify-between text-[11px]">
               <span className="text-[var(--color-body)]">Bengaluru Time:</span>
               <span className="font-mono font-semibold tabular-nums text-[var(--color-text)]">
-                {timeState.timeWithSec}
+                {kHours}:{kMinutes}:{kSeconds} {kPeriod}
               </span>
             </div>
           </div>
@@ -435,16 +441,16 @@ export function PresenceClock() {
           <div className="mt-3 rounded-xl border border-[color-mix(in_srgb,var(--color-border)_70%,transparent)] bg-[#121418]/60 p-3">
             <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-wider text-[var(--color-muted)]">
               <span>Timezone Sync</span>
-              <span className="font-medium text-[var(--color-accent)]">{timeState.timeDiffText}</span>
+              <span className="font-medium text-[var(--color-accent)]">{timeDiffText}</span>
             </div>
 
             <div className="mt-2.5 grid grid-cols-2 gap-3 text-xs">
               <div className="rounded-lg bg-[var(--color-surface)] p-2">
-                <span className="block text-[10px] text-[var(--color-muted)] truncate" title={timeState.visitorCity}>
-                  📍 {timeState.visitorCity}
+                <span className="block text-[10px] text-[var(--color-muted)] truncate" title={visitorCity}>
+                  📍 {visitorCity}
                 </span>
                 <span className="mt-1 block font-mono font-semibold text-[var(--color-heading)]">
-                  {timeState.visitorTimeStr || "--:--"}
+                  {visitorTimeStr || "--:--"}
                 </span>
               </div>
 
@@ -453,7 +459,7 @@ export function PresenceClock() {
                   ⚡ Sudhanshu (BLR)
                 </span>
                 <span className="mt-1 block font-mono font-semibold text-[var(--color-text)]">
-                  {timeState.timeStr}
+                  {kHours}:{kMinutes}:{kSeconds} {kPeriod}
                 </span>
               </div>
             </div>
