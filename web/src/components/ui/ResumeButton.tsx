@@ -37,14 +37,14 @@ export function ResumeButton({ href }: { href: string }) {
       >
         {/* Header strip */}
         <div className="flex items-center justify-between gap-2 border-b border-[var(--color-border)] bg-[color-mix(in_srgb,var(--color-accent)_6%,transparent)] px-3 py-2">
-          <span className="flex items-center gap-1.5 font-sans text-[10px] font-semibold uppercase tracking-[0.16em] text-[var(--color-secondary)]">
+          <span className="flex items-center gap-1.5 font-sans text-[11px] font-semibold uppercase tracking-[0.15em] text-[var(--color-secondary)]">
             <span
               aria-hidden="true"
               className="h-1.5 w-1.5 rounded-full bg-[var(--color-accent)] shadow-[0_0_6px_color-mix(in_srgb,var(--color-accent)_60%,transparent)]"
             />
             Résumé
           </span>
-          <span className="font-mono text-[10px] text-[var(--color-muted)]">PDF</span>
+          <span className="font-mono text-[11px] font-medium text-[var(--color-muted)]">PDF</span>
         </div>
 
         {/* Document peek — the real PDF first page; a clean label fallback until
