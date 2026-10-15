@@ -97,29 +97,29 @@ export function Contact() {
                     </span>
                   </a>
 
-                  {/* Right Actions: 1-Click Copy Button + Open Gmail Button */}
-                  <div className="flex flex-none items-center gap-2">
+                  {/* Right Action: 1-Click Copy Button */}
+                  <div className="flex flex-none items-center">
                     <button
                       type="button"
                       onClick={copyEmail}
                       aria-label="Copy email address to clipboard"
                       title="Copy email address to clipboard"
-                      className={`focus-accent flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 font-mono text-xs font-medium transition-all duration-150 select-none ${
+                      className={`focus-accent flex items-center gap-1.5 rounded-lg border px-3 py-1.5 font-mono text-xs font-medium transition-all duration-150 select-none ${
                         copied
-                          ? "border-[var(--color-accent)] bg-[color-mix(in_srgb,var(--color-accent)_15%,transparent)] text-[var(--color-accent)]"
-                          : "border-[var(--color-border)] bg-[color-mix(in_srgb,var(--color-surface-2)_80%,transparent)] text-[var(--color-muted)] hover:border-[var(--color-accent)] hover:text-[var(--color-heading)]"
+                          ? "border-[var(--color-accent)] bg-[color-mix(in_srgb,var(--color-accent)_15%,transparent)] text-[var(--color-accent)] shadow-[0_0_12px_color-mix(in_srgb,var(--color-accent)_25%,transparent)]"
+                          : "border-[color-mix(in_srgb,var(--color-border)_80%,transparent)] bg-[color-mix(in_srgb,var(--color-surface-2)_80%,transparent)] text-[var(--color-secondary)] hover:border-[var(--color-accent)] hover:text-[var(--color-heading)]"
                       }`}
                     >
                       {copied ? (
                         <>
-                          <svg viewBox="0 0 24 24" width={14} height={14} aria-hidden="true" className="text-[var(--color-accent)]">
+                          <svg viewBox="0 0 24 24" width={13} height={13} aria-hidden="true" className="text-[var(--color-accent)]">
                             <path d="M20 6L9 17l-5-5" stroke="currentColor" strokeWidth="2.2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
                           </svg>
                           <span>Copied!</span>
                         </>
                       ) : (
                         <>
-                          <svg viewBox="0 0 24 24" width={14} height={14} aria-hidden="true">
+                          <svg viewBox="0 0 24 24" width={13} height={13} aria-hidden="true">
                             <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" strokeWidth="1.8" fill="none" />
                             <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" strokeWidth="1.8" fill="none" />
                           </svg>
@@ -127,20 +127,6 @@ export function Contact() {
                         </>
                       )}
                     </button>
-
-                    <a
-                      href={`https://mail.google.com/mail/?view=cm&fs=1&to=${profile.links.email}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label="Compose in Gmail"
-                      title="Open Gmail compose in new tab"
-                      className="focus-accent flex items-center gap-1 rounded-lg border border-[color-mix(in_srgb,var(--color-accent)_40%,transparent)] bg-[color-mix(in_srgb,var(--color-accent)_10%,transparent)] px-2.5 py-1.5 font-sans text-xs font-medium text-[var(--color-accent)] transition-all duration-150 hover:border-[var(--color-accent)] hover:bg-[color-mix(in_srgb,var(--color-accent)_20%,transparent)] hover:text-white"
-                    >
-                      <span className="hidden sm:inline">Gmail</span>
-                      <svg viewBox="0 0 24 24" width={12} height={12} aria-hidden="true">
-                        <path d="M7 17L17 7M9 7h8v8" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </a>
                   </div>
                 </div>
               </li>
@@ -172,11 +158,13 @@ export function Contact() {
                       </span>
                     </div>
                   </div>
-                  <div className="flex items-center gap-1 font-mono text-xs text-[var(--color-muted)] transition-colors group-hover:text-[var(--color-accent)] pr-1">
-                    <span className="hidden sm:inline">Maps</span>
-                    <svg viewBox="0 0 24 24" width={14} height={14} aria-hidden="true" className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-                      <path d="M7 17L17 7M9 7h8v8" stroke="currentColor" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
+                  <div className="flex flex-none items-center">
+                    <span className="flex items-center gap-1.5 rounded-lg border border-[color-mix(in_srgb,var(--color-border)_80%,transparent)] bg-[color-mix(in_srgb,var(--color-surface-2)_80%,transparent)] px-3 py-1.5 font-mono text-xs font-medium text-[var(--color-secondary)] transition-all duration-150 group-hover:border-[var(--color-accent)] group-hover:text-[var(--color-heading)]">
+                      <span>Maps</span>
+                      <svg viewBox="0 0 24 24" width={12} height={12} aria-hidden="true" className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+                        <path d="M7 17L17 7M9 7h8v8" stroke="currentColor" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </span>
                   </div>
                 </a>
               </li>
