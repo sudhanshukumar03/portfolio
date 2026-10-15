@@ -8,27 +8,6 @@ import { CollaborateCTA } from "@/components/sections/CollaborateCTA";
 import { profile } from "@/content/site";
 
 // Contact — the closing moment. Structured direct channels with instant tactile feedback.
-const ROWS: { label: string; value: string; href: string; tint: string; icon: React.ReactNode }[] = [
-  {
-    label: "Email",
-    value: profile.links.email,
-    href: `mailto:${profile.links.email}`,
-    tint: "var(--color-accent)",
-    icon: (
-      <path d="M3 5.5h18v13H3zM3 6l9 6.5L21 6" stroke="currentColor" strokeWidth="1.6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-    ),
-  },
-  {
-    label: "Location",
-    value: "Bengaluru, Karnataka",
-    href: "https://maps.google.com/?q=Bengaluru,Karnataka",
-    tint: "var(--color-accent)",
-    icon: (
-      <path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11zM12 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z" stroke="currentColor" strokeWidth="1.6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-    ),
-  },
-];
-
 export function Contact() {
   const [copied, setCopied] = useState(false);
 
@@ -86,71 +65,115 @@ export function Contact() {
           {/* Contact routes — real channels as tidy, hairline-divided rows. */}
           <Reveal delay={200}>
             <ul className="mt-8 max-w-2xl border-t border-[color-mix(in_srgb,var(--color-border)_70%,transparent)]">
-              {ROWS.map((r) => {
-                const isEmail = r.label === "Email";
-                return (
-                  <li key={r.label} className="border-b border-[color-mix(in_srgb,var(--color-border)_70%,transparent)]">
-                    <a
-                      href={r.href}
-                      onClick={isEmail ? copyEmail : undefined}
-                      target={r.href.startsWith("http") ? "_blank" : undefined}
-                      rel={r.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                      style={{ ["--rt" as string]: r.tint }}
-                      className="focus-accent group flex items-center gap-4 py-4 transition-colors cursor-pointer"
-                      title={isEmail ? "Click to copy email address" : undefined}
+              {/* Email channel: Direct Gmail Compose + 1-Click Copy Button */}
+              <li className="border-b border-[color-mix(in_srgb,var(--color-border)_70%,transparent)]">
+                <div className="group flex items-center justify-between gap-3 py-4">
+                  {/* Left: Direct link to Gmail Compose */}
+                  <a
+                    href={`https://mail.google.com/mail/?view=cm&fs=1&to=${profile.links.email}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="focus-accent flex min-w-0 flex-1 items-center gap-4 transition-colors"
+                    title="Open Gmail Compose in new tab"
+                  >
+                    <span className="grid h-11 w-11 flex-none place-items-center rounded-lg border border-[color-mix(in_srgb,var(--color-accent)_30%,transparent)] bg-[color-mix(in_srgb,var(--color-accent)_8%,transparent)] text-[var(--color-accent)] transition-colors group-hover:border-[color-mix(in_srgb,var(--color-accent)_60%,transparent)] group-hover:bg-[color-mix(in_srgb,var(--color-accent)_14%,transparent)]">
+                      <svg viewBox="0 0 24 24" width={20} height={20} aria-hidden="true">
+                        <path d="M3 5.5h18v13H3zM3 6l9 6.5L21 6" stroke="currentColor" strokeWidth="1.6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="flex items-center gap-2 font-sans text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--color-muted)]">
+                        <span>Email</span>
+                        <span className="font-mono text-[11px] lowercase tracking-normal text-[var(--color-accent)] opacity-75">
+                          · opens in gmail
+                        </span>
+                      </span>
+                      <span className="block truncate text-[15px] text-[var(--color-heading)] transition-colors group-hover:text-[var(--color-accent)]">
+                        {profile.links.email}
+                      </span>
+                    </span>
+                  </a>
+
+                  {/* Right Actions: 1-Click Copy Button + Open Gmail Button */}
+                  <div className="flex flex-none items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={copyEmail}
+                      aria-label="Copy email address to clipboard"
+                      title="Copy email address to clipboard"
+                      className={`focus-accent flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 font-mono text-xs font-medium transition-all duration-150 select-none ${
+                        copied
+                          ? "border-[var(--color-accent)] bg-[color-mix(in_srgb,var(--color-accent)_15%,transparent)] text-[var(--color-accent)]"
+                          : "border-[var(--color-border)] bg-[color-mix(in_srgb,var(--color-surface-2)_80%,transparent)] text-[var(--color-muted)] hover:border-[var(--color-accent)] hover:text-[var(--color-heading)]"
+                      }`}
                     >
-                      <span className="grid h-11 w-11 flex-none place-items-center rounded-lg border border-[color-mix(in_srgb,var(--rt)_30%,transparent)] bg-[color-mix(in_srgb,var(--rt)_8%,transparent)] text-[var(--rt)] transition-colors group-hover:border-[color-mix(in_srgb,var(--rt)_60%,transparent)] group-hover:bg-[color-mix(in_srgb,var(--rt)_14%,transparent)]">
-                        <svg viewBox="0 0 24 24" width={20} height={20} aria-hidden="true">
-                          {r.icon}
-                        </svg>
-                      </span>
-                      <span className="min-w-0 flex-1">
-                        <span className="flex items-center gap-2 font-sans text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--color-muted)]">
-                          <span>{r.label}</span>
-                          {isEmail && (
-                            <span
-                              className={`font-mono text-[11px] lowercase tracking-normal font-medium transition-all duration-200 ${
-                                copied
-                                  ? "text-[var(--color-accent)] opacity-100"
-                                  : "text-[var(--color-muted)] opacity-50 group-hover:opacity-100"
-                              }`}
-                            >
-                              {copied ? "✓ copied to clipboard" : "· click to copy"}
-                            </span>
-                          )}
-                        </span>
-                        <span className="block truncate text-[15px] text-[var(--color-heading)] transition-colors group-hover:text-[var(--color-text)]">
-                          {r.value}
-                        </span>
-                      </span>
-                      {isEmail ? (
-                        <span className="flex-none font-mono text-[11px] text-[var(--color-muted)] transition-colors group-hover:text-[var(--color-accent)]">
-                          {copied ? (
-                            <svg viewBox="0 0 24 24" width={16} height={16} aria-hidden="true" className="text-[var(--color-accent)]">
-                              <path d="M20 6L9 17l-5-5" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
-                          ) : (
-                            <svg viewBox="0 0 24 24" width={16} height={16} aria-hidden="true" className="text-[var(--color-muted)] transition-colors group-hover:text-[var(--color-accent)]">
-                              <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" strokeWidth="1.8" fill="none" />
-                              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" strokeWidth="1.8" fill="none" />
-                            </svg>
-                          )}
-                        </span>
+                      {copied ? (
+                        <>
+                          <svg viewBox="0 0 24 24" width={14} height={14} aria-hidden="true" className="text-[var(--color-accent)]">
+                            <path d="M20 6L9 17l-5-5" stroke="currentColor" strokeWidth="2.2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                          <span>Copied!</span>
+                        </>
                       ) : (
-                        <svg
-                          viewBox="0 0 24 24"
-                          width={16}
-                          height={16}
-                          aria-hidden="true"
-                          className="flex-none text-[var(--color-muted)] transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[var(--color-accent)]"
-                        >
-                          <path d="M7 17L17 7M9 7h8v8" stroke="currentColor" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
+                        <>
+                          <svg viewBox="0 0 24 24" width={14} height={14} aria-hidden="true">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" strokeWidth="1.8" fill="none" />
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" strokeWidth="1.8" fill="none" />
+                          </svg>
+                          <span>Copy</span>
+                        </>
                       )}
+                    </button>
+
+                    <a
+                      href={`https://mail.google.com/mail/?view=cm&fs=1&to=${profile.links.email}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Compose in Gmail"
+                      title="Open Gmail compose in new tab"
+                      className="focus-accent flex items-center gap-1 rounded-lg border border-[color-mix(in_srgb,var(--color-accent)_40%,transparent)] bg-[color-mix(in_srgb,var(--color-accent)_10%,transparent)] px-2.5 py-1.5 font-sans text-xs font-medium text-[var(--color-accent)] transition-all duration-150 hover:border-[var(--color-accent)] hover:bg-[color-mix(in_srgb,var(--color-accent)_20%,transparent)] hover:text-white"
+                    >
+                      <span className="hidden sm:inline">Gmail</span>
+                      <svg viewBox="0 0 24 24" width={12} height={12} aria-hidden="true">
+                        <path d="M7 17L17 7M9 7h8v8" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
                     </a>
-                  </li>
-                );
-              })}
+                  </div>
+                </div>
+              </li>
+
+              {/* Location channel */}
+              <li className="border-b border-[color-mix(in_srgb,var(--color-border)_70%,transparent)]">
+                <a
+                  href="https://maps.google.com/?q=Bengaluru,Karnataka"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="focus-accent group flex items-center justify-between gap-4 py-4 transition-colors"
+                  title="Open location on Google Maps"
+                >
+                  <div className="flex min-w-0 items-center gap-4">
+                    <span className="grid h-11 w-11 flex-none place-items-center rounded-lg border border-[color-mix(in_srgb,var(--color-accent)_30%,transparent)] bg-[color-mix(in_srgb,var(--color-accent)_8%,transparent)] text-[var(--color-accent)] transition-colors group-hover:border-[color-mix(in_srgb,var(--color-accent)_60%,transparent)] group-hover:bg-[color-mix(in_srgb,var(--color-accent)_14%,transparent)]">
+                      <svg viewBox="0 0 24 24" width={20} height={20} aria-hidden="true">
+                        <path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11zM12 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z" stroke="currentColor" strokeWidth="1.6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </span>
+                    <div className="min-w-0">
+                      <span className="block font-sans text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--color-muted)]">
+                        Location
+                      </span>
+                      <span className="block truncate text-[15px] text-[var(--color-heading)] transition-colors group-hover:text-[var(--color-text)]">
+                        Bengaluru, Karnataka
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-1 font-mono text-xs text-[var(--color-muted)] transition-colors group-hover:text-[var(--color-accent)] pr-1">
+                    <span className="hidden sm:inline">Maps</span>
+                    <svg viewBox="0 0 24 24" width={14} height={14} aria-hidden="true" className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+                      <path d="M7 17L17 7M9 7h8v8" stroke="currentColor" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </div>
+                </a>
+              </li>
             </ul>
           </Reveal>
 

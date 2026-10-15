@@ -34,7 +34,7 @@ const ITEMS: Item[] = [
   { key: "linkedin", label: "LinkedIn", href: profile.links.linkedin, brand: "#0A66C2" },
   { key: "whatsapp", label: "WhatsApp", href: profile.links.whatsapp, brand: "#25D366" },
   { key: "discord", label: "Discord", href: profile.links.discord, brand: "#5865F2" },
-  { key: "gmail", label: "Email", href: `mailto:${profile.links.email}`, brand: "#EA4335" },
+  { key: "gmail", label: "Email", href: `https://mail.google.com/mail/?view=cm&fs=1&to=${profile.links.email}`, brand: "#EA4335" },
 ];
 
 export function SocialIcons({
