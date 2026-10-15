@@ -170,14 +170,14 @@ export function PresenceClock() {
       onMouseEnter={() => setOpen(true)}
       onMouseLeave={() => setOpen(false)}
     >
-      {/* Clean, Normal Ticking Clock Pill */}
+      {/* Clean, Borderless Ticking Clock */}
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
         aria-expanded={open}
         aria-label="Bengaluru local time clock. Hover or click to view timezone and presence details."
         title="Bengaluru, India (IST) · Click for timezone & availability details"
-        className="group flex cursor-pointer items-center gap-2.5 rounded-full border border-[var(--color-border)] bg-[color-mix(in_srgb,var(--color-surface)_85%,transparent)] px-3 py-1.5 text-xs shadow-[0_2px_12px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur-md transition-all duration-200 hover:border-[color-mix(in_srgb,var(--color-accent)_50%,transparent)] hover:bg-[color-mix(in_srgb,var(--color-surface-2)_90%,transparent)] select-none"
+        className="group flex cursor-pointer items-center gap-2 py-1 text-xs select-none transition-opacity duration-150 hover:opacity-85 focus-visible:outline-none"
       >
         {/* Classic Analog Clock with Mechanical "Tick Tick" Second Hand */}
         <span className="relative flex h-4 w-4 shrink-0 items-center justify-center text-[var(--color-accent)]">
