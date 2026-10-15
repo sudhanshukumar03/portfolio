@@ -51,23 +51,25 @@ export function Hero() {
               className="rise flex items-center gap-2.5"
               style={{ ["--rise-delay" as string]: "0ms" }}
             >
-              <span className="status-dot" aria-hidden="true" />
+              <span className="relative flex h-2 w-2 items-center justify-center">
+                <span className="absolute inline-flex h-3.5 w-3.5 animate-ping rounded-full bg-emerald-400 opacity-60 duration-1000" />
+                <span className="radar-glow relative inline-flex h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399]" />
+              </span>
               <span className="font-sans text-[11px] font-semibold uppercase tracking-[0.14em] whitespace-nowrap text-[var(--color-secondary)]">
                 {profile.status}
               </span>
             </div>
 
             {/* Anchor headline — a real positioning claim, not a one-word job
-                title. Two lines, display weight; the copper hairline under
-                "end to end" is the only accent, tying the claim to the trace
-                system. */}
+                title. Two lines, display weight; the copper brushed shimmer under
+                "end to end" brings continuous organic luxury to the masthead. */}
             <h1
               className="rise mt-7 max-w-[22ch] font-display text-[clamp(2rem,4.5vw,3.2rem)] font-semibold leading-[1.12] tracking-[-0.005em] text-[var(--color-text)]"
               style={{ ["--rise-delay" as string]: "120ms" }}
             >
               Full-stack &amp; AI,
               <br />
-              <span className="text-[var(--color-accent)]">end-to-end.</span>
+              <span className="text-shimmer-copper">end-to-end.</span>
             </h1>
 
             {/* Positioning statement — first-person, confident, no filler.

@@ -16,6 +16,7 @@ const SECTIONS = [
 
 function LivePresence() {
   const [time, setTime] = useState<string>("");
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const update = () => {
@@ -24,24 +25,61 @@ function LivePresence() {
         timeZone: "Asia/Kolkata",
         hour: "numeric",
         minute: "2-digit",
+        second: "2-digit",
         hour12: true,
       }).format(now);
       setTime(formatted);
     };
     update();
-    const interval = setInterval(update, 10000);
+    const interval = setInterval(update, 1000);
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <div className="hidden items-center gap-2.5 rounded-full border border-[color-mix(in_srgb,var(--color-border)_70%,transparent)] bg-[color-mix(in_srgb,var(--color-surface)_60%,transparent)] px-3.5 py-1 text-[11px] font-mono text-[var(--color-muted)] backdrop-blur-md md:flex">
-      <span className="relative flex h-1.5 w-1.5">
-        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--color-accent)] opacity-75" />
-        <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[var(--color-accent)]" />
-      </span>
-      <span className="tracking-wider">BLR, IN</span>
-      <span className="text-[var(--color-border)]">·</span>
-      <span className="font-medium text-[var(--color-heading)] tabular-nums">{time || "IST"}</span>
+    <div
+      className="relative hidden md:block"
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
+    >
+      <button
+        type="button"
+        onClick={() => setOpen((prev) => !prev)}
+        aria-expanded={open}
+        className="flex cursor-pointer items-center gap-2.5 rounded-full border border-[color-mix(in_srgb,var(--color-accent)_45%,transparent)] bg-[color-mix(in_srgb,var(--color-surface)_88%,transparent)] px-3.5 py-1.5 text-[11px] font-mono text-[var(--color-muted)] shadow-[0_2px_14px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-md transition-all duration-300 hover:border-[var(--color-accent)] hover:bg-[color-mix(in_srgb,var(--color-surface)_98%,transparent)] hover:shadow-[0_0_20px_color-mix(in_srgb,var(--color-accent)_30%,transparent)]"
+      >
+        {/* Living emerald beacon with dual expanding sonar wave */}
+        <span className="relative flex h-2 w-2 items-center justify-center">
+          <span className="absolute inline-flex h-4 w-4 animate-ping rounded-full bg-emerald-400 opacity-60 duration-1000" />
+          <span className="absolute inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500 opacity-40 blur-[2px]" />
+          <span className="radar-glow relative inline-flex h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399]" />
+        </span>
+        <span className="font-semibold tracking-wider text-[var(--color-heading)]">BLR, IN</span>
+        <span className="text-[var(--color-border)]">·</span>
+        <span className="font-semibold tabular-nums tracking-wide text-[var(--color-heading)]">{time || "IST"}</span>
+      </button>
+
+      {/* Floating status detail popover on hover/click */}
+      <div
+        className={`absolute left-1/2 top-full z-50 mt-2.5 w-64 -translate-x-1/2 rounded-xl border border-[color-mix(in_srgb,var(--color-accent)_45%,transparent)] bg-[#0d0e12]/95 p-3.5 shadow-[0_24px_50px_-12px_rgba(0,0,0,0.9),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-2xl transition-all duration-200 ease-out ${
+          open
+            ? "pointer-events-auto translate-y-0 scale-100 opacity-100"
+            : "pointer-events-none -translate-y-1 scale-95 opacity-0"
+        }`}
+      >
+        <div className="flex items-center justify-between text-[11px] font-mono">
+          <span className="flex items-center gap-1.5 font-semibold text-emerald-400">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+            LIVE TELEMETRY
+          </span>
+          <span className="font-medium text-[var(--color-accent)]">UTC+5:30</span>
+        </div>
+        <div className="mt-2 text-xs font-semibold text-[var(--color-heading)]">
+          Sudhanshu Kumar &mdash; Bengaluru
+        </div>
+        <p className="mt-1 text-[11px] leading-relaxed text-[var(--color-body)]">
+          Actively building systems &amp; available for Full-Stack, Backend, and AI engineering roles.
+        </p>
+      </div>
     </div>
   );
 }

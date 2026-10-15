@@ -2,65 +2,200 @@
 
 import { useEffect, useRef } from "react";
 
-// Ambient Mouse Light Aura — a soft, atmospheric copper luminescence that glides
-// across the deep obsidian substrate behind content. Lerped smoothly with
-// requestAnimationFrame so movement feels silky and physical, never jittery.
+interface Particle {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  size: number;
+  alpha: number;
+  baseAlpha: number;
+}
+
+// Ambient Living Canvas — an atmospheric substrate that combines a breathing
+// copper radial aura with delicate interactive constellation particles.
+// Smoothly tracks pointer position, gently drifts when idle, and connects nearby
+// nodes to the cursor with ultra-fine hairlines.
 export function AmbientAura() {
-  const auraRef = useRef<HTMLDivElement | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
-    const el = auraRef.current;
-    if (!el) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
 
-    // Check for reduced motion or touch-only devices
     if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
-    if (window.matchMedia?.("(pointer: coarse)").matches) return;
 
-    let targetX = window.innerWidth / 2;
-    let targetY = window.innerHeight * 0.3;
-    let currentX = targetX;
-    let currentY = targetY;
+    const ctx = canvas.getContext("2d", { alpha: true });
+    if (!ctx) return;
+
+    let width = 0;
+    let height = 0;
+    let dpr = 1;
+
+    let mouseX = -9999;
+    let mouseY = -9999;
+    let targetAuraX = 0;
+    let targetAuraY = 0;
+    let currentAuraX = 0;
+    let currentAuraY = 0;
+    let hasUserMoved = false;
     let rafId = 0;
-    let isMoving = false;
 
-    const onPointerMove = (e: PointerEvent) => {
-      targetX = e.clientX;
-      targetY = e.clientY;
-      if (!isMoving) {
-        isMoving = true;
-        el.style.opacity = "1";
+    const particles: Particle[] = [];
+    const PARTICLE_COUNT = 38;
+
+    const resize = () => {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+      ctx.scale(dpr, dpr);
+
+      if (!hasUserMoved) {
+        targetAuraX = width * 0.55;
+        targetAuraY = height * 0.35;
+        currentAuraX = targetAuraX;
+        currentAuraY = targetAuraY;
       }
     };
 
-    const update = () => {
-      // Smooth linear interpolation (lerp factor 0.08 for fluid inertia)
-      currentX += (targetX - currentX) * 0.08;
-      currentY += (targetY - currentY) * 0.08;
-
-      el.style.setProperty("--aura-x", `${currentX.toFixed(1)}px`);
-      el.style.setProperty("--aura-y", `${currentY.toFixed(1)}px`);
-
-      rafId = requestAnimationFrame(update);
+    const initParticles = () => {
+      particles.length = 0;
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
+        const baseAlpha = 0.12 + Math.random() * 0.28;
+        particles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.22,
+          vy: -0.15 - Math.random() * 0.2, // Gentle upward drift
+          size: 1 + Math.random() * 1.5,
+          alpha: baseAlpha,
+          baseAlpha,
+        });
+      }
     };
 
+    resize();
+    initParticles();
+
+    const onPointerMove = (e: PointerEvent) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      targetAuraX = e.clientX;
+      targetAuraY = e.clientY;
+      hasUserMoved = true;
+    };
+
+    const onPointerLeave = () => {
+      mouseX = -9999;
+      mouseY = -9999;
+      hasUserMoved = false;
+    };
+
+    window.addEventListener("resize", resize, { passive: true });
     window.addEventListener("pointermove", onPointerMove, { passive: true });
-    rafId = requestAnimationFrame(update);
+    document.addEventListener("pointerleave", onPointerLeave, { passive: true });
+
+    let lastTime = performance.now();
+
+    const render = (now: number) => {
+      const dt = Math.min((now - lastTime) / 1000, 0.1);
+      lastTime = now;
+
+      ctx.clearRect(0, 0, width, height);
+
+      // Idle breathing drift when user is not moving mouse
+      let effTargetX = targetAuraX;
+      let effTargetY = targetAuraY;
+      if (!hasUserMoved) {
+        effTargetX += Math.sin(now * 0.0006) * 70;
+        effTargetY += Math.cos(now * 0.0005) * 50;
+      }
+
+      // Fluid inertia tracking
+      currentAuraX += (effTargetX - currentAuraX) * 0.065;
+      currentAuraY += (effTargetY - currentAuraY) * 0.065;
+
+      // 1. Draw Living Ambient Radial Luminescence
+      const auraRadius = Math.max(width * 0.45, 520);
+      const gradient = ctx.createRadialGradient(
+        currentAuraX,
+        currentAuraY,
+        0,
+        currentAuraX,
+        currentAuraY,
+        auraRadius
+      );
+      gradient.addColorStop(0, "rgba(201, 168, 120, 0.16)"); // Champagne copper core
+      gradient.addColorStop(0.35, "rgba(201, 168, 120, 0.07)");
+      gradient.addColorStop(0.7, "rgba(201, 168, 120, 0.02)");
+      gradient.addColorStop(1, "rgba(201, 168, 120, 0)");
+
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, width, height);
+
+      // 2. Draw Interactive Constellation Particles & Hairlines
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+
+        p.x += p.vx * (dt * 60);
+        p.y += p.vy * (dt * 60);
+
+        // Wrap around screen bounds
+        if (p.x < 0) p.x = width;
+        else if (p.x > width) p.x = 0;
+        if (p.y < 0) p.y = height;
+        else if (p.y > height) p.y = 0;
+
+        // Proximity response to mouse
+        const dx = mouseX - p.x;
+        const dy = mouseY - p.y;
+        const dist = Math.hypot(dx, dy);
+        const maxDist = 130;
+
+        if (dist < maxDist) {
+          const proximity = 1 - dist / maxDist;
+          p.alpha = p.baseAlpha + proximity * 0.55;
+
+          // Gentle hairline tether to mouse
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(mouseX, mouseY);
+          ctx.strokeStyle = `rgba(201, 168, 120, ${(proximity * 0.22).toFixed(3)})`;
+          ctx.lineWidth = 0.75;
+          ctx.stroke();
+        } else {
+          p.alpha += (p.baseAlpha - p.alpha) * 0.05;
+        }
+
+        // Draw particle dot
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(201, 168, 120, ${p.alpha.toFixed(3)})`;
+        ctx.fill();
+      }
+
+      rafId = requestAnimationFrame(render);
+    };
+
+    rafId = requestAnimationFrame(render);
 
     return () => {
+      window.removeEventListener("resize", resize);
       window.removeEventListener("pointermove", onPointerMove);
+      document.removeEventListener("pointerleave", onPointerLeave);
       cancelAnimationFrame(rafId);
     };
   }, []);
 
   return (
-    <div
-      ref={auraRef}
+    <canvas
+      ref={canvasRef}
       aria-hidden="true"
-      className="pointer-events-none fixed inset-0 z-0 overflow-hidden opacity-0 transition-opacity duration-700 motion-reduce:hidden"
-      style={{
-        background:
-          "radial-gradient(750px circle at var(--aura-x, 50vw) var(--aura-y, 30vh), color-mix(in srgb, var(--color-accent) 7.5%, transparent), transparent 68%)",
-      }}
+      className="pointer-events-none fixed inset-0 z-0 h-full w-full opacity-100 transition-opacity duration-1000 motion-reduce:hidden"
     />
   );
 }

@@ -622,6 +622,50 @@ body::before {
   }
 }
 
+/* Liveliness: subtle brushed copper shimmer across hero accent */
+@keyframes text-shimmer {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.text-shimmer-copper {
+  background: linear-gradient(
+    105deg,
+    #c9a878 0%,
+    #e8d3b4 35%,
+    #ffffff 50%,
+    #e8d3b4 65%,
+    #c9a878 100%
+  );
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: text-shimmer 7s ease-in-out infinite;
+}
+
+/* Living Radar Beacon Glow */
+@keyframes radar-glow {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: drop-shadow(0 0 6px rgba(52, 211, 153, 0.8));
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(0.96);
+    filter: drop-shadow(0 0 12px rgba(52, 211, 153, 0.95));
+  }
+}
+
+.radar-glow {
+  animation: radar-glow 2.4s ease-in-out infinite;
+}
+
 /* Respect reduced motion — everything renders at rest, no draw. */
 @media (prefers-reduced-motion: reduce) {
   .trace-line {
