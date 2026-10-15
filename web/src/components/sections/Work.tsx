@@ -227,22 +227,22 @@ function ProjectIndex({ projects }: { projects: Project[] }) {
 function ProjectPreview({ project }: { project: Project }) {
   if (project.image) {
     return (
-      <div className="group/preview relative aspect-[16/10] w-full overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-2)] shadow-2xl transition-all duration-300 hover:border-[var(--color-accent)]/50">
+      <div className="group/preview relative aspect-[16/9] w-full overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-2)] shadow-2xl transition-all duration-300 hover:border-[var(--color-accent)]/50">
         <Image
           src={project.image}
           alt={`Interface screenshot of ${project.name}`}
           fill
           unoptimized
           sizes="(min-width: 1024px) 45vw, 95vw"
-          className="object-cover object-top transition-transform duration-500 ease-out group-hover/preview:scale-[1.02]"
+          className="object-contain object-center transition-transform duration-500 ease-out group-hover/preview:scale-[1.01]"
         />
-        <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-white/[0.08] bg-gradient-to-t from-[var(--color-base)]/15 via-transparent to-white/[0.04]" />
+        <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-white/[0.08]" />
       </div>
     );
   }
 
   return (
-    <div className="relative aspect-[16/10] w-full overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-2)]">
+    <div className="relative aspect-[16/9] w-full overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-2)]">
       <div className="absolute inset-0 grid place-items-center">
         <div className="flex flex-col items-center gap-2 text-center">
           <span className="font-sans text-[11px] font-medium uppercase tracking-[0.12em] text-[var(--color-secondary)]">
