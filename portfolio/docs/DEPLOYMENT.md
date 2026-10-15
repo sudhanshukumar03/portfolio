@@ -1,27 +1,29 @@
-# Deployment
+# Deployment Architecture & CI/CD
 
-## Hosting
-[e.g. Vercel — pick based on framework choice in TECH-STACK.md]
+## Hosting Platform
+- **Frontend & Web Client**: **Vercel** — deployed directly from GitHub repository `sudhanshukumar03/portfolio`.
+- **Environment**: Next.js 16 Edge / Node.js runtime with global CDN edge caching for static assets and images.
 
-## Domain
-[yourname.dev] or [yourname.com] — a `.dev` domain reads well
-specifically for a developer portfolio.
+## Repository & Branch Strategy
+- **Repository**: [github.com/sudhanshukumar03/portfolio](https://github.com/sudhanshukumar03/portfolio)
+- **Primary Branch**: `main` — commits automatically trigger production build and deployment.
+- **Preview Branches**: Pull requests generate preview deployments for staging review.
 
-## CI/CD
-- Push to `main` → automatic production deploy
-- Pull requests → automatic preview deploy for review before merge
-- Build must pass: type check, lint, and a Lighthouse CI threshold
-  (see `PERFORMANCE.md` targets) before merge is allowed
+## CI/CD Pipeline
+- **Continuous Integration**:
+  - `npm run typecheck` — strict TypeScript verification across all components and content modules.
+  - `npm run lint` — ESLint validation.
+  - `npm run build` — Next.js production bundle compilation and static route pre-rendering.
 
 ## Environments
-| Environment | Branch | URL |
-|---|---|---|
-| Production | `main` | [yourdomain] |
-| Preview | any PR | auto-generated preview URL |
+| Environment | Branch | Hosting Provider | Purpose |
+|---|---|---|---|
+| **Production** | `main` | Vercel Edge Network | Live public portfolio |
+| **Preview** | Feature branches / PRs | Vercel Preview Deployments | Staging visual verification |
 
-## Pre-deploy checklist
-- [ ] Resume PDF is current (see `RESUME.md` checklist)
-- [ ] All project links (live + GitHub) return 200, not 404
-- [ ] Contact email is correct and tested
-- [ ] Lighthouse scores meet `PERFORMANCE.md` targets
-- [ ] Accessibility checklist in `ACCESSIBILITY.md` passed
+## Pre-Deploy Verification Checklist
+- [x] Resume PDF (`Sudhanshu-Kumar-Resume.pdf`) generated and verified via Chrome headless.
+- [x] All external project URLs (Context, KRAMA OS, LedgerMind, HealthGuard) return HTTP 200.
+- [x] Primary communication channels (Email, LinkedIn, GitHub) verified.
+- [x] Responsive layout verified across mobile (375px), tablet (768px), and desktop (1440px).
+- [x] 100% build health verified locally prior to push.

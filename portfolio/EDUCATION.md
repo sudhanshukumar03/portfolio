@@ -1,13 +1,18 @@
-# Education
+# Education & Academic Foundations
 
-## [Degree] in [Field]
-**[Institution Name]** · [Start Year] – [End Year]
+## Bachelor of Engineering (B.E.) — Electronics & Communication Engineering
+**JSS Academy of Technical Education, Bengaluru** · 2023 – 2027
+- **Academic Standing**: 4th Year · 7th Semester · CGPA **7.6 / 10**
+- **Core Coursework**: Data Structures & Algorithms, Object-Oriented Programming (C++), Computer Communication Networks, Microcontrollers & Embedded Systems, Digital Signal Processing, Operating Systems, Linear Integrated Circuits.
 
-[One line on relevant focus, thesis, or honors, if applicable — skip if none.]
+---
 
-## Certifications
-- [Certification name] — [Issuing body], [Year]
-- [Certification name] — [Issuing body], [Year]
+## Secondary & Higher Secondary Education
+- **Senior Secondary (Class XII)** — CBSE: 72%
+- **Secondary School (Class X)** — CBSE: 82%
 
-Only list certifications you can speak to in detail in an interview.
-Cut anything padded.
+---
+
+## Key Technical Foundations
+- **Embedded & Hardware Systems**: ESP32 microcontroller architecture, ADC sampling & digital calibration, serial protocols (UART, SPI, I2C), hardware interrupts, and real-time sensor processing.
+- **Computer Science Fundamentals**: Algorithm design, memory management in C++, time/space complexity trade-offs, network socket programming, and relational database indexing.

@@ -48,8 +48,7 @@ avoids a third-party font CDN as a render-blocking dependency and a
 privacy/perf cost.
 
 ## Analytics
-[e.g. Plausible or Vercel Analytics — privacy-respecting, no cookie banner
-required] — optional, add only if you'll actually look at it.
+**Vercel Web Analytics** (privacy-friendly, cookieless, zero consent banner needed).
 
 ## Form handling
 Not used. Contact is a plain `mailto:` link — simpler, zero failure modes.

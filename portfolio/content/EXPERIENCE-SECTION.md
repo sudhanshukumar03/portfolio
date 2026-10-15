@@ -1,19 +1,19 @@
 # Content: Experience Section
 
-Optional on the main page if early-career — can be folded into About
-instead. Include as its own section once you have 2+ real roles.
-
 ## Heading
-Experience
+Engineering Experience
 
-## Entries (condensed from root EXPERIENCE.md — one line of impact per role)
+## Subheading
+Systems, distributed services, and end-to-end applications designed, built, and shipped.
 
-### [Job Title] — [Company]
-[Start] – [End] · [One standout impact bullet only — full detail lives
-in root EXPERIENCE.md, not needed on the scroll page]
+## Entries
 
-### [Job Title] — [Company]
-[Start] – [End] · [One standout impact bullet]
+### Full-Stack & Systems Engineer — Independent Engineering
+**2023 – Present · Bengaluru, Karnataka**
+- **Context**: Architected an autonomous incident intelligence platform mapping microservice causal topologies, isolating root causes in seconds, and dry-running remediation commands in an in-memory sandbox.
+- **KRAMA OS**: Engineered a unified workspace monorepo connecting notes, sprint issues, and habits under one schema, featuring Redis-backed BullMQ workers and a pgvector RAG pipeline.
+- **LedgerMind**: Built an automated financial reconciliation engine matching Razorpay gateway events, bank UTRs, and settlements via a 4-tier deterministic waterfall before AI exception analysis.
+- **HealthGuard**: Created a biomedical telemetry pipeline interfacing ESP32 biosensors (ECG, SpO2, Temperature) to a 60 FPS HTML5 Canvas dashboard via WebSockets.
 
 ## Link
-"Full resume" → triggers the PDF download from `RESUME.md`
+"Download Complete Resume (PDF)" → `Sudhanshu-Kumar-Resume.pdf`

@@ -1,27 +1,30 @@
 # Content: Skills Section
 
 ## Heading
-Skills
+Technical Proficiencies
 
-## Groups (tags only, no bars/ratings — see DESIGN-SYSTEM.md)
+## Subheading
+Disciplines, runtimes, and engineering tools backed by shipped code and active implementations.
 
-**Languages**
-[tag, tag, tag]
+## Groups (Verified Tags)
 
-**Frontend**
-[tag, tag, tag]
+**Core Languages**
+`TypeScript`, `JavaScript (ESNext)`, `C++`, `Python`, `SQL`, `HTML5/CSS3`
 
-**Backend**
-[tag, tag, tag]
+**Frontend Engineering**
+`React 19`, `Next.js 16 (App Router)`, `Vite 7`, `Tailwind CSS`, `Tiptap Editor`, `TanStack Query`, `Zustand`, `CSS Architecture`
 
-**Databases & Infra**
-[tag, tag, tag]
+**Backend & Architecture**
+`Node.js`, `Express 5.0`, `NestJS`, `FastAPI`, `REST APIs`, `Server-Sent Events (SSE)`, `BullMQ`, `Redis Queues`, `Microservices`
 
-**Tools**
-[tag, tag, tag]
+**Databases & Storage**
+`PostgreSQL 16`, `Drizzle ORM`, `Prisma ORM`, `pgvector`, `Redis`, `MongoDB`, `Relational Modeling`
 
-## Display rule
-Plain tags, muted color, hairline border only — no progress bars, no
-star ratings, no percentage claims. These are unverifiable and read as
-templated; a tag tied to visible project work is more credible than a
-self-rated skill level.
+**Applied AI & Agents**
+`OpenAI API`, `Google Gemini API`, `LangChain`, `LangGraph`, `RAG Pipelines`, `Hybrid Retrieval`, `AI Response Caching`
+
+**DevOps, Cloud & Embedded**
+`Docker`, `Docker Compose`, `Git`, `GitHub Actions`, `pnpm`, `Vercel`, `Railway`, `ESP32`, `FreeRTOS`, `I2C/SPI Protocols`
+
+## Display Rule
+Rendered as clean hairline-bordered tags in editorial muted tone. Zero vanity bars, zero percentage meters.

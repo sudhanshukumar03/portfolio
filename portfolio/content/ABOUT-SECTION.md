@@ -1,20 +1,23 @@
 # Content: About Section
 
-Shorter than the full `ABOUT.md` — this is the on-page version. Full
-long-form bio lives in the root `ABOUT.md`.
-
 ## Heading
 About
 
-## Body (3–5 sentences max)
-[Condensed version of ABOUT.md's long version — who you are, what you
-focus on, one specific personal detail. Written to be read in under 20
-seconds.]
+## Subheading
+Engineering from silicon to cloud.
 
-## Optional photo
-[Path — only if it adds something the hero photo doesn't; skip if
-redundant]
+## Body (On-Page Version)
+I am an engineer focused on software engineering, full-stack systems, and practical generative AI, currently in my final year of Electronics & Communication Engineering at JSS Academy of Technical Education, Bengaluru. 
+
+My engineering background bridges physical hardware rigor—embedded sensors, signal sampling, and RTOS fundamentals—with modern distributed software: Next.js, Node.js/NestJS, PostgreSQL, and autonomous AI reasoning pipelines. 
+
+I believe in **deterministic logic first and applied AI second**: in systems like Context and LedgerMind, mathematical invariants and exact rule engines do the heavy lifting, while LLMs are strictly scoped to causal explanation and anomaly investigation.
+
+## Location & Roots
+- **Based in**: Bengaluru, Karnataka, India
+- **Origin**: Patna, Bihar
+- **Status**: Open to full-time Software Engineering / Full-Stack roles (2026/2027)
 
 ## Link
-"Full story" → could link to a `/about` page or expand inline, if you
-want more depth available without cluttering the main scroll
+- "Read full background & engineering values" → links to `portfolio/ABOUT.md`
+- "Download Resume (PDF)" → `Sudhanshu-Kumar-Resume.pdf`

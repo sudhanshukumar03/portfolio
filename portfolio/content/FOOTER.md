@@ -1,15 +1,15 @@
 # Content: Footer
 
 ## Left
-© [Year] [Your Name]
+© 2026 Sudhanshu Kumar. All rights reserved.
 
-## Center (optional)
-[A short line — e.g. "Built with Next.js, deployed on Vercel" — a nice
-touch on a dev portfolio since visitors will look]
+## Center
+Designed with Editorial-Swiss restraint · Built with Next.js 16, React 19 & Tailwind CSS.
 
 ## Right
-[Back to top link] or [social icons repeated, small]
+- [GitHub](https://github.com/sudhanshukumar03)
+- [LinkedIn](https://www.linkedin.com/in/sudhanshu-kumar-7284b328a)
+- [Back to top (#top)]
 
-## Display rule
-Quiet, small type, muted color. The footer's job is to close the page
-cleanly — it should not introduce a new accent-color moment.
+## Display Rule
+Quiet, small type, muted color. Crisp hairline borders. Zero decorative clutter.

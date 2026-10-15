@@ -1,29 +1,26 @@
 # Content: Hero Section
 
-## Eyebrow / status line (small, body type, muted)
-[Optional — e.g. "Available for new roles" — the text itself stays
-`--text-secondary` at all times. A small non-text dot/marker placed
-next to it gets the single accent-color pulse on load, since accent
-fails contrast at this text size — see docs/ANIMATIONS.md and the
-"Accent usage constraint" in docs/DESIGN-SYSTEM.md]
+## Eyebrow / status line
+- **Status text**: Open to engineering roles · 2026/2027
+- **Accent dot**: Pulsing amber/copper indicator dot beside the status line.
 
-## Name (display type, oversized)
-[Your Name]
+## Name
+Sudhanshu Kumar
 
-## Role (subheading, below or overlapping name)
-[Full-Stack Developer]
+## Role
+Full-Stack & Systems Developer
 
-## Tagline (one line, body type, muted color)
-[Specific value prop — e.g. "I build fast, reliable web apps end to
-end." Avoid generic phrases like "passionate developer" or "lifelong
-learner."]
+## Tagline
+I build resilient full-stack web applications, distributed backend services, and applied AI systems with strict invariants and clean ergonomics.
 
 ## Primary CTA
-Label: "View Work" → scrolls to Selected Work section
+- **Label**: "Explore Selected Work" → scrolls to `#work` section.
+- **Secondary CTA**: "View Resume" → downloads `Sudhanshu-Kumar-Resume.pdf`.
 
-## Secondary links (small, inline)
-GitHub · LinkedIn · [Email icon/link]
+## Secondary links
+- GitHub: [github.com/sudhanshukumar03](https://github.com/sudhanshukumar03)
+- LinkedIn: [linkedin.com/in/sudhanshu-kumar-7284b328a](https://www.linkedin.com/in/sudhanshu-kumar-7284b328a)
+- Email: [sudhanshu.kumar.ece23@jssateb.ac.in](mailto:sudhanshu.kumar.ece23@jssateb.ac.in)
 
-## Image
-[Path to hero photo — high-contrast B&W/duotone treatment, positioned
-overlapping the name type per docs/DESIGN-SYSTEM.md and docs/UI-UX.md]
+## Image & Visual Frame
+- Editorial duo-tone portrait or interactive system canvas hero frame with warm dark backdrop and hairline borders per `docs/DESIGN-SYSTEM.md`.

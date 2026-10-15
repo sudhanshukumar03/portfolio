@@ -1,19 +1,21 @@
 # Content: Contact Section
 
 ## Heading
-Let's talk / Get in touch
-[Pick one tone — "Let's talk" is warmer, "Get in touch" is more neutral]
+Establish connection
 
-## Body (one or two sentences)
-[e.g. "I'm currently open to full-time roles and select freelance
-work. The fastest way to reach me is email."]
+## Body
+I take on work worth doing — real users, hard distributed systems problems, and teams that ship. If you have an engineering role or challenging project, let's talk.
 
-## Primary CTA
-[you@domain.com] — displayed large, click-to-copy or mailto: link,
-NOT a contact form as the primary path
+## Primary Route (Direct Email)
+`sudhanshu.kumar.ece23@jssateb.ac.in`
+- Click-to-copy and direct `mailto:` link.
+- Personal inbox checked multiple times daily.
 
-## Secondary links
-GitHub · LinkedIn · Resume (download)
+## Direct Channels
+- **Email**: [sudhanshu.kumar.ece23@jssateb.ac.in](mailto:sudhanshu.kumar.ece23@jssateb.ac.in)
+- **GitHub**: [github.com/sudhanshukumar03](https://github.com/sudhanshukumar03)
+- **LinkedIn**: [linkedin.com/in/sudhanshu-kumar-7284b328a](https://www.linkedin.com/in/sudhanshu-kumar-7284b328a)
+- **Location**: Bengaluru, Karnataka (Open to local on-site or global remote roles)
 
-## Availability line
-[Must match CONTACT.md exactly — keep both in sync]
+## Availability Line
+Open to full-time Software Engineer, Backend Engineer, and Full-Stack roles (2026/2027) and select high-impact technical engagements.

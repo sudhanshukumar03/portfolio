@@ -1,36 +1,29 @@
-# [Project Name]
+# Project Specification Template
 
-> Copy this file to `[PROJECT-NAME].md` when starting a new project entry.
+> Reusable template for future projects. Copy this file to `projects/<PROJECT_NAME>.md` when adding a new project entry.
 
-## Summary
-One sentence: what it is and who it's for.
+## 1. Summary
+[One concise sentence: what the system is, what it accomplishes, and who uses it.]
 
-## The problem
-What need or gap this project addresses. Specific, not "I wanted to
-learn X."
+## 2. The Core Problem
+[Specific problem, broken state, or operational bottleneck this system addresses.]
 
-## My role
-[Solo project / Team of X — your specific responsibility]
+## 3. Architecture & Invariants
+[High-level system topology, data flow, and fundamental engineering rules.]
 
-## Tech stack
-- Frontend: [...]
-- Backend: [...]
-- Database: [...]
-- Infra: [...]
+## 4. Key Subsystems Built
+- **[Subsystem 1]**: [Technical responsibility, libraries, data storage]
+- **[Subsystem 2]**: [Technical responsibility, libraries, data storage]
+- **[Subsystem 3]**: [Technical responsibility, libraries, data storage]
 
-## Key features
-- [Feature — described by what it does for the user, not how it's built]
-- [Feature]
-- [Feature]
+## 5. Technical Decisions & Trade-Offs
+- **[Decision 1]**: [Why this choice over alternatives, and what it traded off against]
+- **[Decision 2]**: [Why this choice over alternatives, and what it traded off against]
 
-## Technical challenges
-- [Challenge] → [how you solved it, briefly]
+## 6. Challenges & Hard Bugs Solved
+- **[Challenge]** → [Root cause and engineering resolution]
 
-## Links
-- Live: [url]
-- GitHub: [url]
-- Case study: `case-studies/[PROJECT-NAME]-CASE-STUDY.md`
-
-## Media
-- Screenshot: `public/images/projects/[name]/hero.png`
-- Demo GIF (optional): `public/images/projects/[name]/demo.gif`
+## 7. Links & Documentation
+- **Live Codebase**: [Repository URL]
+- **Case Study**: `case-studies/<PROJECT_NAME>-CASE-STUDY.md`
+- **Image**: `public/images/<project_name>.png`
