@@ -7,12 +7,14 @@
 // substring of `title` to tint; it falls back to the plain title if it doesn't
 // match.
 export function SectionHeading({
+  index,
   title,
   accent,
   eyebrow,
   subtitle,
   className = "",
 }: {
+  index?: string;
   title: string;
   accent?: string;
   eyebrow?: string;
@@ -26,25 +28,31 @@ export function SectionHeading({
   return (
     <div className={`space-y-2.5 ${className}`}>
       {eyebrow && (
-        <div className="flex items-center gap-2.5 font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--color-accent)]">
-          <span className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--color-accent)] shadow-[0_0_8px_var(--color-accent)]" />
+        <div className="flex items-center gap-2.5 font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--color-secondary)]">
+          {index ? (
+            <span className="inline-flex items-center gap-2 font-mono font-bold tracking-[0.08em] text-[var(--color-accent)]">
+              <span className="rounded border border-[color-mix(in_srgb,var(--color-accent)_35%,transparent)] bg-[color-mix(in_srgb,var(--color-accent)_10%,transparent)] px-1.5 py-0.5 text-[10px] tabular-nums text-[var(--color-accent)] shadow-[0_0_8px_color-mix(in_srgb,var(--color-accent)_18%,transparent)]">
+                {index}
+              </span>
+              <span className="text-[var(--color-border)] select-none">/</span>
+            </span>
+          ) : (
+            <span className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--color-accent)] shadow-[0_0_8px_var(--color-accent)]" />
+          )}
           <span>{eyebrow}</span>
+          <span aria-hidden="true" className="h-px w-8 bg-gradient-to-r from-[color-mix(in_srgb,var(--color-border)_85%,transparent)] to-transparent" />
         </div>
       )}
-      <h2 className="flex items-center gap-3.5 max-w-3xl text-balance font-display text-[clamp(2.1rem,4.8vw,3.25rem)] font-bold leading-[1.05] tracking-[-0.038em] text-[var(--color-heading)]">
-        {!eyebrow && (
-          <span
-            aria-hidden="true"
-            className="h-2 w-2 flex-none rounded-full bg-[var(--color-accent)] shadow-[0_0_8px_var(--color-accent)]"
-          />
+      <h2 className="max-w-3xl text-balance font-display text-[clamp(2.1rem,4.5vw,3.15rem)] font-bold leading-[1.08] tracking-[-0.038em] text-[var(--color-heading)]">
+        <span>{lead}</span>
+        {tail && (
+          <span className="bg-gradient-to-r from-[#ff5e4f] via-[var(--color-accent)] to-[#ff4735] bg-clip-text text-transparent drop-shadow-[0_0_16px_color-mix(in_srgb,var(--color-accent)_25%,transparent)]">
+            {tail}
+          </span>
         )}
-        <span>
-          {lead}
-          {tail && <span className="text-[var(--color-accent)]">{tail}</span>}
-        </span>
       </h2>
       {subtitle && (
-        <p className="mt-1 max-w-[64ch] text-[clamp(1.05rem,1.35vw,1.22rem)] font-medium leading-[1.68] text-[var(--color-body)] text-pretty">
+        <p className="mt-1 max-w-[64ch] text-[clamp(1.02rem,1.25vw,1.15rem)] font-normal leading-[1.68] text-[var(--color-body)] text-pretty">
           {subtitle}
         </p>
       )}

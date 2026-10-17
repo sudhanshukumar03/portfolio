@@ -62,7 +62,7 @@ export function HireRoles() {
 
   return (
     <div className="mt-8">
-      <p className="font-sans text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--color-muted)]">
+      <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--color-muted)]">
         Hiring for a role?
       </p>
       <div className="mt-3 flex flex-wrap gap-2.5">

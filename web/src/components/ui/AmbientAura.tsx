@@ -129,54 +129,13 @@ export function AmbientAura() {
         currentAuraY,
         auraRadius
       );
-      gradient.addColorStop(0, "rgba(250, 204, 21, 0.12)"); // Radiant yellow core
-      gradient.addColorStop(0.35, "rgba(250, 204, 21, 0.05)");
-      gradient.addColorStop(0.7, "rgba(250, 204, 21, 0.015)");
-      gradient.addColorStop(1, "rgba(250, 204, 21, 0)");
+      gradient.addColorStop(0, "rgba(234, 46, 32, 0.12)"); // Radiant scarlet core
+      gradient.addColorStop(0.35, "rgba(234, 46, 32, 0.05)");
+      gradient.addColorStop(0.7, "rgba(234, 46, 32, 0.015)");
+      gradient.addColorStop(1, "rgba(234, 46, 32, 0)");
 
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, width, height);
-
-      // 2. Draw Interactive Constellation Particles & Hairlines
-      for (let i = 0; i < particles.length; i++) {
-        const p = particles[i];
-
-        p.x += p.vx * (dt * 60);
-        p.y += p.vy * (dt * 60);
-
-        // Wrap around screen bounds
-        if (p.x < 0) p.x = width;
-        else if (p.x > width) p.x = 0;
-        if (p.y < 0) p.y = height;
-        else if (p.y > height) p.y = 0;
-
-        // Proximity response to mouse
-        const dx = mouseX - p.x;
-        const dy = mouseY - p.y;
-        const dist = Math.hypot(dx, dy);
-        const maxDist = 130;
-
-        if (dist < maxDist) {
-          const proximity = 1 - dist / maxDist;
-          p.alpha = p.baseAlpha + proximity * 0.55;
-
-          // Gentle hairline tether to mouse
-          ctx.beginPath();
-          ctx.moveTo(p.x, p.y);
-          ctx.lineTo(mouseX, mouseY);
-          ctx.strokeStyle = `rgba(250, 204, 21, ${(proximity * 0.22).toFixed(3)})`;
-          ctx.lineWidth = 0.75;
-          ctx.stroke();
-        } else {
-          p.alpha += (p.baseAlpha - p.alpha) * 0.05;
-        }
-
-        // Draw particle dot
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(250, 204, 21, ${p.alpha.toFixed(3)})`;
-        ctx.fill();
-      }
 
       rafId = requestAnimationFrame(render);
     };

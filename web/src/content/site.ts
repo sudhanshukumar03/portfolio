@@ -1,5 +1,4 @@
-// Single typed source of truth for on-page content.
-// Mirrors portfolio/content/* and portfolio/projects/*. Sections import from here.
+// Single typed source of truth for on-page content. Sections import directly from here.
 
 export const profile = {
   name: "Sudhanshu Kumar",
@@ -23,8 +22,8 @@ export const profile = {
     x: "https://x.com/Sudhans69033589",
     email: "sksingh032003@gmail.com",
     phone: "+91 93043 72352",
-    // WhatsApp deep link — opens a chat directly (digits only, country code, no +).
-    whatsapp: "https://wa.me/919304372352",
+    // WhatsApp deep link — opens chat directly on mobile & desktop with prefilled greeting.
+    whatsapp: "https://wa.me/919304372352?text=Hi%20Sudhanshu,%20I%20saw%20your%20portfolio%20and%20wanted%20to%20connect!",
     discord: "https://discord.gg/bWaqCsvV4",
     // Résumé — drop the PDF at web/public/resume/ under this exact filename.
     resume: "/resume/Sudhanshu-Kumar-Resume.pdf",

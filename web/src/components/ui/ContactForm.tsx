@@ -52,10 +52,15 @@ export function ContactForm() {
     return () => window.removeEventListener("prefill-contact", onPrefill as EventListener);
   }, []);
 
+  const mailSubject = encodeURIComponent(subject || (name ? `Portfolio message from ${name}` : "Portfolio inquiry"));
+  const mailBody = encodeURIComponent(
+    message ? `${message}${name || email ? `\n\n— ${name}${email ? ` (${email})` : ""}` : ""}` : ""
+  );
+  const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${profile.links.email}&su=${mailSubject}&body=${mailBody}`;
+  const mailtoUrl = `mailto:${profile.links.email}?subject=${mailSubject}&body=${mailBody}`;
+
   const mailtoFallback = () => {
-    const subj = encodeURIComponent(subject || `Portfolio message from ${name || "someone"}`);
-    const body = encodeURIComponent(`${message}\n\n— ${name}${email ? ` (${email})` : ""}`);
-    window.location.href = `mailto:${profile.links.email}?subject=${subj}&body=${body}`;
+    window.location.href = mailtoUrl;
   };
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -87,8 +92,14 @@ export function ContactForm() {
           from_name: "Portfolio Contact Form",
         }),
       });
-      const data = await res.json();
-      if (data.success) {
+      let data: { success?: boolean; message?: string } = {};
+      try {
+        data = await res.json();
+      } catch {
+        // Non-JSON response
+      }
+
+      if (res.ok && data.success) {
         setStatus("success");
         setName("");
         setEmail("");
@@ -96,17 +107,17 @@ export function ContactForm() {
         setMessage("");
       } else {
         setStatus("error");
-        setError(data.message || "Something went wrong. Please try again.");
+        setError(data.message || "Couldn't send via web form right now. You can send directly via email below.");
       }
     } catch {
       setStatus("error");
-      setError("Couldn't reach the server. Check your connection and try again.");
+      setError("Couldn't reach the form service. You can send directly via email below.");
     }
   };
 
   const field =
     "w-full rounded-xl border border-[color-mix(in_srgb,var(--color-border)_80%,transparent)] bg-[color-mix(in_srgb,var(--color-base)_55%,transparent)] px-4 py-2.5 text-[15px] text-[var(--color-text)] shadow-[inset_0_1px_0_color-mix(in_srgb,var(--color-text)_5%,transparent)] placeholder:text-[var(--color-muted)] transition-all duration-200 hover:border-[color-mix(in_srgb,var(--color-border)_100%,transparent)] focus:border-[var(--color-accent)] focus:outline-none focus:ring-4 focus:ring-[color-mix(in_srgb,var(--color-accent)_16%,transparent)]";
-  const label = "mb-2 block font-sans text-[11px] font-medium uppercase tracking-[0.1em] text-[var(--color-muted)]";
+  const label = "mb-2 block font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--color-muted)]";
 
   const busy = status === "submitting";
 
@@ -161,27 +172,71 @@ export function ContactForm() {
         <textarea id="c-msg" ref={msgRef} name="message" required rows={4} value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Tell me more…" suppressHydrationWarning className={`${field} resize-none`} />
       </div>
 
-      {/* Status — a confirmation panel on success, inline note on error. */}
+      {/* Status — a confirmation panel on success, actionable fallback on error. */}
       <div aria-live="polite">
         {status === "success" && (
-          <div className="mt-5 flex items-start gap-3 rounded-xl border border-[color-mix(in_srgb,var(--color-accent)_45%,transparent)] bg-[color-mix(in_srgb,var(--color-accent)_10%,transparent)] p-4">
-            <span className="mt-0.5 grid h-7 w-7 flex-none place-items-center rounded-full bg-[color-mix(in_srgb,var(--color-accent)_20%,transparent)] text-[var(--color-accent)]">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M20 6 9 17l-5-5" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </span>
-            <span>
-              <span className="block text-sm font-semibold text-[var(--color-heading)]">Message sent</span>
-              <span className="mt-0.5 block text-sm text-[var(--color-body)]">
-                Thanks for reaching out — I&rsquo;ll get back to you soon.
+          <div className="mt-5 flex items-start justify-between gap-3 rounded-xl border border-[color-mix(in_srgb,var(--color-accent)_45%,transparent)] bg-[color-mix(in_srgb,var(--color-accent)_10%,transparent)] p-4">
+            <div className="flex items-start gap-3">
+              <span className="mt-0.5 grid h-7 w-7 flex-none place-items-center rounded-full bg-[color-mix(in_srgb,var(--color-accent)_20%,transparent)] text-[var(--color-accent)]">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M20 6 9 17l-5-5" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
               </span>
-            </span>
+              <div>
+                <span className="block text-sm font-semibold text-[var(--color-heading)]">Message delivered</span>
+                <span className="mt-0.5 block text-sm text-[var(--color-body)]">
+                  Thanks for reaching out — I&rsquo;ll get back to you shortly.
+                </span>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => setStatus("idle")}
+              className="focus-accent text-xs font-mono font-medium text-[var(--color-muted)] underline underline-offset-4 transition-colors hover:text-[var(--color-accent)]"
+            >
+              Reset
+            </button>
           </div>
         )}
+
         {status === "error" && (
-          <p className="mt-4 text-sm text-[color-mix(in_srgb,#e5484d_80%,var(--color-text))]">
-            {error}
-          </p>
+          <div className="mt-5 rounded-xl border border-[color-mix(in_srgb,#e5484d_40%,transparent)] bg-[color-mix(in_srgb,#e5484d_8%,transparent)] p-4">
+            <div className="flex items-start gap-3">
+              <span className="mt-0.5 grid h-6 w-6 flex-none place-items-center rounded-full bg-[color-mix(in_srgb,#e5484d_20%,transparent)] text-[#e5484d]">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="12" y1="8" x2="12" y2="12" />
+                  <line x1="12" y1="16" x2="12.01" y2="16" />
+                </svg>
+              </span>
+              <div className="min-w-0 flex-1">
+                <span className="block text-sm font-semibold text-[var(--color-heading)]">
+                  Form delivery notice
+                </span>
+                <p className="mt-0.5 text-xs text-[var(--color-muted)]">{error}</p>
+                <div className="mt-3 flex flex-wrap items-center gap-2">
+                  <a
+                    href={`https://mail.google.com/mail/?view=cm&fs=1&to=${profile.links.email}&su=${encodeURIComponent(subject || `Portfolio message from ${name || "someone"}`)}&body=${encodeURIComponent(`${message}\n\n— ${name}${email ? ` (${email})` : ""}`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="focus-accent inline-flex items-center gap-1.5 rounded-lg border border-[color-mix(in_srgb,var(--color-accent)_40%,transparent)] bg-[color-mix(in_srgb,var(--color-accent)_12%,transparent)] px-3 py-1.5 text-xs font-semibold text-[var(--color-heading)] transition-colors hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
+                  >
+                    <span>Open in Gmail</span>
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M7 17L17 7M9 7h8v8" />
+                    </svg>
+                  </a>
+                  <button
+                    type="button"
+                    onClick={mailtoFallback}
+                    className="focus-accent inline-flex items-center gap-1.5 rounded-lg border border-[color-mix(in_srgb,var(--color-border)_70%,transparent)] bg-[color-mix(in_srgb,var(--color-surface)_50%,transparent)] px-3 py-1.5 text-xs font-semibold text-[var(--color-text)] transition-colors hover:border-[var(--color-text)]"
+                  >
+                    <span>Send via Mail App</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         )}
       </div>
 
@@ -190,20 +245,57 @@ export function ContactForm() {
         disabled={busy}
         suppressHydrationWarning
         style={{ color: "var(--color-text)" }}
-        className="focus-accent group mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-[color-mix(in_srgb,var(--color-accent)_50%,transparent)] bg-[color-mix(in_srgb,var(--color-accent)_8%,transparent)] px-5 py-3 text-base font-semibold transition-all duration-200 hover:border-[var(--color-accent)] hover:bg-[color-mix(in_srgb,var(--color-accent)_16%,transparent)] hover:!text-[var(--color-accent)] disabled:cursor-not-allowed disabled:opacity-60"
+        className="focus-accent group relative overflow-hidden mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-[color-mix(in_srgb,var(--color-accent)_50%,transparent)] bg-[color-mix(in_srgb,var(--color-accent)_10%,transparent)] px-5 py-3 text-base font-semibold shadow-[0_4px_18px_-8px_color-mix(in_srgb,var(--color-accent)_40%,transparent)] transition-all duration-200 hover:-translate-y-0.5 hover:border-[var(--color-accent)] hover:bg-[color-mix(in_srgb,var(--color-accent)_18%,transparent)] hover:shadow-[0_12px_28px_-8px_color-mix(in_srgb,var(--color-accent)_65%,transparent)] disabled:cursor-not-allowed disabled:opacity-60"
       >
-        {busy ? "Sending…" : "Send Message"}
-        {busy ? (
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" style={{ color: "var(--color-accent)" }} className="animate-spin">
-            <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="2" strokeOpacity="0.25" />
-            <path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-          </svg>
-        ) : (
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" style={{ color: "var(--color-accent)" }} className="transition-transform duration-200 group-hover:translate-x-1">
-            <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        )}
+        {/* Sheen sweep */}
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 -translate-x-full bg-[linear-gradient(115deg,transparent_42%,color-mix(in_srgb,#ffffff_25%,transparent)_50%,transparent_58%)] transition-transform duration-700 ease-out group-hover:translate-x-full motion-reduce:hidden"
+        />
+        <span className="relative inline-flex items-center gap-2">
+          {busy ? "Sending…" : "Send Message"}
+          {busy ? (
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" style={{ color: "var(--color-accent)" }} className="animate-spin">
+              <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="2" strokeOpacity="0.25" />
+              <path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+            </svg>
+          ) : (
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" style={{ color: "var(--color-accent)" }} className="transition-transform duration-200 group-hover:translate-x-1">
+              <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          )}
+        </span>
       </button>
+
+      {/* Alternative direct client routes */}
+      <div className="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-[color-mix(in_srgb,var(--color-border)_50%,transparent)] pt-3 text-xs text-[var(--color-muted)]">
+        <span>Prefer direct email?</span>
+        <div className="flex items-center gap-2.5">
+          <a
+            href={gmailUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="focus-accent inline-flex items-center gap-1 font-mono transition-colors hover:text-[var(--color-accent)]"
+            title="Open Gmail compose in new tab"
+          >
+            <span>Gmail</span>
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+              <path d="M7 17L17 7M9 7h8v8" />
+            </svg>
+          </a>
+          <span aria-hidden="true" className="text-[var(--color-border)] select-none">·</span>
+          <a
+            href={mailtoUrl}
+            className="focus-accent inline-flex items-center gap-1 font-mono transition-colors hover:text-[var(--color-accent)]"
+            title="Open in default mail client"
+          >
+            <span>Mail App</span>
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+              <path d="M7 17L17 7M9 7h8v8" />
+            </svg>
+          </a>
+        </div>
+      </div>
     </form>
   );
 }

@@ -37,7 +37,7 @@ export function ResumeButton({ href }: { href: string }) {
       >
         {/* Header strip */}
         <div className="flex items-center justify-between gap-2 border-b border-[var(--color-border)] bg-[color-mix(in_srgb,var(--color-accent)_6%,transparent)] px-3 py-2">
-          <span className="flex items-center gap-1.5 font-sans text-[11px] font-semibold uppercase tracking-[0.15em] text-[var(--color-secondary)]">
+          <span className="flex items-center gap-1.5 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--color-secondary)]">
             <span
               aria-hidden="true"
               className="h-1.5 w-1.5 rounded-full bg-[var(--color-accent)] shadow-[0_0_6px_color-mix(in_srgb,var(--color-accent)_60%,transparent)]"
@@ -75,15 +75,20 @@ export function ResumeButton({ href }: { href: string }) {
         target="_blank"
         rel="noopener noreferrer"
         style={{ color: "var(--color-heading)" }}
-        className="focus-accent group inline-flex min-w-[10.5rem] items-center justify-center gap-2 rounded-lg border border-[var(--color-border)] px-5 py-2.5 text-base font-semibold transition-all duration-200 hover:-translate-y-0.5 hover:border-[color-mix(in_srgb,var(--color-accent)_45%,transparent)] hover:bg-[color-mix(in_srgb,var(--color-accent)_7%,transparent)] active:scale-[0.97]"
+        className="focus-accent group relative overflow-hidden inline-flex min-w-[10.5rem] items-center justify-center gap-2 rounded-lg border border-[var(--color-accent)] px-5 py-2.5 text-base font-semibold shadow-[0_4px_16px_-8px_color-mix(in_srgb,var(--color-accent)_40%,transparent)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[color-mix(in_srgb,var(--color-accent)_12%,transparent)] hover:shadow-[0_10px_25px_-8px_color-mix(in_srgb,var(--color-accent)_60%,transparent)] active:scale-[0.97]"
       >
+        {/* Sheen sweep — a soft gloss crosses the button on hover. */}
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 -translate-x-full bg-[linear-gradient(115deg,transparent_42%,color-mix(in_srgb,#ffffff_25%,transparent)_50%,transparent_58%)] transition-transform duration-700 ease-out group-hover:translate-x-full motion-reduce:hidden"
+        />
         <svg
           width="16"
           height="16"
           viewBox="0 0 24 24"
           fill="none"
           aria-hidden="true"
-          className="transition-transform duration-200 group-hover:translate-y-0.5"
+          className="relative transition-transform duration-200 group-hover:translate-y-0.5"
         >
           <path
             d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"
@@ -93,7 +98,7 @@ export function ResumeButton({ href }: { href: string }) {
             strokeLinejoin="round"
           />
         </svg>
-        Resume
+        <span className="relative">Resume</span>
       </a>
     </div>
   );

@@ -14,33 +14,9 @@ export function Trace({
   inset?: number;
   className?: string;
 }) {
-  return (
-    <div
-      aria-hidden="true"
-      className={`trace ${className}`}
-      style={
-        {
-          "--trace-delay": `${delay}ms`,
-          marginLeft: inset || undefined,
-          width: inset ? `calc(100% - ${inset}px)` : undefined,
-        } as CSSProperties
-      }
-    >
-      <span className="trace-line" />
-      <span className="trace-via" />
-      <span className="trace-via trace-via--end" />
-    </div>
-  );
+  return null;
 }
 
-// Vertical rail — the continuous trace run down the left margin. On mobile this
-// is the only trace (the horizontal segments are hidden); it draws top-to-bottom
-// on load. Positioned by the parent (absolute).
 export function TraceRail({ className = "" }: { className?: string }) {
-  return (
-    <span
-      aria-hidden="true"
-      className={`trace-rail block w-px bg-[linear-gradient(to_bottom,var(--color-accent),color-mix(in_srgb,var(--color-accent)_35%,var(--color-border)))] ${className}`}
-    />
-  );
+  return null;
 }

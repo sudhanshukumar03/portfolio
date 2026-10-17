@@ -60,13 +60,13 @@ export function HeroPortrait({ alt }: { alt: string }) {
         />
       </div>
 
-      {/* Soft copper glow — a warm rim light anchored behind the head. */}
+      {/* Soft flame-red glow — a warm rim light anchored behind the head. */}
       <div
         aria-hidden="true"
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(42% 44% at 58% 33%, color-mix(in srgb, #c9a878 20%, transparent), transparent 72%)",
+            "radial-gradient(42% 44% at 58% 33%, color-mix(in srgb, var(--color-accent) 20%, transparent), transparent 72%)",
         }}
       />
 

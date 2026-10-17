@@ -34,7 +34,11 @@ function ProjectName({
   return (
     <span className={caps ? "tracking-[0.03em]" : "tracking-[-0.015em]"}>
       <span className="text-[var(--color-heading)]">{lead}</span>
-      {tail && <span className="text-[var(--color-accent)]">{tail}</span>}
+      {tail && (
+        <span className="bg-gradient-to-r from-[#ff5e4f] to-[var(--color-accent)] bg-clip-text text-transparent">
+          {tail}
+        </span>
+      )}
     </span>
   );
 }
@@ -59,7 +63,8 @@ export function Work() {
       <div className="flex flex-wrap items-end justify-between gap-6">
         <Reveal>
           <SectionHeading
-            eyebrow="01 // SELECTED WORK"
+            index="01"
+            eyebrow="SELECTED WORK"
             title="Things I've built"
             accent="built"
             subtitle="Production systems, developer tools, and full-stack software built for real users."
@@ -160,7 +165,7 @@ function ProjectSpread({
   return (
     <article
       onMouseMove={onMouseMove}
-      className="work-card group relative grid content-center overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 shadow-[0_1px_0_inset_rgba(255,255,255,0.08),0_24px_50px_-20px_rgba(0,0,0,0.6)] transition-all duration-300 sm:p-8 md:p-10 lg:p-12"
+      className="work-card group relative grid content-center overflow-hidden rounded-2xl border border-[var(--color-border)] border-t-[rgba(255,255,255,0.14)] bg-gradient-to-b from-[#161a24] to-[var(--color-surface)] p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_24px_50px_-20px_rgba(0,0,0,0.7)] transition-all duration-300 sm:p-8 md:p-10 lg:p-12"
     >
       {/* Interactive cursor spotlight border sheen */}
       <div
@@ -177,19 +182,11 @@ function ProjectSpread({
         }}
       />
 
-      {/* Ghost architectural watermark numeral */}
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute right-4 top-2 select-none font-display text-[clamp(4.5rem,9vw,8rem)] font-extrabold leading-none text-[var(--color-border)] opacity-20 sm:right-8 sm:top-4"
-      >
-        {project.index}
-      </span>
-
       <div className="relative z-10 grid gap-8 lg:grid-cols-12 lg:items-center lg:gap-10 xl:gap-12">
         {/* Left — the read */}
         <div className="lg:col-span-6">
           <div className="flex items-center gap-4 font-mono text-xs font-semibold uppercase tracking-[0.16em] text-[var(--color-muted)]">
-            <span aria-hidden="true" className="font-mono font-bold text-[var(--color-accent)]">
+            <span aria-hidden="true" className="font-mono font-bold text-[#ff5244]">
               {project.index}
             </span>
             <span aria-hidden="true" className="h-px w-8 bg-[var(--color-border)]" />
@@ -218,11 +215,13 @@ function ProjectSpread({
               const lead = dashIndex !== -1 ? f.slice(0, dashIndex) : f;
               const detail = dashIndex !== -1 ? f.slice(dashIndex + 3) : "";
               return (
-                <li key={f} className="flex items-start gap-2.5 text-[13.5px] leading-relaxed">
+                <li key={f} className="flex items-start gap-2 text-[13.5px] leading-relaxed">
                   <span
                     aria-hidden="true"
-                    className="mt-1.5 h-1.5 w-1.5 flex-none rounded-full bg-[var(--color-accent)] shadow-[0_0_6px_var(--color-accent)]"
-                  />
+                    className="flex-none font-mono text-[var(--color-accent)] select-none font-semibold"
+                  >
+                    -
+                  </span>
                   <span className="text-[var(--color-body)]">
                     <strong className="font-semibold text-[var(--color-text)]">{lead}</strong>
                     {detail && <span className="text-[var(--color-secondary)]"> &mdash; {detail}</span>}
@@ -268,12 +267,12 @@ function ProjectIndex({ projects }: { projects: Project[] }) {
           key={p.name}
           className="grid gap-4 border-b border-[var(--color-border)] py-8 md:grid-cols-12 md:items-baseline md:gap-8"
         >
-          <span className="font-sans text-xs font-medium uppercase tracking-[0.12em] text-[var(--color-muted)] md:col-span-1">
+          <span className="font-mono text-xs font-semibold uppercase tracking-[0.16em] text-[var(--color-muted)] md:col-span-1">
             {p.index}
           </span>
           <div className="md:col-span-5">
-            <h3 className="font-display text-xl font-semibold">
-              <ProjectName name={p.name} wordmark={p.wordmark} />
+            <h3 className="font-display text-lg font-semibold tracking-tight text-[var(--color-heading)]">
+              {p.name}
             </h3>
             <p className="mt-1 text-sm text-[var(--color-body)]">{p.tagline}</p>
           </div>
@@ -293,7 +292,7 @@ function ProjectIndex({ projects }: { projects: Project[] }) {
 function ProjectPreview({ project }: { project: Project }) {
   if (project.image) {
     return (
-      <div className="group/preview relative aspect-[16/9] w-full overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-2)] shadow-2xl transition-all duration-300 hover:border-[var(--color-accent)]/50">
+      <div className="group/preview relative aspect-[16/9] w-full overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-2)] shadow-2xl transition-all duration-300 hover:border-[var(--color-accent)]/50 hover:shadow-[0_0_35px_-8px_color-mix(in_srgb,var(--color-accent)_22%,transparent)]">
         <Image
           src={project.image}
           alt={`Interface screenshot of ${project.name}`}
@@ -311,7 +310,7 @@ function ProjectPreview({ project }: { project: Project }) {
     <div className="relative aspect-[16/9] w-full overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-2)]">
       <div className="absolute inset-0 grid place-items-center">
         <div className="flex flex-col items-center gap-2 text-center">
-          <span className="font-sans text-[11px] font-medium uppercase tracking-[0.12em] text-[var(--color-secondary)]">
+          <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--color-secondary)]">
             Preview
           </span>
           <span className="max-w-[80%] text-sm font-medium text-[var(--color-text)]">

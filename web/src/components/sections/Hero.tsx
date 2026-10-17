@@ -61,10 +61,10 @@ export function Hero() {
             </div>
 
             {/* Anchor headline — a real positioning claim, not a one-word job
-                title. Two lines, display weight; the brushed shimmer under
+                title. Two lines, display weight; the copper brushed shimmer under
                 "end to end" brings continuous organic luxury to the masthead. */}
             <h1
-              className="rise mt-7 max-w-[22ch] font-display text-[clamp(2.5rem,5.2vw,4.1rem)] font-extrabold leading-[1.04] tracking-[-0.04em] text-[var(--color-text)]"
+              className="rise mt-7 max-w-[22ch] font-display text-[clamp(2.5rem,5.2vw,4.1rem)] font-extrabold leading-[1.04] tracking-[-0.038em] text-[var(--color-text)]"
               style={{ ["--rise-delay" as string]: "120ms" }}
             >
               Full-stack &amp; AI,
@@ -76,10 +76,14 @@ export function Hero() {
                 Identity, then what he does (design + build), landing on the one
                 thing that matters to a hiring reader: it survives real users. */}
             <p
-              className="rise mt-6 max-w-[54ch] text-[clamp(1.06rem,1.3vw,1.2rem)] font-normal leading-[1.76] text-[var(--color-body)]"
+              className="rise mt-6 max-w-[54ch] text-[clamp(1.06rem,1.35vw,1.22rem)] font-normal leading-[1.74] text-[var(--color-body)]"
               style={{ ["--rise-delay" as string]: "220ms" }}
             >
-              I&rsquo;m <strong className="font-semibold text-white">{profile.name}</strong> &mdash; final-year ECE at JSSATE Bengaluru. I architect and build <strong className="font-semibold text-white">distributed systems and applied AI tools</strong> grounded in <span className="font-medium text-[var(--color-heading)]">deterministic invariants, clean schemas, and production resilience</span>.
+              I&rsquo;m{" "}
+              <strong className="font-semibold text-[var(--color-text)]">{profile.name}</strong>{" "}
+              &mdash; full-stack developer &amp; AI engineer. I architect and build{" "}
+              <strong className="font-semibold text-[var(--color-text)]">distributed systems and applied AI tools</strong>{" "}
+              grounded in deterministic invariants, clean schemas, and production resilience.
             </p>
 
             {/* CTAs — a matched pair of pill actions, same size and shape so they

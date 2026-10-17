@@ -32,36 +32,37 @@ const groupIcon: Record<string, React.ReactNode> = {
   ),
 };
 
-// A quiet, premium color per category — mid-tones (not neon) so each icon tile
-// gets its own identity while staying legible on dark card surfaces.
-const groupTint: Record<string, string> = {
-  "Frontend": "#4f7cd4",
-  "Libraries & UI": "#8a6fd1",
-  "Backend": "#4ca373",
-  "Databases": "#3fa6a1",
-  "Artificial Intelligence": "#c56a86",
-  "DevOps & Deployment": "#d08a42",
-};
-
 export function Skills() {
   return (
-    <section id="skills" className="flex min-h-svh scroll-mt-24 flex-col justify-center py-6 md:py-8">
+    <section id="skills" className="relative flex min-h-svh scroll-mt-24 flex-col justify-center py-6 md:py-8">
+      {/* Ambient atmospheric backdrop to soften darkness and add depth behind cards */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -z-10 flex items-center justify-center overflow-hidden"
+      >
+        <div className="h-[550px] w-[950px] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(42,52,76,0.22),rgba(234,46,32,0.035)_45%,transparent_72%)] blur-3xl" />
+      </div>
+
       <Trace delay={400} inset={0} className="mb-6 hidden min-[900px]:block" />
       <Reveal>
         <SectionHeading
-          eyebrow="02 // TECHNICAL ARSENAL"
+          eyebrow="STACK & ARCHITECTURE"
           title="Tools I work with"
           accent="work with"
-          subtitle="Battle-tested production technologies &amp; frameworks &mdash; from typed UI components down to database storage engines."
+          subtitle="The full toolkit I build with — grouped by where it lives in the stack."
         />
       </Reveal>
-
 
       {/* Depth — the full toolkit as composed, living category cards. */}
       <div className="skills-grid mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {skills.map((group, gi) => (
           <Reveal key={group.label} delay={160 + gi * 60}>
-            <SkillCard label={group.label} items={group.items} icon={groupIcon[group.label]} tint={groupTint[group.label]} />
+            <SkillCard
+              label={group.label}
+              items={group.items}
+              icon={groupIcon[group.label]}
+              tint="var(--color-accent)"
+            />
           </Reveal>
         ))}
       </div>

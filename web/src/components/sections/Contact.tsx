@@ -1,5 +1,6 @@
 "use client";
 
+import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { ContactForm } from "@/components/ui/ContactForm";
 import { HireRoles } from "@/components/ui/HireRoles";
@@ -13,20 +14,13 @@ export function Contact() {
       <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[1fr_minmax(0,30rem)] lg:gap-16">
         <div>
           <Reveal>
-            <div className="space-y-3">
-              <div className="flex items-center gap-2.5 font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--color-accent)]">
-                <span className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--color-accent)] shadow-[0_0_8px_var(--color-accent)]" />
-                <span>04 // INITIATE DIALOGUE</span>
-              </div>
-              <h2 className="font-display text-[clamp(1.85rem,3.5vw,2.75rem)] font-bold leading-[1.05] tracking-[-0.038em] text-[var(--color-heading)]">
-                Establish <span className="text-[var(--color-accent)]">connection</span>
-              </h2>
-              <p className="max-w-[52ch] text-[clamp(1.05rem,1.3vw,1.18rem)] leading-[1.72] text-[var(--color-body)]">
-                Currently open to{" "}
-                <strong className="font-semibold text-white">Software Engineering, Backend, and Full-Stack</strong>{" "}
-                roles where systems architecture, data models, and high-performance execution matter.
-              </p>
-            </div>
+            <SectionHeading
+              index="03"
+              eyebrow="INITIATE CONTACT"
+              title="Establish connection"
+              accent="connection"
+              subtitle="Currently open to Software Engineering, Backend, and Full-Stack roles where systems architecture, data models, and high-performance execution matter."
+            />
           </Reveal>
 
           {/* Role CTAs — pick a role, the form fills with a tailored scaffold. */}
@@ -40,15 +34,13 @@ export function Contact() {
               {/* Email channel */}
               <li className="border-b border-[color-mix(in_srgb,var(--color-border)_70%,transparent)]">
                 <a
-                  href={`https://mail.google.com/mail/?view=cm&fs=1&to=${profile.links.email}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href={`mailto:${profile.links.email}`}
                   className="focus-accent group flex items-center justify-between gap-4 py-4 transition-colors"
-                  title="Open Gmail Compose in new tab"
+                  title="Send an email to Sudhanshu Kumar"
                 >
                   <div className="flex min-w-0 items-center gap-4">
                     <span
-                      style={{ ["--rt" as string]: "#4f7cd4" }}
+                      style={{ ["--rt" as string]: "var(--color-accent)" }}
                       className="grid h-11 w-11 flex-none place-items-center rounded-lg border border-[color-mix(in_srgb,var(--rt)_30%,transparent)] bg-[color-mix(in_srgb,var(--rt)_8%,transparent)] text-[var(--rt)] transition-colors group-hover:border-[color-mix(in_srgb,var(--rt)_60%,transparent)] group-hover:bg-[color-mix(in_srgb,var(--rt)_14%,transparent)]"
                     >
                       <svg viewBox="0 0 24 24" width={20} height={20} aria-hidden="true">
@@ -59,7 +51,7 @@ export function Contact() {
                       <span className="block font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--color-muted)]">
                         Email
                       </span>
-                      <span className="block truncate text-[15.5px] font-medium tracking-[-0.01em] text-[var(--color-heading)] transition-colors group-hover:text-[var(--color-accent)]">
+                      <span className="block truncate text-[15px] text-[var(--color-heading)] transition-colors group-hover:text-[var(--color-accent)]">
                         {profile.links.email}
                       </span>
                     </div>
@@ -98,7 +90,7 @@ export function Contact() {
                       <span className="block font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--color-muted)]">
                         Location
                       </span>
-                      <span className="block truncate text-[15.5px] font-medium tracking-[-0.01em] text-[var(--color-heading)] transition-colors group-hover:text-[var(--color-text)]">
+                      <span className="block truncate text-[15px] text-[var(--color-heading)] transition-colors group-hover:text-[var(--color-text)]">
                         Bengaluru, Karnataka
                       </span>
                     </div>

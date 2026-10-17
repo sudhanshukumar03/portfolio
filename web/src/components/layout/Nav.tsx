@@ -22,11 +22,10 @@ const PresenceClock = dynamic(
   }
 );
 
-// Four primary items (Services folds into Work/About; Blog is a footer link).
-// Four short labels — a clean, balanced row at every width with generous tap targets.
+// Three primary anchors — Work, About, Contact.
+// Short, confident labels — a clean, balanced row with generous tap targets.
 const SECTIONS = [
   { id: "work", label: "Work" },
-  { id: "skills", label: "Skills" },
   { id: "about", label: "About" },
   { id: "contact", label: "Contact" },
 ] as const;
@@ -65,15 +64,11 @@ export function Nav() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-200 ${
-        solid ? "border-b border-[var(--color-border)]" : "border-b border-transparent"
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
+        solid
+          ? "border-b border-white/[0.08] bg-[#0b0c0e]/80 shadow-[0_4px_30px_rgba(0,0,0,0.5)] backdrop-blur-xl"
+          : "border-b border-transparent bg-transparent"
       }`}
-      style={{
-        backgroundColor: solid
-          ? "color-mix(in srgb, var(--color-surface) 97%, transparent)"
-          : "transparent",
-        backdropFilter: solid ? "blur(10px)" : "none",
-      }}
     >
       <div className="mx-auto w-full max-w-[1400px] px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
         <nav aria-label="Primary" className="flex items-center justify-between gap-3 py-4">
@@ -97,42 +92,26 @@ export function Nav() {
           </a>
 
           {/* Right cluster: Navigation links + Hairline divider + Live Presence indicator */}
-          <div className="flex items-center gap-3 sm:gap-5">
-            <ul className="flex items-center gap-1 sm:gap-1.5 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)]/80 p-1 backdrop-blur-md">
+          <div className="flex items-center gap-4 sm:gap-6">
+            <ul className="flex items-center gap-4 sm:gap-7">
               {SECTIONS.map(({ id, label }) => {
                 const isActive = active === id;
                 return (
                   <li key={id}>
                     <a
                       href={`#${id}`}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        const el = document.getElementById(id);
-                        if (!el) return;
-                        window.dispatchEvent(
-                          new CustomEvent("section-transition-start", { detail: { targetId: id } })
-                        );
-                        setActive(id);
-                        const navHeight = 72;
-                        const targetTop = el.getBoundingClientRect().top + window.scrollY - navHeight;
-                        window.scrollTo({ top: targetTop, behavior: "smooth" });
-                        if (window.history.pushState) {
-                          window.history.pushState(null, "", `#${id}`);
-                        }
-                      }}
                       aria-current={isActive ? "true" : undefined}
-                      className={`focus-accent relative inline-flex min-h-[32px] items-center rounded-full px-3 py-1 text-[13px] font-medium tracking-[-0.01em] transition-all duration-300 ${
+                      className={`focus-accent group inline-flex min-h-[38px] items-center rounded-md px-2.5 py-1.5 text-[13.5px] font-medium tracking-[-0.01em] transition-all duration-150 ${
                         isActive
-                          ? "bg-[color-mix(in_srgb,var(--color-accent)_16%,var(--color-surface-2))] border border-[color-mix(in_srgb,var(--color-accent)_45%,transparent)] text-white shadow-[0_0_12px_rgba(250,204,21,0.18)]"
-                          : "border border-transparent text-[var(--color-secondary)] hover:text-white hover:bg-[var(--color-surface-2)]/60"
+                          ? "text-[var(--color-text)]"
+                          : "text-[var(--color-secondary)] hover:bg-white/[0.04] hover:text-[var(--color-text)]"
                       }`}
                     >
-                      {isActive && (
-                        <span
-                          aria-hidden="true"
-                          className="mr-1.5 h-1.5 w-1.5 rounded-full bg-[var(--color-accent)] shadow-[0_0_6px_var(--color-accent)]"
-                        />
-                      )}
+                      <span
+                        aria-hidden="true"
+                        className={`rounded-full bg-[var(--color-accent)] transition-all duration-200 ${isActive ? "mr-1.5 h-1.5 w-1.5 opacity-100" : "mr-0 h-1.5 w-0 opacity-0"
+                          }`}
+                      />
                       {label}
                     </a>
                   </li>
