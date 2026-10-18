@@ -3,6 +3,8 @@
 import { useState } from "react";
 import Image from "next/image";
 import { projects, type Project } from "@/content/site";
+import { caseStudies, type CaseStudy } from "@/content/caseStudies";
+import { CaseStudyModal } from "@/components/ui/CaseStudyModal";
 import { Tag } from "@/components/ui/Tag";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Trace } from "@/components/ui/Trace";
@@ -55,6 +57,12 @@ type View = "sequence" | "overview";
 
 export function Work() {
   const [view, setView] = useState<View>("sequence");
+  const [selectedStudy, setSelectedStudy] = useState<CaseStudy | null>(null);
+
+  const handleOpenCaseStudy = (caseStudyId: string) => {
+    const study = caseStudies[caseStudyId];
+    if (study) setSelectedStudy(study);
+  };
 
   return (
     <section id="work" className="scroll-mt-24 py-24 md:py-32">
@@ -83,13 +91,18 @@ export function Work() {
               className="work-card-slot"
               style={{ ["--i" as string]: String(i) }}
             >
-              <ProjectSpread project={p} position={i + 1} total={projects.length} />
+              <ProjectSpread
+                project={p}
+                position={i + 1}
+                total={projects.length}
+                onOpenCaseStudy={handleOpenCaseStudy}
+              />
             </div>
           ))}
         </div>
       ) : (
         <Reveal delay={120}>
-          <ProjectIndex projects={projects} />
+          <ProjectIndex projects={projects} onOpenCaseStudy={handleOpenCaseStudy} />
         </Reveal>
       )}
 
@@ -105,6 +118,12 @@ export function Work() {
         </a>
         .
       </Reveal>
+
+      {/* Deep-Dive Architecture Case Study Modal */}
+      <CaseStudyModal
+        study={selectedStudy}
+        onClose={() => setSelectedStudy(null)}
+      />
     </section>
   );
 }
@@ -150,10 +169,12 @@ function ProjectSpread({
   project,
   position,
   total,
+  onOpenCaseStudy,
 }: {
   project: Project;
   position: number;
   total: number;
+  onOpenCaseStudy?: (caseStudyId: string) => void;
 }) {
   const onMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const el = e.currentTarget;
@@ -210,27 +231,27 @@ function ProjectSpread({
               Core Architecture &amp; Capabilities
             </span>
             <ul className="mt-3 grid gap-x-6 gap-y-3 sm:grid-cols-2">
-            {project.features.slice(0, 4).map((f) => {
-              const dashIndex = f.indexOf(" — ");
-              const lead = dashIndex !== -1 ? f.slice(0, dashIndex) : f;
-              const detail = dashIndex !== -1 ? f.slice(dashIndex + 3) : "";
-              return (
-                <li key={f} className="flex items-start gap-2 text-[13.5px] leading-relaxed">
-                  <span
-                    aria-hidden="true"
-                    className="flex-none font-mono text-[var(--color-accent)] select-none font-semibold"
-                  >
-                    -
-                  </span>
-                  <span className="text-[var(--color-body)]">
-                    <strong className="font-semibold text-[var(--color-text)]">{lead}</strong>
-                    {detail && <span className="text-[var(--color-secondary)]"> &mdash; {detail}</span>}
-                  </span>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
+              {project.features.slice(0, 4).map((f) => {
+                const dashIndex = f.indexOf(" — ");
+                const lead = dashIndex !== -1 ? f.slice(0, dashIndex) : f;
+                const detail = dashIndex !== -1 ? f.slice(dashIndex + 3) : "";
+                return (
+                  <li key={f} className="flex items-start gap-2 text-[13.5px] leading-relaxed">
+                    <span
+                      aria-hidden="true"
+                      className="flex-none font-mono text-[var(--color-accent)] select-none font-semibold"
+                    >
+                      -
+                    </span>
+                    <span className="text-[var(--color-body)]">
+                      <strong className="font-semibold text-[var(--color-text)]">{lead}</strong>
+                      {detail && <span className="text-[var(--color-secondary)]"> &mdash; {detail}</span>}
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
 
           {project.note && (
             <p className="mt-5 max-w-[54ch] text-xs italic leading-relaxed text-[var(--color-muted)]">
@@ -240,16 +261,16 @@ function ProjectSpread({
 
           <div className="mt-8 hidden lg:block">
             <TagRow items={project.tech} />
-            <ProjectLinks project={project} className="mt-6" />
+            <ProjectLinks project={project} className="mt-6" onOpenCaseStudy={onOpenCaseStudy} />
           </div>
         </div>
 
         {/* Right — the preview + metadata on mobile */}
         <div className="flex flex-col lg:col-span-6">
-          <ProjectPreview project={project} />
+          <ProjectPreview project={project} onOpenCaseStudy={onOpenCaseStudy} />
           <div className="lg:hidden">
             <TagRow items={project.tech} className="mt-6" />
-            <ProjectLinks project={project} className="mt-6" />
+            <ProjectLinks project={project} className="mt-6" onOpenCaseStudy={onOpenCaseStudy} />
           </div>
         </div>
       </div>
@@ -259,7 +280,13 @@ function ProjectSpread({
 
 // Overview — every project at once. Quiet rows, real repos, no fabricated
 // metrics; the fast-scan counterpart to the pinned sequence.
-function ProjectIndex({ projects }: { projects: Project[] }) {
+function ProjectIndex({
+  projects,
+  onOpenCaseStudy,
+}: {
+  projects: Project[];
+  onOpenCaseStudy?: (caseStudyId: string) => void;
+}) {
   return (
     <ul className="mt-14 border-t border-[var(--color-border)]">
       {projects.map((p) => (
@@ -276,11 +303,11 @@ function ProjectIndex({ projects }: { projects: Project[] }) {
             </h3>
             <p className="mt-1 text-sm text-[var(--color-body)]">{p.tagline}</p>
           </div>
-          <div className="md:col-span-4">
+          <div className="md:col-span-3">
             <TagRow items={p.tech.slice(0, 5)} />
           </div>
-          <div className="md:col-span-2 md:text-right">
-            <ProjectLinks project={p} className="md:justify-end" />
+          <div className="md:col-span-3 md:text-right">
+            <ProjectLinks project={p} className="md:justify-end" onOpenCaseStudy={onOpenCaseStudy} />
           </div>
         </li>
       ))}
@@ -289,10 +316,35 @@ function ProjectIndex({ projects }: { projects: Project[] }) {
 }
 
 // In-world preview frame — renders the project screenshot mockup with a subtle glass sheen.
-function ProjectPreview({ project }: { project: Project }) {
+function ProjectPreview({
+  project,
+  onOpenCaseStudy,
+}: {
+  project: Project;
+  onOpenCaseStudy?: (caseStudyId: string) => void;
+}) {
+  const handleClick = () => {
+    if (project.caseStudyId && onOpenCaseStudy) {
+      onOpenCaseStudy(project.caseStudyId);
+    }
+  };
+
   if (project.image) {
     return (
-      <div className="group/preview relative aspect-[16/9] w-full overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-2)] shadow-2xl transition-all duration-300 hover:border-[var(--color-accent)]/50 hover:shadow-[0_0_35px_-8px_color-mix(in_srgb,var(--color-accent)_22%,transparent)]">
+      <div
+        onClick={handleClick}
+        role={project.caseStudyId ? "button" : undefined}
+        tabIndex={project.caseStudyId ? 0 : undefined}
+        onKeyDown={(e) => {
+          if (project.caseStudyId && onOpenCaseStudy && (e.key === "Enter" || e.key === " ")) {
+            e.preventDefault();
+            onOpenCaseStudy(project.caseStudyId);
+          }
+        }}
+        className={`group/preview relative aspect-[16/9] w-full overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-2)] shadow-2xl transition-all duration-300 hover:border-[var(--color-accent)]/50 hover:shadow-[0_0_35px_-8px_color-mix(in_srgb,var(--color-accent)_22%,transparent)] ${
+          project.caseStudyId ? "cursor-pointer" : ""
+        }`}
+      >
         <Image
           src={project.image}
           alt={`Interface screenshot of ${project.name}`}
@@ -302,6 +354,15 @@ function ProjectPreview({ project }: { project: Project }) {
           className="object-contain object-center transition-transform duration-500 ease-out group-hover/preview:scale-[1.01]"
         />
         <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-white/[0.08]" />
+
+        {project.caseStudyId && (
+          <div className="pointer-events-none absolute inset-0 flex items-end justify-end p-3.5 opacity-0 transition-opacity duration-200 group-hover/preview:opacity-100">
+            <span className="inline-flex items-center gap-1.5 rounded-md border border-[var(--color-border)] bg-[#0b0c0e]/90 px-2.5 py-1 text-[11px] font-semibold text-[var(--color-text)] shadow-lg backdrop-blur-sm">
+              <span>Read Architecture Deep-Dive</span>
+              <span className="text-[var(--color-accent)]">↗</span>
+            </span>
+          </div>
+        )}
       </div>
     );
   }
@@ -334,31 +395,59 @@ function TagRow({ items, className = "" }: { items: string[]; className?: string
   );
 }
 
-function ProjectLinks({ project, className = "" }: { project: Project; className?: string }) {
+function ProjectLinks({
+  project,
+  className = "",
+  onOpenCaseStudy,
+}: {
+  project: Project;
+  className?: string;
+  onOpenCaseStudy?: (caseStudyId: string) => void;
+}) {
   return (
-    <div className={`flex flex-wrap items-center gap-x-6 gap-y-2 ${className}`}>
-      {project.demo && (
-        <a
-          href={project.demo}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="focus-accent group/link inline-flex items-center gap-1.5 text-sm font-medium text-[var(--color-text)] underline-offset-4 hover:underline"
+    <div className={`flex flex-wrap items-center gap-3 ${className}`}>
+      {project.caseStudyId && onOpenCaseStudy && (
+        <button
+          type="button"
+          onClick={() => onOpenCaseStudy(project.caseStudyId!)}
+          className="focus-accent group/btn inline-flex items-center gap-2 rounded-lg border border-[var(--color-accent)] bg-[color-mix(in_srgb,var(--color-accent)_16%,transparent)] px-3.5 py-1.5 text-xs font-semibold text-[var(--color-text)] shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-[color-mix(in_srgb,var(--color-accent)_26%,transparent)] hover:shadow-[0_4px_16px_-4px_color-mix(in_srgb,var(--color-accent)_50%,transparent)]"
         >
-          <span>Live demo</span>
-          <span aria-hidden="true" className="text-[var(--color-accent)] transition-transform duration-200 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5">
-            ↗
-          </span>
-        </a>
+          <svg viewBox="0 0 24 24" width={13} height={13} fill="none" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+            <polyline points="14 2 14 8 20 8" />
+            <line x1="16" y1="13" x2="8" y2="13" />
+            <line x1="16" y1="17" x2="8" y2="17" />
+          </svg>
+          <span>Architecture Breakdown</span>
+        </button>
       )}
+
       {project.repo && (
         <a
           href={project.repo}
           target="_blank"
           rel="noopener noreferrer"
-          className="focus-accent group/link inline-flex items-center gap-1.5 text-sm font-medium text-[var(--color-secondary)] underline-offset-4 hover:text-[var(--color-text)] hover:underline"
+          className="focus-accent group/link inline-flex items-center gap-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-3.5 py-1.5 text-xs font-medium text-[var(--color-heading)] transition-all duration-200 hover:-translate-y-0.5 hover:border-[var(--color-secondary)] hover:text-[var(--color-text)]"
         >
-          <span>View on GitHub</span>
+          <svg viewBox="0 0 24 24" width={13} height={13} fill="currentColor" aria-hidden="true" className="text-[var(--color-muted)] transition-colors group-hover/link:text-[var(--color-text)]">
+            <path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z" />
+          </svg>
+          <span>Repository</span>
           <span aria-hidden="true" className="text-[var(--color-accent)] transition-transform duration-200 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5">
+            ↗
+          </span>
+        </a>
+      )}
+
+      {project.demo && (
+        <a
+          href={project.demo}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="focus-accent group/link inline-flex items-center gap-1.5 rounded-lg border border-emerald-500/40 bg-emerald-500/10 px-3.5 py-1.5 text-xs font-medium text-emerald-300 transition-all duration-200 hover:-translate-y-0.5 hover:bg-emerald-500/20"
+        >
+          <span>Live Demo</span>
+          <span aria-hidden="true" className="transition-transform duration-200 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5">
             ↗
           </span>
         </a>

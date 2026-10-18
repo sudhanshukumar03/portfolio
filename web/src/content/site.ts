@@ -15,7 +15,7 @@ export const profile = {
   // Hero metadata (Mono) — concise positioning, not a résumé line.
   heroMeta: ["ECE", "Full-Stack", "AI"],
   // Fuller facts live in About; kept here for reference/reuse.
-  heroStats: ["7.6/10 CGPA", "ECE", "Bengaluru, Karnataka"],
+  heroStats: ["Systems & Distributed Architecture", "Full-Stack & Applied AI", "Bengaluru, Karnataka"],
   links: {
     github: "https://github.com/sudhanshukumar03",
     linkedin: "https://www.linkedin.com/in/sudhanshurajputt/",
@@ -50,7 +50,7 @@ export const about = {
 export const education = {
   degree: "B.Tech — Electronics & Communication Engineering",
   school: "JSS Academy of Technical Education, Bengaluru",
-  detail: "4th year · 7th semester · CGPA 7.6 / 10",
+  detail: "Final Year · Class of 2026 · Bengaluru",
 };
 
 export type SkillGroup = { label: string; items: string[] };
@@ -181,12 +181,12 @@ export type BlogPost = {
   readingMinutes: number;
   tags: string[];
   status: "published" | "draft";
+  caseStudyId?: string;
   // Where this post is (or will be) cross-published. Empty = local only.
   crossPosts: { platform: BlogPlatform; url: string }[];
 };
 
-// Seed content. Replace with your real posts — or, later, load from a
-// markdown folder / a platform's API (see docs note in Blog section).
+// Architecture dispatches & technical essays grounded in the systems built.
 export const posts: BlogPost[] = [
   {
     slug: "building-krama-os",
@@ -196,8 +196,9 @@ export const posts: BlogPost[] = [
     date: "2026-08-14",
     readingMinutes: 7,
     tags: ["Architecture", "PostgreSQL", "Product"],
-    status: "draft",
-    crossPosts: [],
+    status: "published",
+    caseStudyId: "krama-os",
+    crossPosts: [{ platform: "devto", url: "https://github.com/sudhanshukumar03/KRAMA" }],
   },
   {
     slug: "deterministic-reconciliation-with-ai",
@@ -207,8 +208,9 @@ export const posts: BlogPost[] = [
     date: "2026-07-02",
     readingMinutes: 9,
     tags: ["AI", "Fintech", "NestJS"],
-    status: "draft",
-    crossPosts: [],
+    status: "published",
+    caseStudyId: "ledgermind",
+    crossPosts: [{ platform: "devto", url: "https://github.com/sudhanshukumar03/ledgerMind" }],
   },
   {
     slug: "rag-that-actually-retrieves",
@@ -218,8 +220,9 @@ export const posts: BlogPost[] = [
     date: "2026-05-20",
     readingMinutes: 6,
     tags: ["AI", "RAG", "pgvector"],
-    status: "draft",
-    crossPosts: [],
+    status: "published",
+    caseStudyId: "context",
+    crossPosts: [{ platform: "devto", url: "https://github.com/sudhanshukumar03/Context" }],
   },
 ];
 
@@ -251,6 +254,7 @@ export const services: Service[] = [
 export type Project = {
   index: string;
   name: string;
+  caseStudyId?: string;
   tagline: string;
   summary: string;
   features: string[];
@@ -268,6 +272,7 @@ export const projects: Project[] = [
   {
     index: "01",
     name: "KRAMA OS",
+    caseStudyId: "krama-os",
     featured: true,
     image: "/images/krama-os.jpg",
     tagline: "Unified Productivity & Knowledge Operating System",
@@ -296,6 +301,7 @@ export const projects: Project[] = [
   {
     index: "02",
     name: "Context",
+    caseStudyId: "context",
     wordmark: ["Con", "text"],
     image: "/images/context.png",
     tagline: "Autonomous Incident Intelligence & Causal Dependency Graph",
@@ -324,6 +330,7 @@ export const projects: Project[] = [
   {
     index: "03",
     name: "LedgerMind",
+    caseStudyId: "ledgermind",
     image: "/images/ledgermind.jpg",
     tagline: "AI Finance Controller for Razorpay Reconciliation",
     summary:
@@ -351,6 +358,7 @@ export const projects: Project[] = [
   {
     index: "04",
     name: "HealthGuard",
+    caseStudyId: "healthguard",
     image: "/images/healthguard.jpg",
     tagline: "Intelligent Health Monitoring Platform (concept)",
     summary:

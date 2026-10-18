@@ -38,11 +38,10 @@ Instead:
 
 The aesthetic is built around three rules:
 1. **Neutrals do 85% of the heavy lifting**: The base is warm charcoal/obsidian (`#0b0c0e`), not harsh `#000000`. Body text is an off-white cream that doesn't burn your eyes.
-2. **One single accent spent sparingly**: Copper (`#b0592f` / `#c86d3b`). It is never used as body text. It is reserved strictly for structural traces, active navigation pips, and wordmark seams. It's a quiet nod to copper PCB traces from my ECE coursework.
+2. **One single signature accent spent sparingly**: Scarlet Flame (`#ea2e20`). It is never used as body text. It is reserved strictly for structural traces, active navigation pips, and wordmark seams, giving the obsidian substrate an energetic, high-precision visual pulse.
 3. **Editorial Typography**:
-   - **Fraunces**: A high-contrast optical serif used for major display titles. It gives the page weight and rhythm.
-   - **Inter Tight**: Clean, slightly condensed sans-serif for comfortable reading.
-   - **IBM Plex Mono**: Reserved strictly for technical metadata, stats, and code tags.
+   - **Plus Jakarta Sans / Geist**: Modern neo-grotesque sans-serif with crisp geometric terminals.
+   - **Geist Mono / IBM Plex Mono**: Reserved strictly for technical metadata, stats, and code artifacts.
 
 ---
 
