@@ -16,50 +16,15 @@ export function PresenceClock() {
   const [hourAngle, setHourAngle] = useState(185);
   const [minuteAngle, setMinuteAngle] = useState(60);
   const [secondAngle, setSecondAngle] = useState(0);
-  const [isWorkingHours, setIsWorkingHours] = useState(true);
   const [phaseLabel, setPhaseLabel] = useState("Dusk / Twilight");
   const [sunProgress, setSunProgress] = useState(0.76);
-
-  // Visitor timezone comparison
-  const [visitorCity, setVisitorCity] = useState("Your City");
-  const [visitorTimeStr, setVisitorTimeStr] = useState("");
-  const [timeDiffText, setTimeDiffText] = useState("UTC+5:30");
 
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     setMounted(true);
 
-    // 1. Detect visitor location & compute timezone difference
-    try {
-      const visitorTz = Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
-      let vCity = "Your City";
-      if (visitorTz.includes("/")) {
-        const parts = visitorTz.split("/");
-        vCity = parts[parts.length - 1].replace(/_/g, " ");
-      } else {
-        vCity = visitorTz;
-      }
-      setVisitorCity(vCity);
-
-      const now = new Date();
-      const visitorOffsetMin = -now.getTimezoneOffset();
-      const kolkataOffsetMin = 330; // UTC+5:30
-      const diffHours = (kolkataOffsetMin - visitorOffsetMin) / 60;
-
-      if (Math.abs(diffHours) < 0.25) {
-        setTimeDiffText("Same timezone as you");
-      } else if (diffHours > 0) {
-        setTimeDiffText(`${diffHours % 1 === 0 ? diffHours : diffHours.toFixed(1)} hours ahead of you`);
-      } else {
-        const absDiff = Math.abs(diffHours);
-        setTimeDiffText(`${absDiff % 1 === 0 ? absDiff : absDiff.toFixed(1)} hours behind you`);
-      }
-    } catch {
-      // Graceful fallback
-    }
-
-    // 2. Discrete 1-second "tick tick" clock loop
+    // Discrete 1-second "tick tick" clock loop
     const updateTick = () => {
       const now = new Date();
 
@@ -104,9 +69,6 @@ export function PresenceClock() {
       setMinuteAngle(mAngle);
       setHourAngle(hAngle);
 
-      // Working hours roughly 9 AM to 10 PM IST
-      setIsWorkingHours(hour24 >= 9 && hour24 < 22);
-
       // Sun progress across 24h
       const totalMin = hour24 * 60 + min24;
       setSunProgress(totalMin / 1440);
@@ -124,14 +86,6 @@ export function PresenceClock() {
         setPhaseLabel("Night Sky");
       }
 
-      // Visitor local time
-      const vTime = new Intl.DateTimeFormat("en-US", {
-        hour: "numeric",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: true,
-      }).format(now);
-      setVisitorTimeStr(vTime);
     };
 
     updateTick();
@@ -288,20 +242,11 @@ export function PresenceClock() {
           </div>
 
           {/* Prominent Digital Clock Hero */}
-          <div className="mt-4 flex items-baseline justify-between">
+          <div className="mt-4 flex items-baseline justify-center text-center">
             <div className="font-mono text-2xl font-semibold tracking-tight text-[var(--color-text)] tabular-nums">
               {hours}:{minutes}:<span className="text-[var(--color-accent)]">{seconds}</span>{" "}
               <span className="text-sm font-normal text-[var(--color-muted)]">{ampm}</span>
             </div>
-            <span
-              className={`rounded-full border px-2.5 py-0.5 text-[10.5px] font-medium font-sans ${
-                isWorkingHours
-                  ? "border-emerald-400/25 bg-emerald-400/10 text-emerald-400"
-                  : "border-amber-400/25 bg-amber-400/10 text-amber-400"
-              }`}
-            >
-              {isWorkingHours ? "Active Working Hours" : "Available Asynchronously"}
-            </span>
           </div>
 
           {/* 24-Hour Solar Trajectory Arc */}
@@ -351,52 +296,6 @@ export function PresenceClock() {
                 </g>
               </svg>
             </div>
-          </div>
-
-          {/* Dual Timezone Synchronization (Visitor vs. Sudhanshu) */}
-          <div className="mt-3.5 rounded-xl border border-white/[0.06] bg-white/[0.025] p-3.5 backdrop-blur-md">
-            <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-wider text-[var(--color-muted)]">
-              <span>Timezone Comparison</span>
-              <span
-                className={`font-semibold ${
-                  timeDiffText.toLowerCase().includes("same")
-                    ? "text-emerald-400"
-                    : "text-[var(--color-accent)]"
-                }`}
-              >
-                {timeDiffText}
-              </span>
-            </div>
-
-            {/* Unified Comparison Row */}
-            <div className="mt-2.5 flex items-center justify-between rounded-lg border border-white/[0.05] bg-black/40 px-3.5 py-2.5 text-xs">
-              {/* Visitor Location */}
-              <div className="min-w-0 pr-2">
-                <span className="block truncate text-[10.5px] text-[var(--color-muted)]" title={visitorCity}>
-                  📍 {visitorCity}
-                </span>
-                <span className="mt-0.5 block font-mono text-[13px] font-semibold text-[var(--color-heading)] tabular-nums">
-                  {visitorTimeStr || "--:--"}
-                </span>
-              </div>
-
-              {/* Subtle hairline separator */}
-              <div className="h-7 w-px shrink-0 bg-white/[0.08]" aria-hidden="true" />
-
-              {/* Sudhanshu Location */}
-              <div className="pl-2 text-right">
-                <span className="block text-[10.5px] font-medium text-[var(--color-accent)]">
-                  ⚡ Sudhanshu (BLR)
-                </span>
-                <span className="mt-0.5 block font-mono text-[13px] font-semibold text-[var(--color-text)] tabular-nums">
-                  {hours}:{minutes}:{seconds} {ampm}
-                </span>
-              </div>
-            </div>
-
-            <p className="mt-2.5 text-[11px] leading-relaxed text-[var(--color-secondary)]">
-              Comfortable coordinating with teams across US, EU &amp; APAC. Async-first workflow with ~4–6h real-time overlap.
-            </p>
           </div>
 
           {/* Card Footer Action */}
