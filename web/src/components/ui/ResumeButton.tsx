@@ -62,7 +62,7 @@ export function ResumeButton({ href }: { href: string }) {
     >
       {/* Preview popover — ultra-premium glassmorphic dossier card */}
       <div
-        className={`resume-popover absolute bottom-[calc(100%+0.65rem)] left-0 z-50 w-[300px] sm:w-[335px] origin-bottom-left rounded-2xl border border-white/[0.14] bg-[#0b0e15]/95 p-1.5 shadow-[0_1px_0_inset_rgba(255,255,255,0.2),0_24px_64px_-12px_rgba(0,0,0,0.95),0_0_0_1px_rgba(0,0,0,0.7),0_12px_36px_-8px_color-mix(in_srgb,var(--color-accent)_26%,transparent)] backdrop-blur-2xl transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+        className={`resume-popover absolute bottom-[calc(100%+0.65rem)] left-0 z-50 w-[290px] sm:w-[320px] origin-bottom-left rounded-2xl border border-white/[0.14] bg-[#0b0e15]/95 p-1.5 shadow-[0_1px_0_inset_rgba(255,255,255,0.2),0_24px_64px_-12px_rgba(0,0,0,0.95),0_0_0_1px_rgba(0,0,0,0.7),0_12px_36px_-8px_color-mix(in_srgb,var(--color-accent)_26%,transparent)] backdrop-blur-2xl transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           isOpen
             ? "pointer-events-auto translate-y-0 scale-100 opacity-100"
             : "pointer-events-none translate-y-2 scale-95 opacity-0"
@@ -81,21 +81,14 @@ export function ResumeButton({ href }: { href: string }) {
 
         {/* Inner bezel wrapper */}
         <div className="overflow-hidden rounded-[14px] border border-white/[0.07] bg-[#080a0f]">
-          {/* Header strip: Identity + Status Beacon + Precision Download Pill */}
-          <div className="flex items-center justify-between gap-2 border-b border-white/[0.08] bg-gradient-to-r from-white/[0.05] via-white/[0.02] to-transparent px-3.5 py-2.5">
-            <div className="flex items-center gap-2.5">
-              <span className="relative flex h-2 w-2 items-center justify-center">
-                <span className="absolute inline-flex h-3 w-3 animate-ping rounded-full bg-emerald-400 opacity-60 duration-1000" />
-                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399]" />
-              </span>
-              <div className="flex flex-col">
-                <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--color-heading)]">
-                  Résumé
-                </span>
-                <span className="font-mono text-[8.5px] font-medium tracking-[0.08em] text-[var(--color-muted)]">
-                  Sudhanshu Kumar · 2026
-                </span>
-              </div>
+          {/* Header strip: Title + Precision Download Pill */}
+          <div className="flex items-center justify-between gap-2 border-b border-white/[0.08] bg-gradient-to-r from-white/[0.05] via-white/[0.02] to-transparent px-3 py-2">
+            <div className="flex items-center gap-1.5 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--color-heading)]">
+              <span
+                aria-hidden="true"
+                className="h-1.5 w-1.5 rounded-full bg-[var(--color-accent)] shadow-[0_0_6px_var(--color-accent)]"
+              />
+              Résumé
             </div>
 
             {/* Precision Download Pill */}
@@ -172,17 +165,6 @@ export function ResumeButton({ href }: { href: string }) {
                 </span>
               </div>
             </a>
-          </div>
-
-          {/* Footer strip: Metadata & Subtle interaction guide */}
-          <div className="flex items-center justify-between border-t border-white/[0.06] bg-[#080a0f] px-3.5 py-1.5 font-mono text-[9.5px] text-[var(--color-muted)]">
-            <span className="flex items-center gap-1.5">
-              <span className="inline-block h-1 w-1 rounded-full bg-[var(--color-accent)] shadow-[0_0_6px_var(--color-accent)]" />
-              1-Page PDF · Live Render
-            </span>
-            <span className="text-[var(--color-secondary)] transition-colors hover:text-white">
-              Click to view ↗
-            </span>
           </div>
         </div>
       </div>
