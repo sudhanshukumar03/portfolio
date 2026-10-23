@@ -737,3 +737,11 @@ b {
     scroll-behavior: auto !important;
   }
 }
+
+/* Resume preview popover desktop hover and focus-within support */
+.resume-preview-wrapper:hover .resume-popover,
+.resume-preview-wrapper:focus-within .resume-popover {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  transform: translateY(0) scale(1) !important;
+}
