@@ -627,6 +627,10 @@ b {
     position: sticky;
     top: calc(5.5rem + var(--i, 0) * 1.15rem);
   }
+
+  .work-card-slot:not(:last-child) {
+    margin-bottom: 2.75rem;
+  }
 }
 
 .work-card {
@@ -636,7 +640,7 @@ b {
 
 @media (min-width: 900px) {
   .work-card {
-    min-height: min(78vh, 640px);
+    min-height: min(72vh, 580px);
     box-shadow:
       0 -1px 0 0 rgba(255, 255, 255, 0.1),
       0 -24px 44px -20px rgba(0, 0, 0, 0.8),

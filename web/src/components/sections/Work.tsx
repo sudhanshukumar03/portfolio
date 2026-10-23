@@ -186,7 +186,7 @@ function ProjectSpread({
   return (
     <article
       onMouseMove={onMouseMove}
-      className="work-card group relative grid content-center overflow-hidden rounded-2xl border border-[var(--color-border)] border-t-[rgba(255,255,255,0.14)] bg-gradient-to-b from-[#161a24] to-[var(--color-surface)] p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_24px_50px_-20px_rgba(0,0,0,0.7)] transition-all duration-300 sm:p-8 md:p-10 lg:p-12"
+      className="work-card group relative grid content-center overflow-hidden rounded-2xl border border-[var(--color-border)] border-t-[rgba(255,255,255,0.14)] bg-gradient-to-b from-[#161a24] to-[var(--color-surface)] p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_24px_50px_-20px_rgba(0,0,0,0.7)] transition-all duration-300 sm:p-8 md:p-9 lg:p-10"
     >
       {/* Interactive cursor spotlight border sheen */}
       <div
@@ -216,27 +216,32 @@ function ProjectSpread({
             </span>
           </div>
 
-          <h3 className="mt-5 font-display text-[clamp(2.1rem,3.6vw,3.1rem)] font-bold leading-[1.04] tracking-[-0.038em]">
+          <h3 className="mt-4 font-display text-[clamp(2rem,3.4vw,2.9rem)] font-bold leading-[1.04] tracking-[-0.038em]">
             <ProjectName name={project.name} wordmark={project.wordmark} />
           </h3>
-          <h4 className="mt-3.5 text-[clamp(1.05rem,1.4vw,1.22rem)] font-semibold leading-snug tracking-[-0.015em] text-[var(--color-heading)]">
+          <h4 className="mt-2.5 text-[clamp(1rem,1.35vw,1.18rem)] font-semibold leading-snug tracking-[-0.015em] text-[var(--color-heading)]">
             {project.tagline}
           </h4>
-          <p className="mt-4 max-w-[54ch] text-[15px] leading-[1.78] text-[var(--color-body)]">
+          <p className="mt-3.5 max-w-[54ch] text-[14.5px] leading-[1.7] text-[var(--color-body)]">
             {project.summary}
           </p>
+
+          {/* Primary project actions: Architecture breakdown & repository */}
+          <div className="mt-5">
+            <ProjectLinks project={project} onOpenCaseStudy={onOpenCaseStudy} />
+          </div>
 
           <div className="mt-6 border-t border-[color-mix(in_srgb,var(--color-border)_60%,transparent)] pt-4">
             <span className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.18em] text-[var(--color-muted)]">
               Core Architecture &amp; Capabilities
             </span>
-            <ul className="mt-3 grid gap-x-6 gap-y-3 sm:grid-cols-2">
+            <ul className="mt-3 grid gap-x-6 gap-y-2.5 sm:grid-cols-2">
               {project.features.slice(0, 4).map((f) => {
                 const dashIndex = f.indexOf(" — ");
                 const lead = dashIndex !== -1 ? f.slice(0, dashIndex) : f;
                 const detail = dashIndex !== -1 ? f.slice(dashIndex + 3) : "";
                 return (
-                  <li key={f} className="flex items-start gap-2 text-[13.5px] leading-relaxed">
+                  <li key={f} className="flex items-start gap-2 text-[13px] leading-relaxed">
                     <span
                       aria-hidden="true"
                       className="flex-none font-mono text-[var(--color-accent)] select-none font-semibold"
@@ -254,23 +259,17 @@ function ProjectSpread({
           </div>
 
           {project.note && (
-            <p className="mt-5 max-w-[54ch] text-xs italic leading-relaxed text-[var(--color-muted)]">
+            <p className="mt-4 max-w-[54ch] text-xs italic leading-relaxed text-[var(--color-muted)]">
               {project.note}
             </p>
           )}
-
-          <div className="mt-8 hidden lg:block">
-            <TagRow items={project.tech} />
-            <ProjectLinks project={project} className="mt-6" onOpenCaseStudy={onOpenCaseStudy} />
-          </div>
         </div>
 
-        {/* Right — the preview + metadata on mobile */}
+        {/* Right — preview + technology stack */}
         <div className="flex flex-col lg:col-span-6">
           <ProjectPreview project={project} onOpenCaseStudy={onOpenCaseStudy} />
-          <div className="lg:hidden">
-            <TagRow items={project.tech} className="mt-6" />
-            <ProjectLinks project={project} className="mt-6" onOpenCaseStudy={onOpenCaseStudy} />
+          <div className="mt-4">
+            <TagRow items={project.tech} />
           </div>
         </div>
       </div>
@@ -329,6 +328,10 @@ function ProjectPreview({
     }
   };
 
+  const isLedgerMind = project.name.toLowerCase().includes("ledgermind");
+  const aspectClass = isLedgerMind ? "aspect-[16/10]" : "aspect-[16/9]";
+  const bgClass = isLedgerMind ? "bg-[#f5f4ef]" : "bg-[var(--color-surface-2)]";
+
   if (project.image) {
     return (
       <div
@@ -341,7 +344,7 @@ function ProjectPreview({
             onOpenCaseStudy(project.caseStudyId);
           }
         }}
-        className={`group/preview relative aspect-[16/9] w-full overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-2)] shadow-2xl transition-all duration-300 hover:border-[var(--color-accent)]/50 hover:shadow-[0_0_35px_-8px_color-mix(in_srgb,var(--color-accent)_22%,transparent)] ${
+        className={`group/preview relative ${aspectClass} w-full overflow-hidden rounded-xl border border-[var(--color-border)] ${bgClass} shadow-2xl transition-all duration-300 hover:border-[var(--color-accent)]/50 hover:shadow-[0_0_35px_-8px_color-mix(in_srgb,var(--color-accent)_22%,transparent)] ${
           project.caseStudyId ? "cursor-pointer" : ""
         }`}
       >
@@ -351,18 +354,9 @@ function ProjectPreview({
           fill
           unoptimized
           sizes="(min-width: 1024px) 45vw, 95vw"
-          className="object-contain object-center transition-transform duration-500 ease-out group-hover/preview:scale-[1.01]"
+          className="object-cover object-center transition-transform duration-500 ease-out group-hover/preview:scale-[1.01]"
         />
         <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-white/[0.08]" />
-
-        {project.caseStudyId && (
-          <div className="pointer-events-none absolute inset-0 flex items-end justify-end p-3.5 opacity-0 transition-opacity duration-200 group-hover/preview:opacity-100">
-            <span className="inline-flex items-center gap-1.5 rounded-md border border-[var(--color-border)] bg-[#0b0c0e]/90 px-2.5 py-1 text-[11px] font-semibold text-[var(--color-text)] shadow-lg backdrop-blur-sm">
-              <span>Read Architecture Deep-Dive</span>
-              <span className="text-[var(--color-accent)]">↗</span>
-            </span>
-          </div>
-        )}
       </div>
     );
   }

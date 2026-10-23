@@ -348,7 +348,6 @@ export function ContactForm() {
   const mailBody = encodeURIComponent(
     message ? `${message}${name || email ? `\n\n— ${name}${email ? ` (${email})` : ""}` : ""}` : ""
   );
-  const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${profile.links.email}&su=${mailSubject}&body=${mailBody}`;
   const mailtoUrl = `mailto:${profile.links.email}?subject=${mailSubject}&body=${mailBody}`;
 
   const mailtoFallback = () => {
@@ -362,7 +361,7 @@ export function ContactForm() {
       setStatus("error");
       setError(
         emailValidation.message ||
-          "A valid company work email address is required. For personal inquiries, please use the direct email link below."
+          "A valid company work email address is required."
       );
       if (emailRef.current) {
         emailRef.current.focus();
@@ -684,36 +683,6 @@ export function ContactForm() {
           )}
         </span>
       </button>
-
-      {/* Alternative direct client routes */}
-      <div className="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-[color-mix(in_srgb,var(--color-border)_50%,transparent)] pt-3 text-xs text-[var(--color-muted)]">
-        <span>Personal inquiry or direct reachout?</span>
-        <div className="flex items-center gap-2.5">
-          <a
-            href={gmailUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="focus-accent inline-flex items-center gap-1 font-mono transition-colors hover:text-[var(--color-accent)]"
-            title="Open Gmail compose in new tab"
-          >
-            <span>Gmail</span>
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-              <path d="M7 17L17 7M9 7h8v8" />
-            </svg>
-          </a>
-          <span aria-hidden="true" className="text-[var(--color-border)] select-none">·</span>
-          <a
-            href={mailtoUrl}
-            className="focus-accent inline-flex items-center gap-1 font-mono transition-colors hover:text-[var(--color-accent)]"
-            title="Open in default mail client"
-          >
-            <span>Mail App</span>
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-              <path d="M7 17L17 7M9 7h8v8" />
-            </svg>
-          </a>
-        </div>
-      </div>
     </form>
   );
 }

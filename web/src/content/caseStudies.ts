@@ -9,6 +9,7 @@ export type CaseStudy = {
   stack: string[];
   repo: string;
   demo?: string;
+  image?: string;
   statusBadge: string;
   incident: {
     headline: string;
@@ -54,6 +55,7 @@ export const caseStudies: Record<string, CaseStudy> = {
       "Tailwind CSS",
     ],
     repo: "https://github.com/sudhanshukumar03/KRAMA",
+    image: "/images/krama-os.png",
     statusBadge: "Operational Architecture",
     incident: {
       headline: "The Fragmented Monday Morning",
@@ -163,6 +165,7 @@ export const caseStudies: Record<string, CaseStudy> = {
       "Clerk",
     ],
     repo: "https://github.com/sudhanshukumar03/Context",
+    image: "/images/context.png",
     statusBadge: "Distributed Systems Telemetry",
     incident: {
       headline: "Tuesday, 2:14 AM — The $68,000 Outage",
@@ -273,6 +276,7 @@ export const caseStudies: Record<string, CaseStudy> = {
       "Google Gemini API",
     ],
     repo: "https://github.com/sudhanshukumar03/ledgerMind",
+    image: "/images/ledgermind.jpg",
     statusBadge: "Fintech Reconciliation Engine",
     incident: {
       headline: "The ₹3.4M Month-End Mystery",
@@ -374,6 +378,7 @@ export const caseStudies: Record<string, CaseStudy> = {
       "HTML5 Canvas",
     ],
     repo: "https://github.com/sudhanshukumar03/healthguard",
+    image: "/images/healthguard.jpg",
     statusBadge: "Hardware & Biomedical Pipeline",
     incident: {
       headline: "The Phantom Arrhythmia on the Breadboard",

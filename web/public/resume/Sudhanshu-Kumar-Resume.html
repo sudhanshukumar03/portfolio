@@ -72,8 +72,8 @@
   <header>
     <h1>Sudhanshu Kumar</h1>
     <div class="contact">
-      Bengaluru, Karnataka 560098
-      <span class="sep">|</span> +91 93043 72352
+      Bengaluru, Karnataka, India
+      <span class="sep">|</span> +91 9304372352
       <span class="sep">|</span> <a href="mailto:sksingh032003@gmail.com">sksingh032003@gmail.com</a>
       <br />
       <a href="https://www.linkedin.com/in/sudhanshurajputt/">LinkedIn</a>
@@ -83,11 +83,7 @@
   </header>
 
   <p class="summary">
-    Final-year ECE student who spends most of his time shipping full-stack products end to end —
-    React/Next.js on the front, Node and PostgreSQL underneath, and LLM features (RAG, agents, the
-    OpenAI SDK) wired in only where they actually earn their place. I like owning a feature from the
-    data model to the deployed UI and getting it in front of real users, not leaving it in a demo folder.
-    Looking for a Full-Stack Developer role where I can keep building across the whole stack.
+    Final-year ECE student who builds full-stack projects, mostly in TypeScript. I’ve built a payment reconciliation tool, a productivity app and an incident dashboard, and used LLMs in two of them. Looking for a Full Stack Developer role.
   </p>
 
   <section>
@@ -96,17 +92,17 @@
       <div class="role">JSS Academy of Technical Education, Bengaluru</div>
       <div class="meta">2023 – 2027</div>
     </div>
-    <div>B.E., Electronics &amp; Communication Engineering — CGPA: 7.6 / 10</div>
-    <div class="meta">Class XII — 72% &nbsp;|&nbsp; Class X — 82%</div>
+    <div>B.E., Electronics and Communication Engineering, CGPA: 7.5</div>
+    <div class="meta">Class XII: 72% &nbsp;|&nbsp; Class X: 82%</div>
   </section>
 
   <section class="skills">
     <h2>Technical Skills</h2>
     <p><span class="k">Languages:</span> C++, JavaScript, TypeScript, Python, SQL</p>
-    <p><span class="k">Full-Stack / Web:</span> React, Next.js, Node.js, Express.js, PostgreSQL, MongoDB, Prisma, REST APIs, JWT Auth, Redis</p>
-    <p><span class="k">AI / GenAI:</span> OpenAI SDK, LangChain, LangGraph, RAG pipelines, prompt engineering, vector search (pgvector)</p>
-    <p><span class="k">Tools &amp; Platforms:</span> Docker, Git/GitHub, FastAPI, Turborepo, BullMQ</p>
-    <p><span class="k">Embedded (Coursework + hands-on):</span> ESP32, biosensor integration (MAX30102 pulse-oximetry, AD8232 ECG, DS18B20, MPU6050), ADC sampling &amp; sensor calibration, UART/SPI/I2C, interrupts, RTOS basics, digital electronics</p>
+    <p><span class="k">Frontend:</span> React, Next.js, Tailwind CSS</p>
+    <p><span class="k">Backend &amp; Databases:</span> Node.js, Express.js, NestJS, FastAPI, REST APIs, JWT Auth, Clerk, MongoDB, PostgreSQL, Prisma, Drizzle, Redis, BullMQ</p>
+    <p><span class="k">AI / GenAI:</span> OpenAI SDK, LangChain, LangGraph, RAG, Prompt Engineering</p>
+    <p><span class="k">Tools &amp; Testing:</span> Docker, Git/GitHub, GitHub Actions, pnpm, Jest, Vitest, Supertest, Playwright</p>
   </section>
 
   <section>
@@ -114,36 +110,48 @@
 
     <div class="proj">
       <div class="row">
-        <div class="role">Context — Real-Time Incident Intelligence SaaS <span class="stack">· MERN, OpenAI SDK, JWT Auth</span></div>
-        <div class="meta">In progress</div>
+        <div class="role">LedgerMind: AI Payment Reconciliation <span class="stack">· NestJS, Next.js, PostgreSQL/Prisma, Redis/BullMQ</span></div>
+        <div class="meta"><a href="https://github.com/sudhanshukumar03/ledgerMind" style="color:var(--accent);text-decoration:none;">GitHub ↗</a></div>
       </div>
       <ul>
-        <li>Building a system that maps how services depend on each other and uses that graph to explain <i>why</i> an incident happened — and flag the ones likely to happen next — instead of leaving engineers to read raw stack traces.</li>
-        <li>Wrote my own JWT auth layer (no third-party provider) on a MERN backend, and wired in the OpenAI SDK to turn raw graph and telemetry data into a plain-English root-cause explanation a human can act on.</li>
-        <li>Shipping it in reviewed stages — auth, then the graph engine, then the incident feed — so bugs surface early instead of piling up at the end.</li>
+        <li>Reconciles orders, payments, refunds, settlements and bank records. It matches by ID first, then bank reference (UTR), then amount and time, and ranks whatever is left by how much money is at risk.</li>
+        <li>An AI assistant investigates each mismatch through 14 read-only tools and reports the likely cause, how confident it is, and the records behind it. It can only suggest a fix, and a person has to approve it.</li>
+        <li>Webhooks are checked with HMAC and de-duplicated, and jobs run on BullMQ. Razorpay is mocked and the bank data is synthetic. Tests use Jest, Supertest and Playwright.</li>
       </ul>
     </div>
 
     <div class="proj">
       <div class="row">
-        <div class="role">KRAMA OS — Personal Productivity SaaS <span class="stack">· Turborepo, PostgreSQL/Prisma, Redis, BullMQ, pgvector</span></div>
+        <div class="role">KRAMA: Personal Operating System <span class="stack">· React, TypeScript, Express, PostgreSQL/Prisma, Docker</span></div>
         <div class="meta"><a href="https://github.com/sudhanshukumar03/KRAMA" style="color:var(--accent);text-decoration:none;">GitHub ↗</a></div>
       </div>
       <ul>
-        <li>Built the backend on a Turborepo monorepo — PostgreSQL/Prisma for data, Redis + BullMQ to push anything that shouldn’t block a request (reminders, digest emails) onto background workers.</li>
-        <li>Put an AI Gateway in front of every LLM call that hashes and caches responses (SHA-256), so a repeated query never pays for a fresh API call twice — plus a pgvector RAG layer that grounds answers in the user’s own data instead of guessing.</li>
-        <li>Handled auth with JWT and rotating refresh tokens, then rebuilt the frontend from a plain dashboard into a HUD/control-room interface.</li>
+        <li>A personal workspace I built solo: nested pages with a rich-text editor, full-text search and backlinks, plus a Kanban board with sprints and issue dependencies.</li>
+        <li>Pages and issues connect through projects and goals. Progress rolls up on its own, and a pace check compares where a goal should be with where it actually is.</li>
+        <li>Express API with JWT in httpOnly cookies. I checked each feature end to end against a real database.</li>
       </ul>
     </div>
 
     <div class="proj">
       <div class="row">
-        <div class="role">HealthGuard — IoT Health-Monitoring Dashboard <span class="stack">· ESP32, FastAPI, MERN</span></div>
+        <div class="role">Context: Incident Intelligence Platform <span class="stack">· React, TypeScript, Express, PostgreSQL/Drizzle, OpenAI SDK</span></div>
+        <div class="meta"><a href="https://github.com/sudhanshukumar03/Context" style="color:var(--accent);text-decoration:none;">GitHub ↗</a></div>
+      </div>
+      <ul>
+        <li>Shows how services depend on each other as a graph. When one fails, it traces the cascade back to the likely cause and estimates how far the damage spreads and what it costs.</li>
+        <li>An OpenAI-powered assistant explains the cause with a confidence score, written for an engineer, an SRE or a manager. It is read-only, and fixes are tried in a sandbox first.</li>
+        <li>Multi-tenant API with Clerk auth. Vitest tests cover tenant isolation, token rotation and the audio stream buffer.</li>
+      </ul>
+    </div>
+
+    <div class="proj">
+      <div class="row">
+        <div class="role">Health Monitoring System: IoT Dashboard <span class="stack">· ESP32, FastAPI, MERN</span></div>
         <div class="meta"><a href="https://github.com/sudhanshukumar03/healthguard" style="color:var(--accent);text-decoration:none;">GitHub ↗</a></div>
       </div>
       <ul>
-        <li>Wired an ESP32 to a cluster of biosensors (MAX30102, AD8232, DS18B20, MPU6050), sampling and calibrating vitals on-device and streaming them over serial/I2C to a FastAPI/MERN backend.</li>
-        <li>Built a React dashboard styled to feel like something a clinician would actually read — live and historical vitals, not a generic admin panel.</li>
+        <li>Built an ESP32 node with biosensors that sends vitals to a FastAPI/MERN backend.</li>
+        <li>React dashboard shows live and historical readings.</li>
       </ul>
     </div>
   </section>
@@ -151,9 +159,8 @@
   <section>
     <h2>Achievements</h2>
     <ul>
-      <li>Solved <b>150+</b> problems on LeetCode across Arrays, Linked Lists, DP, Recursion, and Hash Tables — and still going as placement season ramps up.</li>
-      <li>Designed and stuck to my own 9–10 month roadmap covering full-stack development, GenAI, and DSA/interview prep, running it alongside coursework.</li>
-      <li>Ship every project as a deployable, Dockerized service rather than a local demo — auth, background jobs, and data layer included.</li>
+      <li>Participated in the Replit Buildathon and the Razorpay Buildathon.</li>
+      <li>Solved 100+ problems on LeetCode.</li>
     </ul>
   </section>
 </div>

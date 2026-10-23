@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 import { type CaseStudy } from "@/content/caseStudies";
 
 export function CaseStudyModal({
@@ -104,6 +105,24 @@ export function CaseStudyModal({
                 ))}
               </div>
             </div>
+
+            {/* System Interface / Architectural Showcase */}
+            {study.image && (
+              <div
+                className={`relative ${
+                  study.id === "ledgermind" ? "aspect-[16/10] bg-[#f5f4ef]" : "aspect-[16/9] bg-[#121620]"
+                } w-full overflow-hidden rounded-xl border border-[var(--color-border)] shadow-[0_20px_45px_-15px_rgba(0,0,0,0.8)]`}
+              >
+                <Image
+                  src={study.image}
+                  alt={`${study.title} preview`}
+                  fill
+                  unoptimized
+                  className="object-cover object-center"
+                />
+                <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-white/[0.08]" />
+              </div>
+            )}
 
             {/* The Incident / Problem */}
             <div className="rounded-xl border border-[color-mix(in_srgb,var(--color-accent)_20%,transparent)] bg-[color-mix(in_srgb,var(--color-accent)_4%,transparent)] p-5 sm:p-6">

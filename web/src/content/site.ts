@@ -274,7 +274,7 @@ export const projects: Project[] = [
     name: "KRAMA OS",
     caseStudyId: "krama-os",
     featured: true,
-    image: "/images/krama-os.jpg",
+    image: "/images/krama-os.png",
     tagline: "Unified Productivity & Knowledge Operating System",
     summary:
       "A single connected workspace that unifies notes, tasks, goals, habits, planning, and AI assistance — replacing a stack of disconnected apps with one system where knowledge management and execution live together.",
