@@ -6,8 +6,8 @@ const root = dirname(fileURLToPath(import.meta.url));
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  // Pin the workspace root — a stray lockfile in the home dir was being picked.
-  turbopack: { root },
+  // Only apply turbopack root for local dev to avoid conflicting with Vercel's outputFileTracingRoot
+  ...(!process.env.VERCEL ? { turbopack: { root } } : {}),
 };
 
 export default nextConfig;
