@@ -39,10 +39,10 @@ export const aboutMeta = {
 
 export const about = {
   short:
-    "I'm an Electronics & Communication Engineering student specializing in full-stack engineering and applied AI systems. Grounded in physical computing and systems architecture, I build software focused on production resilience, deterministic data models, and high-performance execution — engineered for scale, not just demos.",
+    "I'm an Electronics & Communication Engineering student who fell in love with building software. Coming from hardware—working with breadboards, microcontrollers, and signal noise—gave me a deep respect for how computers work under the hood. It taught me to value clean architecture, reliability, and code that holds up in the real world.",
   long: [
-    "My work bridges robust backend systems with refined product design. On the backend, I design relational data schemas with strict transactional invariants, caching layers, and asynchronous worker queues that survive burst traffic. On the frontend, I create calm, high-density interfaces in React and TypeScript tailored for operators under pressure.",
-    "Across systems like KRAMA OS, Context, LedgerMind, and Vyana, I explore what happens when you combine mathematically sound foundations with intelligent, human-centered automation.",
+    "Most of my days are spent working across the stack: designing solid relational schemas in PostgreSQL, setting up resilient background queues, and crafting fast, intuitive interfaces with React and TypeScript. I care deeply about fast page loads, thoughtful design details, and making complex systems feel simple to use.",
+    "Through projects like KRAMA OS, Context, LedgerMind, and Vyana, I've built systems spanning incident intelligence, automated reconciliation, and IoT vitals telemetry. I'm always building, learning, and looking forward to collaborating on high-impact products.",
   ],
 };
 
@@ -80,12 +80,10 @@ export const projects: Project[] = [
     summary:
       "A single connected workspace that unifies notes, tasks, goals, habits, planning, and AI assistance — replacing a stack of disconnected apps with one system where knowledge management and execution live together.",
     features: [
-      "Brain workspace — Notion-style nested pages with rich text",
-      "Execution layer — issues, Kanban boards, sprint views",
-      "Planner — weekly planning, time blocks, planning matrix",
-      "Habit tracker connected to goals and execution",
-      "Focus timer — Pomodoro-based workflows",
-      "Context-aware AI assistant over your project data",
+      "Brain Workspace — Nested pages with **Tiptap rich text** and markdown support",
+      "Execution Engine — Unified **Kanban boards**, **sprint views**, and issue tracking",
+      "Structured Planner — **Weekly time blocks** and planning matrix prioritization",
+      "Context-Aware AI — In-session assistant grounded over project data via **RAG**",
     ],
     tech: [
       "Next.js",
@@ -109,12 +107,10 @@ export const projects: Project[] = [
     summary:
       "An incident intelligence platform that transforms hundreds of fragmented alerts across Kubernetes, Datadog, PagerDuty, and Slack into an explainable causal graph with real-time root cause isolation, revenue exposure estimation, and role-based remediation.",
     features: [
-      "Topology-aware service dependency graph with directional blast radius",
-      "Causal root-cause isolation tracing cascade paths to trigger deploys",
-      "Financial risk modeling computing real-time revenue at risk ($/hr)",
-      "Role-based AI incident lenses (Engineer, SRE, and Manager)",
-      "Remediation sandbox for dry-run kubectl rollbacks and restarts",
-      "Multi-source telemetry ingestion from Kubernetes, PagerDuty, and Slack",
+      "Causal Dependency Graph — Real-time **directional blast radius** across Kubernetes clusters",
+      "Root-Cause Isolation — Automated **causal inference** tracing alerts to originating deploys",
+      "Financial Risk Engine — Real-time **revenue-at-risk ($/hr)** modeling downtime impact",
+      "Remediation Sandbox — Dry-run simulation for **kubectl rollbacks** and targeted pod restarts",
     ],
     tech: [
       "TypeScript",
@@ -137,12 +133,10 @@ export const projects: Project[] = [
     summary:
       "A reconciliation engine for fragmented financial data across Razorpay, banks, orders, payments, refunds, and settlements. Deterministic matching runs first; an AI layer investigates exceptions and suggests resolutions — it analyzes, it doesn't replace the core financial logic.",
     features: [
-      "Webhook ingestion with signature verification",
-      "Financial data normalization",
-      "Matching: exact ID, UTR, amount/time-window, metadata similarity",
-      "Exception classification",
-      "AI-assisted investigation with vector retrieval",
-      "Background processing with BullMQ",
+      "Deterministic Matching — Multi-stage exact reconciliation across **UTRs** and **payment IDs**",
+      "AI Exception Classifier — **Vector-similarity retrieval** isolating unmatched Razorpay anomalies",
+      "High-Throughput Pipeline — Signature-verified webhooks normalized with **BullMQ** and **Redis**",
+      "Audit-Ready Ledger — Immutable double-entry transaction invariants enforced in **PostgreSQL**",
     ],
     tech: [
       "NestJS",
@@ -166,10 +160,10 @@ export const projects: Project[] = [
     summary:
       "A real-time biomedical telemetry platform bridging hardware sensors with FastAPI and Node.js microservices, PostgreSQL time-series storage, and a responsive clinical monitoring console with unified vital trends and predictive AI health insights.",
     features: [
-      "Unified Vital Trends — Continuous real-time tracking for heart rate (BPM), blood oxygen (SpO2), body temperature, and live ECG rhythm.",
-      "Predictive AI Health Insights — Sleep consistency and daily activity recovery recommendations synthesized from longitudinal vitals baselines.",
-      "Dual-Engine Telemetry Pipeline — Node.js and FastAPI ingestion normalizing sensor packets with low-latency WebSocket broadcast.",
-      "Vyana Simulator & IoT Integration — ESP32 biomedical sensor firmware paired with virtual simulator telemetry for automated cloud testing.",
+      "Unified Vital Trends — Real-time tracking for **heart rate (BPM)**, **blood oxygen (SpO2)**, **body temperature**, and live **ECG rhythm**",
+      "Predictive AI Insights — Sleep consistency and recovery recommendations synthesized from **longitudinal vitals baselines**",
+      "Dual-Engine Pipeline — Low-latency **FastAPI** and **Node.js** telemetry streaming over **WebSockets**",
+      "Vyana Simulator & IoT — **ESP32 biosensor firmware** paired with virtual device simulation for automated testing",
     ],
     tech: ["React", "TypeScript", "Node.js", "FastAPI", "PostgreSQL", "ESP32", "WebSockets"],
     repo: "https://github.com/sudhanshukumar03/healthguard",

@@ -24,6 +24,20 @@ function splitName(name: string): [string, string] {
   return [name, ""];
 }
 
+function renderHighlightedText(text: string) {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  return parts.map((part, i) => {
+    if (part.startsWith("**") && part.endsWith("**")) {
+      return (
+        <strong key={i} className="font-semibold text-white">
+          {part.slice(2, -2)}
+        </strong>
+      );
+    }
+    return part;
+  });
+}
+
 function ProjectName({
   name,
   wordmark,
@@ -235,22 +249,26 @@ function ProjectSpread({
             <span className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.18em] text-[var(--color-muted)]">
               Core Architecture &amp; Capabilities
             </span>
-            <ul className="mt-3 grid gap-x-6 gap-y-2.5 sm:grid-cols-2">
+            <ul className="mt-3.5 grid gap-x-8 gap-y-3 sm:grid-cols-2">
               {project.features.slice(0, 4).map((f) => {
                 const dashIndex = f.indexOf(" — ");
                 const lead = dashIndex !== -1 ? f.slice(0, dashIndex) : f;
                 const detail = dashIndex !== -1 ? f.slice(dashIndex + 3) : "";
                 return (
-                  <li key={f} className="flex items-start gap-2 text-[13px] leading-relaxed">
+                  <li key={f} className="flex items-start gap-2.5 text-[13.5px] sm:text-[14px] leading-[1.65]">
                     <span
                       aria-hidden="true"
-                      className="flex-none font-mono text-[var(--color-accent)] select-none font-semibold"
+                      className="mt-0.5 flex-none font-mono text-[var(--color-accent)] select-none text-[12px] font-bold"
                     >
-                      -
+                      ›
                     </span>
                     <span className="text-[var(--color-body)]">
-                      <strong className="font-semibold text-[var(--color-text)]">{lead}</strong>
-                      {detail && <span className="text-[var(--color-secondary)]"> &mdash; {detail}</span>}
+                      <strong className="font-semibold text-white tracking-tight">{lead}</strong>
+                      {detail && (
+                        <span className="text-[var(--color-body)]">
+                          {" "}&mdash; {renderHighlightedText(detail)}
+                        </span>
+                      )}
                     </span>
                   </li>
                 );

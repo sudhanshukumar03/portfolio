@@ -15,7 +15,7 @@ export function About() {
           eyebrow="BACKGROUND & CRAFT"
           title="Background & approach"
           accent="approach"
-          subtitle="Engineering systems that bridge structural reliability with human-centered product craft."
+          subtitle="Building reliable full-stack applications, data systems, and thoughtful product experiences."
         />
       </Reveal>
 
