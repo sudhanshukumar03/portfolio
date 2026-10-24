@@ -38,11 +38,14 @@ export function ResumeButton({ href }: { href: string }) {
     }
     closeTimerRef.current = setTimeout(() => {
       setIsOpen(false);
-    }, 320);
+    }, 70);
   };
 
   const handleBlur = (e: React.FocusEvent<HTMLDivElement>) => {
     if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+      if (closeTimerRef.current) {
+        clearTimeout(closeTimerRef.current);
+      }
       setIsOpen(false);
     }
   };
@@ -51,7 +54,6 @@ export function ResumeButton({ href }: { href: string }) {
     <div
       className="resume-preview-wrapper group/resume relative inline-block"
       onMouseEnter={keepOpen}
-      onMouseMove={keepOpen}
       onMouseLeave={scheduleClose}
       onFocus={keepOpen}
       onBlur={handleBlur}
@@ -62,20 +64,19 @@ export function ResumeButton({ href }: { href: string }) {
     >
       {/* Preview popover — ultra-premium glassmorphic dossier card */}
       <div
-        className={`resume-popover absolute bottom-[calc(100%+0.65rem)] left-0 z-50 w-[290px] sm:w-[320px] origin-bottom-left rounded-2xl border border-white/[0.14] bg-[#0b0e15]/95 p-1.5 shadow-[0_1px_0_inset_rgba(255,255,255,0.2),0_24px_64px_-12px_rgba(0,0,0,0.95),0_0_0_1px_rgba(0,0,0,0.7),0_12px_36px_-8px_color-mix(in_srgb,var(--color-accent)_26%,transparent)] backdrop-blur-2xl transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+        className={`resume-popover absolute bottom-[calc(100%+0.65rem)] left-0 z-50 w-[290px] sm:w-[320px] origin-bottom-left rounded-2xl border border-white/[0.14] bg-[#0b0e15]/95 p-1.5 shadow-[0_1px_0_inset_rgba(255,255,255,0.2),0_24px_64px_-12px_rgba(0,0,0,0.95),0_0_0_1px_rgba(0,0,0,0.7),0_12px_36px_-8px_color-mix(in_srgb,var(--color-accent)_26%,transparent)] backdrop-blur-2xl transition-[opacity,transform] ${
           isOpen
-            ? "pointer-events-auto translate-y-0 scale-100 opacity-100"
-            : "pointer-events-none translate-y-2 scale-95 opacity-0"
+            ? "pointer-events-auto translate-y-0 scale-100 opacity-100 duration-200 ease-out"
+            : "pointer-events-none translate-y-1 scale-95 opacity-0 duration-150 ease-in"
         }`}
         onMouseEnter={keepOpen}
-        onMouseMove={keepOpen}
         onMouseLeave={scheduleClose}
         role="dialog"
         aria-label="Résumé Preview Card"
       >
         {/* Invisible hit-area bridge spanning between button and popover */}
         <div
-          className="pointer-events-auto absolute -bottom-5 -left-4 -right-4 h-7"
+          className="pointer-events-auto absolute -bottom-3 inset-x-0 h-4"
           aria-hidden="true"
         />
 
