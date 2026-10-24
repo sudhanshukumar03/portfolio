@@ -21,14 +21,14 @@ const geistMono = Geist_Mono({
 });
 
 // Set the deploy origin so Next can resolve absolute URLs for OpenGraph/Twitter
-// images (the /opengraph-image route). Defaults to production domain https://sudhanshukumar.dev.
+// images (the /opengraph-image route). Defaults to production domain https://sudhanshukumar03.vercel.app.
 const siteUrl = (
   process.env.NEXT_PUBLIC_SITE_URL ||
   (process.env.VERCEL_PROJECT_PRODUCTION_URL
     ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
     : process.env.VERCEL_URL
     ? `https://${process.env.VERCEL_URL}`
-    : "https://sudhanshukumar.dev")
+    : "https://sudhanshukumar03.vercel.app")
 ).replace(/\/+$/, "");
 
 export const metadata: Metadata = {

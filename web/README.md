@@ -1,21 +1,24 @@
 # portfolio-web
 
-Implementation of Sudhanshu Kumar's personal portfolio web application.
+Production implementation of Sudhanshu Kumar's personal portfolio web application.
+
+- **Live URL**: [https://sudhanshukumar03.vercel.app](https://sudhanshukumar03.vercel.app/)
+- **Repository**: [https://github.com/sudhanshukumar03/portfolio](https://github.com/sudhanshukumar03/portfolio)
 
 ## Stack
-React 19 · Next.js 16 (App Router) · TypeScript · Tailwind CSS v4 · Vercel
+React 19 · Next.js 16 (App Router) · TypeScript 5.6 · Tailwind CSS v4 · Vercel
 
-CSS-first animation (no heavy runtime animation library in the initial bundle). Bespoke UI primitives calibrated for the Obsidian & Copper aesthetic.
+CSS-first animations with zero runtime animation library in the initial bundle. Bespoke UI primitives calibrated for the **Obsidian & Scarlet Flame** aesthetic (`#0b0c0e` charcoal base, `#ea2e20` scarlet accents).
 
 ## Structure
 ```
 src/
-├── app/            App Router — single-page composition (page.tsx), layout, opengraph
+├── app/            App Router — page.tsx, layout, opengraph, twitter-image, sitemap, robots
 ├── components/
-│   ├── sections/   Hero, Work, Skills, About, Contact, Footer
-│   ├── ui/         Bespoke UI primitives (buttons, tags, dials, aura)
+│   ├── sections/   Hero, Work (sticky deck), About, CollaborateCTA, Contact, Footer
+│   ├── ui/         Bespoke UI primitives (CaseStudyModal, PresenceClock, ContactForm, etc.)
 │   └── layout/     Nav, PageShell
-├── content/        Typed content source (site.ts, brandIcons.ts)
+├── content/        Typed content source (site.ts, caseStudies.ts, brandIcons.ts)
 └── styles/         globals.css with design-system tokens and custom utilities
 public/
 ├── images/         Optimized webp portraits & project screenshots

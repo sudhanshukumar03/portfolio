@@ -17,6 +17,7 @@ export const profile = {
   // Fuller facts live in About; kept here for reference/reuse.
   heroStats: ["Systems & Distributed Architecture", "Full-Stack & Applied AI", "Bengaluru, Karnataka"],
   links: {
+    website: "https://sudhanshukumar03.vercel.app",
     github: "https://github.com/sudhanshukumar03",
     linkedin: "https://www.linkedin.com/in/sudhanshurajputt/",
     x: "https://x.com/Sudhans69033589",
