@@ -39,11 +39,10 @@ export const aboutMeta = {
 
 export const about = {
   short:
-    "I'm an Electronics & Communication Engineering student focused on software engineering, full-stack development, and generative AI. I like building products that solve real problems and are engineered for reliability and scale — not just demos.",
+    "I'm an Electronics & Communication Engineering student specializing in full-stack engineering and applied AI systems. Grounded in physical computing and systems architecture, I build software focused on production resilience, deterministic data models, and high-performance execution — engineered for scale, not just demos.",
   long: [
-    "My interests sit at the intersection of technology, product design, and intelligent systems. I enjoy building applications that go beyond basic functionality — products that deliver thoughtful user experiences and hold up in production.",
-    "My current focus is modern frontend development, backend architecture, databases, AI-powered applications, and production-oriented engineering. Through projects like KRAMA OS and LedgerMind I explore how software can combine structured systems, intelligent automation, and user-centered design.",
-    "I'm continuously learning, experimenting, and building toward becoming a stronger software engineer.",
+    "My work bridges robust backend systems with refined product design. On the backend, I design relational data schemas with strict transactional invariants, caching layers, and asynchronous worker queues that survive burst traffic. On the frontend, I create calm, high-density interfaces in React and TypeScript tailored for operators under pressure.",
+    "Across systems like KRAMA OS, Context, LedgerMind, and Vyana, I explore what happens when you combine mathematically sound foundations with intelligent, human-centered automation.",
   ],
 };
 
@@ -52,204 +51,6 @@ export const education = {
   school: "JSS Academy of Technical Education, Bengaluru",
   detail: "Final Year · Class of 2026 · Bengaluru",
 };
-
-export type SkillGroup = { label: string; items: string[] };
-
-// The core stack — what actually defines the work. Led with, before the full
-// inventory, so the signal isn't buried under ~50 tags.
-export const primaryStack: string[] = [
-  "React / Next.js",
-  "TypeScript",
-  "Node.js / NestJS",
-  "PostgreSQL / Prisma",
-  "RAG / LangChain",
-  "Docker",
-];
-
-// Relevance cluster (§9) — one loose cluster, sized by weight (3 = core to the
-// work, 1 = supporting). Real tools only; drawn from the groups below.
-export type ClusterSkill = { label: string; weight: 1 | 2 | 3 };
-export const skillCluster: ClusterSkill[] = [
-  { label: "TypeScript", weight: 3 },
-  { label: "React", weight: 3 },
-  { label: "Next.js", weight: 3 },
-  { label: "Node.js", weight: 3 },
-  { label: "PostgreSQL", weight: 3 },
-  { label: "RAG", weight: 3 },
-  { label: "NestJS", weight: 2 },
-  { label: "Prisma", weight: 2 },
-  { label: "Tailwind CSS", weight: 2 },
-  { label: "LangChain", weight: 2 },
-  { label: "Redis", weight: 2 },
-  { label: "Docker", weight: 2 },
-  { label: "Python", weight: 2 },
-  { label: "LangGraph", weight: 2 },
-  { label: "Express.js", weight: 1 },
-  { label: "Fastify", weight: 1 },
-  { label: "pgvector", weight: 1 },
-  { label: "Pinecone", weight: 1 },
-  { label: "Gemini", weight: 1 },
-  { label: "Groq", weight: 1 },
-  { label: "BullMQ", weight: 1 },
-  { label: "WebSockets", weight: 1 },
-  { label: "TanStack Query", weight: 1 },
-  { label: "Zustand", weight: 1 },
-  { label: "Tiptap", weight: 1 },
-  { label: "GitHub Actions", weight: 1 },
-  { label: "Docker Compose", weight: 1 },
-  { label: "Nginx", weight: 1 },
-  { label: "Vercel", weight: 1 },
-  { label: "Railway", weight: 1 },
-  { label: "Embeddings", weight: 1 },
-  { label: "Hybrid search", weight: 1 },
-];
-
-export const skills: SkillGroup[] = [
-  {
-    label: "Frontend",
-    items: [
-      "React 19",
-      "Next.js 16",
-      "TypeScript",
-      "Tailwind CSS v4",
-    ],
-  },
-  {
-    label: "Libraries & UI",
-    items: [
-      "shadcn/ui",
-      "Framer Motion",
-      "TanStack Query",
-      "Zustand",
-      "Tiptap",
-      "Vite",
-    ],
-  },
-  {
-    label: "Backend",
-    items: [
-      "Node.js",
-      "NestJS",
-      "Express.js",
-      "Fastify",
-      "WebSockets / Socket.IO",
-    ],
-  },
-  {
-    label: "Databases",
-    items: [
-      "PostgreSQL",
-      "MongoDB",
-      "Prisma ORM",
-      "Drizzle ORM",
-      "Redis",
-      "pgvector",
-      "Pinecone",
-    ],
-  },
-  {
-    label: "Artificial Intelligence",
-    items: [
-      "LangChain",
-      "LangGraph",
-      "LlamaIndex",
-      "Hugging Face",
-      "Ollama",
-    ],
-  },
-  {
-    label: "DevOps & Deployment",
-    items: [
-      "Docker",
-      "Docker Compose",
-      "Nginx",
-      "GitHub Actions",
-      "pnpm",
-      "Vercel",
-      "Railway",
-    ],
-  },
-];
-
-export type BlogPlatform = "devto" | "hashnode" | "medium" | "linkedin";
-
-export type BlogPost = {
-  slug: string;
-  title: string;
-  excerpt: string;
-  date: string; // ISO — used for sort + <time>
-  readingMinutes: number;
-  tags: string[];
-  status: "published" | "draft";
-  caseStudyId?: string;
-  // Where this post is (or will be) cross-published. Empty = local only.
-  crossPosts: { platform: BlogPlatform; url: string }[];
-};
-
-// Architecture dispatches & technical essays grounded in the systems built.
-export const posts: BlogPost[] = [
-  {
-    slug: "building-krama-os",
-    title: "Designing a unified data model for KRAMA OS",
-    excerpt:
-      "How I connected notes, tasks, goals, and habits under one schema instead of stitching together separate apps.",
-    date: "2026-08-14",
-    readingMinutes: 7,
-    tags: ["Architecture", "PostgreSQL", "Product"],
-    status: "published",
-    caseStudyId: "krama-os",
-    crossPosts: [{ platform: "devto", url: "https://github.com/sudhanshukumar03/KRAMA" }],
-  },
-  {
-    slug: "deterministic-reconciliation-with-ai",
-    title: "Deterministic reconciliation first, AI second",
-    excerpt:
-      "Why LedgerMind matches financial records with hard rules and uses the LLM only to investigate exceptions.",
-    date: "2026-07-02",
-    readingMinutes: 9,
-    tags: ["AI", "Fintech", "NestJS"],
-    status: "published",
-    caseStudyId: "ledgermind",
-    crossPosts: [{ platform: "devto", url: "https://github.com/sudhanshukumar03/ledgerMind" }],
-  },
-  {
-    slug: "rag-that-actually-retrieves",
-    title: "RAG that actually retrieves: hybrid search + reranking",
-    excerpt:
-      "Notes on combining vector similarity with keyword search and a reranker to cut down hallucinated answers.",
-    date: "2026-05-20",
-    readingMinutes: 6,
-    tags: ["AI", "RAG", "pgvector"],
-    status: "published",
-    caseStudyId: "context",
-    crossPosts: [{ platform: "devto", url: "https://github.com/sudhanshukumar03/Context" }],
-  },
-];
-
-export type Service = { title: string; description: string };
-
-export const services: Service[] = [
-  {
-    title: "Full-Stack Web Development",
-    description:
-      "Modern web applications with React, Next.js, TypeScript, Node.js, and PostgreSQL.",
-  },
-  {
-    title: "AI-Powered Applications",
-    description:
-      "RAG systems, LLM integrations, AI assistants, and intelligent workflows.",
-  },
-  {
-    title: "Backend & Database Engineering",
-    description:
-      "APIs, relational data modeling, PostgreSQL, Prisma, Redis, and background processing.",
-  },
-  {
-    title: "Product UI / UX Development",
-    description:
-      "Premium, responsive, accessible interfaces inspired by editorial and modern product design.",
-  },
-];
 
 export type Project = {
   index: string;
@@ -357,20 +158,21 @@ export const projects: Project[] = [
   },
   {
     index: "04",
-    name: "HealthGuard",
-    caseStudyId: "healthguard",
-    image: "/images/healthguard.jpg",
-    tagline: "Intelligent Health Monitoring Platform (concept)",
+    name: "Vyana",
+    wordmark: ["Vy", "ana"],
+    caseStudyId: "vyana",
+    image: "/images/vyana.png",
+    tagline: "AI Health Monitoring System & IoT Vitals Pipeline",
     summary:
-      "A health-monitoring concept combining sensor-based vitals, backend processing, AI analysis, and a web dashboard: sensors → JSON → Node.js → PostgreSQL → Python AI → React dashboard.",
+      "A real-time biomedical telemetry platform bridging hardware sensors with FastAPI and Node.js microservices, PostgreSQL time-series storage, and a responsive clinical monitoring console with unified vital trends and predictive AI health insights.",
     features: [
-      "Sensor integration (ESP32, MAX30102, AD8232, DS18B20, MPU6050)",
-      "Backend communication and data storage",
-      "AI-assisted health-monitoring concepts",
-      "Dashboard visualization of collected data",
+      "Unified Vital Trends — Continuous real-time tracking for heart rate (BPM), blood oxygen (SpO2), body temperature, and live ECG rhythm.",
+      "Predictive AI Health Insights — Sleep consistency and daily activity recovery recommendations synthesized from longitudinal vitals baselines.",
+      "Dual-Engine Telemetry Pipeline — Node.js and FastAPI ingestion normalizing sensor packets with low-latency WebSocket broadcast.",
+      "Vyana Simulator & IoT Integration — ESP32 biomedical sensor firmware paired with virtual simulator telemetry for automated cloud testing.",
     ],
-    tech: ["ESP32", "Node.js", "PostgreSQL", "Python", "React"],
+    tech: ["React", "TypeScript", "Node.js", "FastAPI", "PostgreSQL", "ESP32", "WebSockets"],
     repo: "https://github.com/sudhanshukumar03/healthguard",
-    note: "Exploratory concept. Components are in progress or planned — this is not validated medical monitoring.",
+    note: "Exploratory prototype. Hardware sensor integration with simulated device telemetry — not validated for clinical diagnosis.",
   },
 ];

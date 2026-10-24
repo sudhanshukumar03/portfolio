@@ -359,27 +359,26 @@ export const caseStudies: Record<string, CaseStudy> = {
       "Fintech engineering requires absolute discipline. AI is a magnificent investigator for anomalies, but the ledger itself must remain cold, mathematical, and unyielding.",
   },
 
-  healthguard: {
-    id: "healthguard",
-    title: "HealthGuard",
-    subtitle: "Hardware Sensor Telemetry & Biomedical Vitals Pipeline",
+  vyana: {
+    id: "vyana",
+    title: "Vyana",
+    subtitle: "AI Health Monitoring System & Biomedical Vitals Pipeline",
     role: "Embedded Systems & Full-Stack Engineer",
     stack: [
-      "ESP32 (C++ / FreeRTOS)",
-      "AD8232 ECG",
-      "MAX30102 PPG",
-      "DS18B20",
-      "MPU6050",
+      "React 19",
+      "TypeScript",
       "Node.js",
       "FastAPI",
-      "PostgreSQL",
-      "React",
+      "PostgreSQL 16",
+      "ESP32 (C++ / FreeRTOS)",
       "WebSockets",
+      "AD8232 ECG",
+      "MAX30102 PPG",
       "HTML5 Canvas",
     ],
     repo: "https://github.com/sudhanshukumar03/healthguard",
-    image: "/images/healthguard.jpg",
-    statusBadge: "Hardware & Biomedical Pipeline",
+    image: "/images/vyana.png",
+    statusBadge: "Biomedical & AI Telemetry",
     incident: {
       headline: "The Phantom Arrhythmia on the Breadboard",
       narrative: [
@@ -427,11 +426,12 @@ export const caseStudies: Record<string, CaseStudy> = {
         ],
       },
       {
-        title: "Real-Time Clinical Telemetry Dashboard",
+        title: "Clinical Telemetry Console & AI Health Insights",
         bullets: [
-          "High-performance HTML5 Canvas ECG strip chart with continuous sweep rendering.",
-          "Live telemetry dials for SpO2, heart rate, body temperature, and motion vector warnings.",
-          "Honesty framing: clearly marked as an exploratory hardware prototype, not an FDA-cleared diagnostic device.",
+          "Interactive React console with multi-metric trends comparing heart rate (BPM) and blood oxygen (SpO2) over time.",
+          "High-performance floating ECG preview rendering continuous 25 mm/s sweep waveforms on clinical grid canvas.",
+          "Automated AI health insights synthesizing circadian sleep schedules and daily activity recommendations from vitals baselines.",
+          "Dual device mode: live hardware sensor connection via ESP32 alongside virtual device simulation for continuous testing.",
         ],
       },
     ],
@@ -460,3 +460,6 @@ export const caseStudies: Record<string, CaseStudy> = {
       "Working across the full stack—from microvolts on copper pins to cloud databases and canvas graphics—forever cured me of treating the computer as an abstract black box.",
   },
 };
+
+// Backwards-compatible alias for any legacy links/IDs
+caseStudies.healthguard = caseStudies.vyana;

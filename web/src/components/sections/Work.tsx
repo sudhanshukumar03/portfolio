@@ -329,8 +329,15 @@ function ProjectPreview({
   };
 
   const isLedgerMind = project.name.toLowerCase().includes("ledgermind");
+  const isVyana =
+    project.name.toLowerCase().includes("vyana") ||
+    project.name.toLowerCase().includes("healthguard");
   const aspectClass = isLedgerMind ? "aspect-[16/10]" : "aspect-[16/9]";
-  const bgClass = isLedgerMind ? "bg-[#f5f4ef]" : "bg-[var(--color-surface-2)]";
+  const bgClass = isLedgerMind
+    ? "bg-[#f5f4ef]"
+    : isVyana
+    ? "bg-[#f6faf9]"
+    : "bg-[var(--color-surface-2)]";
 
   if (project.image) {
     return (

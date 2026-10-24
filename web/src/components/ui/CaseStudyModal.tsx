@@ -110,7 +110,11 @@ export function CaseStudyModal({
             {study.image && (
               <div
                 className={`relative ${
-                  study.id === "ledgermind" ? "aspect-[16/10] bg-[#f5f4ef]" : "aspect-[16/9] bg-[#121620]"
+                  study.id === "ledgermind"
+                    ? "aspect-[16/10] bg-[#f5f4ef]"
+                    : study.id === "vyana" || study.id === "healthguard"
+                    ? "aspect-[16/9] bg-[#f6faf9]"
+                    : "aspect-[16/9] bg-[#121620]"
                 } w-full overflow-hidden rounded-xl border border-[var(--color-border)] shadow-[0_20px_45px_-15px_rgba(0,0,0,0.8)]`}
               >
                 <Image

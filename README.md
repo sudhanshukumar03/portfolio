@@ -86,10 +86,10 @@ I don't believe in listing tutorial clones. The four featured systems represent 
 - **Stack**: NestJS, PostgreSQL, Prisma, Redis, BullMQ, Docker, Next.js, Gemini.
 - **Repository**: [github.com/sudhanshukumar03/ledgerMind](https://github.com/sudhanshukumar03/ledgerMind)
 
-### 4. HealthGuard — Hardware Sensor to Cloud Pipeline
+### 4. Vyana — AI Health Monitoring System & IoT Vitals Pipeline
 - **The Reality Check**: This is an exploratory prototype, not an FDA-cleared diagnostic device.
-- **The Architecture**: ESP32 microcontrollers wire into pulse oximeters (MAX30102) and temperature probes, transmitting telemetry via JSON over HTTP to a Node.js ingestion backend, storing raw series in PostgreSQL, and graphing trends on a responsive dashboard.
-- **Stack**: ESP32 (C++), Node.js, PostgreSQL, Python, React.
+- **The Architecture**: Bridges ESP32 biomedical hardware sensors (ECG, PPG, temperature) with FastAPI microservices, PostgreSQL time-series storage, and an interactive React clinical monitoring console featuring predictive AI health insights, unified vital trends, and continuous ECG preview sweeps.
+- **Stack**: React, TypeScript, Node.js, FastAPI, PostgreSQL, ESP32 (C++), WebSockets.
 - **Repository**: [github.com/sudhanshukumar03/healthguard](https://github.com/sudhanshukumar03/healthguard)
 
 ---

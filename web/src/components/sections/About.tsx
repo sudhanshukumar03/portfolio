@@ -13,8 +13,8 @@ export function About() {
         <SectionHeading
           index="02"
           eyebrow="BACKGROUND & CRAFT"
-          title="Background & stance"
-          accent="stance"
+          title="Background & approach"
+          accent="approach"
           subtitle="Engineering systems that bridge structural reliability with human-centered product craft."
         />
       </Reveal>
@@ -22,12 +22,10 @@ export function About() {
       <div className="mt-8 grid gap-12 lg:grid-cols-12">
         {/* Bio — ~65% */}
         <Reveal as="div" delay={140} className="lg:col-span-8">
-          <div className="max-w-[68ch] space-y-4 text-[clamp(1rem,1.4vw,1.125rem)] leading-[1.65]">
-            <p className="text-[var(--color-body)]">{about.short}</p>
+          <div className="max-w-[65ch] space-y-6 text-[clamp(1.05rem,1.2vw,1.15rem)] leading-[1.78] text-[var(--color-heading)]">
+            <p>{about.short}</p>
             {about.long.map((para) => (
-              <p key={para.slice(0, 24)} className="text-[var(--color-body)]">
-                {para}
-              </p>
+              <p key={para.slice(0, 24)}>{para}</p>
             ))}
           </div>
         </Reveal>
